@@ -155,7 +155,7 @@ class MySceneGraph {
                 this.onXMLMinorError("tag <NODES> out of order");
 
             //Parse NODES block
-            if ((error = this.parseNodes(nodes[index])) != null)
+            if ((error = this.parseComponents(nodes[index])) != null)
                 return error;
         }
     }
@@ -239,10 +239,16 @@ class MySceneGraph {
             }
 
             //TODO: Save translation data
+			
+		/*        if (translationIndex > thirdRotationIndex || translationIndex > scalingIndex)
+            this.onXMLMinorError("initial translation out of order; result may not be as expected");
+
+        mat4.translate(this.initialTransforms, this.initialTransforms, [tx, ty, tz]);*/
+
         }
 
         //TODO: Parse Rotations
-
+		
         //TODO: Parse Scaling
 
         //TODO: Parse Reference length
@@ -438,8 +444,19 @@ class MySceneGraph {
      * Parses the <NODES> block.
      * @param {nodes block element} nodesNode
      */
-    parseNodes(nodesNode) {
-        // TODO: Parse block
+    parseComponents(nodesNode) {
+        
+		var componentChildren = nodesNode.children;
+		
+		
+        this.components = [];
+        var numComponents = 0;
+
+        var grandChildren = [];
+        var nodeNames = [];
+		
+		
+		
         this.log("Parsed nodes");
         return null;
     }
