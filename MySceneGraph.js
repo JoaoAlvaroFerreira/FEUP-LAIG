@@ -456,6 +456,35 @@ class MySceneGraph {
         var nodeNames = [];
 		
 		
+		if (this.allNodes.getElementsByTagName('ROOT').length != 1)
+		return "Error: There has to be one, and only one, root node.";
+
+	
+		  
+		  for(var i = 0; j < componentChildren.length; i++){
+			  
+			  if(componentChildren[i].nodeName == "ROOT"){
+				  
+			var rais = this.reader.getString(componentChildren[i], 'id');
+            this.idRoot = rais;
+				  
+		  }
+			else if(componentChildren[i].nodeName == "NODE"){
+				
+			var no = this.reader.getString(componentChildren[i], 'id');
+            this.idNode = no;
+		
+            this.nodes[idNode] = new Node(this,idNode);
+			
+			//FAZER CHILD NODES
+			}
+			
+			else{
+				return "Error: Node is not in the correct format";
+			}
+		
+		
+		
 		
         this.log("Parsed nodes");
         return null;

@@ -1,26 +1,29 @@
 //Node no = new Node(...);
 //console.log(no);
 
-function Node(){		
+class Node(){	
+
+	constructor(MySceneGraph obj, ){	
 		this.material= null;
 		this.texture = null;
 		this.mattransf = null;
 		this.descendants = [];
 	};
 	
-	node.prototype.insert = function (nodenome){
+	insert(nodenome){
 		this.descendents.push(nodenome);
 	};
 
-	node.prototype,getSize = function(){
+	getSize{
 		return this.descendents.length;
 	};
 	
-	node.prototype.setMaterial = function(material){
+	setMaterial(material){
 		this.material = material;
 	};
 	
-	node.prototype.setMatrix = fmotion(m){
+	setMatrix(m){
 		this.mattransf = math.clone(m);
 		console.log(this.mattransf);
 	}
+}
