@@ -263,7 +263,15 @@ class MySceneGraph {
      * @param {illumination block element} illuminationNode
      */
     parseIllumination(illuminationNode) {
-        // TODO: Parse Illumination node
+    
+		
+        var children = illuminationNode.children;
+
+        this.illuminationSources = [];
+        var numLights = 0;
+
+        var grandChildren = [];
+        var nodeNames = [];
 
         this.log("Parsed illumination");
 
@@ -476,12 +484,12 @@ class MySceneGraph {
 		
             this.nodes[idNode] = new Node(this,idNode);
 			
-			//FAZER CHILD NODES
 			}
 			
 			else{
 				return "Error: Node is not in the correct format";
 			}
+		  }
 		
 		
 		
