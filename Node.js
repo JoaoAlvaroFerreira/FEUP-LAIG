@@ -3,7 +3,9 @@
 
 class Node(){	
 
-	constructor(MySceneGraph obj, ){	
+	constructor(obj, idNode){	
+		this.graph = obj;
+		this.idNode = idNode;
 		this.material= null;
 		this.texture = null;
 		this.mattransf = null;
@@ -24,6 +26,8 @@ class Node(){
 	
 	setMatrix(m){
 		this.mattransf = math.clone(m);
-		console.log(this.mattransf);
+		//console.log(this.mattransf);
 	}
+	
+	
 }
