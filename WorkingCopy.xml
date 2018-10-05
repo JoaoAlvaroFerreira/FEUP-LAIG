@@ -102,8 +102,6 @@
 				<componetref id="BackLeftLeg" />
 				<componetref id="BackRightLeg" />
 				<componetref id="TableTop" />
-				<componetref id="BottomSquare" />
-				 
             </children> 
         </component>
 
@@ -188,9 +186,9 @@
                  <transformationref id="DefaultZero" />
             </transformation> 
             <materials> 
-                <material id="DefaultMaterial" /> 
+                <material id="inherit" /> 
             </materials> 
-            <texture id="VidralTexture" length_s="1" length_t="1" /> 
+            <texture id="inherit" length_s="1" length_t="1" /> 
 			<children> 
                 <componetref id="FrontSquare" />
 				<componetref id="BackSquare" />
