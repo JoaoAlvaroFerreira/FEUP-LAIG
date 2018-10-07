@@ -331,6 +331,10 @@ class MySceneGraph {
 
        
 
+	   
+    for (var i = 0; i < children.length; i++)
+        nodeNames.push(children[i].nodeName);
+	
 		  for (var i = 0; i < children.length; i++) {
 
 		
@@ -429,199 +433,372 @@ class MySceneGraph {
         var grandChildren = [];
         var nodeNames = [];
 
+		
+    for (var i = 0; i < children.length; i++)
+        nodeNames.push(children[i].nodeName);
+		
         // Any number of lights.
         for (var i = 0; i < children.length; i++) {
 
-            if (children[i].nodeName != "LIGHT") {
+		 if (children[i].nodeName != "omni") {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
                 continue;
             }
-
-            // Get id of the current light.
-            var lightId = this.reader.getString(children[i], 'id');
-            if (lightId == null)
-                return "no ID defined for light";
-
-            // Checks for repeated IDs.
-            if (this.lights[lightId] != null)
-                return "ID must be unique for each light (conflict: ID = " + lightId + ")";
-
+			else{
+            var omniId = this.reader.getString(children[i], 'id');
+            if (materialid == null)
+                return "no ID defined for omni";
+			
+			  var enabled = this.reader.getString(children[i], 'enabled');
+            if (enabled == null)
+                return "no enabled defined for omni";
+			
+			  
             grandChildren = children[i].children;
             // Specifications for the current light.
 
-            nodeNames = [];
+              nodeNames = [];
             for (var j = 0; j < grandChildren.length; j++) {
                 nodeNames.push(grandChildren[j].nodeName);
             }
 
             // Gets indices of each element.
-            var enableIndex = nodeNames.indexOf("enable");
-            var positionIndex = nodeNames.indexOf("position");
+          
             var ambientIndex = nodeNames.indexOf("ambient");
             var diffuseIndex = nodeNames.indexOf("diffuse");
             var specularIndex = nodeNames.indexOf("specular");
-
-            // Light enable/disable
-            var enableLight = true;
-            if (enableIndex == -1) {
-                this.onXMLMinorError("enable value missing for ID = " + lightId + "; assuming 'value = 1'");
-            }
-            else {
-                var aux = this.reader.getFloat(grandChildren[enableIndex], 'value');
-                if (!(aux != null && !isNaN(aux) && (aux == 0 || aux == 1)))
-                    this.onXMLMinorError("unable to parse value component of the 'enable light' field for ID = " + lightId + "; assuming 'value = 1'");
-                else
-                    enableLight = aux == 0 ? false : true;
-            }
-
-            // Retrieves the light position.
-            var positionLight = [];
-            if (positionIndex != -1) {
+			var locationIndex = nodeNames.indexOf("location");
+      
+ 
+			
+			  var locationCoordinates = [];
+            if (locationIndex != -1) {
                 // x
-                var x = this.reader.getFloat(grandChildren[positionIndex], 'x');
+                var x = this.reader.getFloat(grandChildren[locationIndex], 'x');
                 if (!(x != null && !isNaN(x)))
-                    return "unable to parse x-coordinate of the light position for ID = " + lightId;
+                    return "unable to parse x-coordinate of the omni = " + omniId;
                 else
-                    positionLight.push(x);
+                    locationCoordinates.push(x);
 
                 // y
-                var y = this.reader.getFloat(grandChildren[positionIndex], 'y');
+                var y = this.reader.getFloat(grandChildren[locationIndex], 'y');
                 if (!(y != null && !isNaN(y)))
-                    return "unable to parse y-coordinate of the light position for ID = " + lightId;
+                    return "unable to parse y-coordinate of the omni = " + omniId;
                 else
-                    positionLight.push(y);
+                    locationCoordinates.push(y);
 
                 // z
-                var z = this.reader.getFloat(grandChildren[positionIndex], 'z');
+                var z = this.reader.getFloat(grandChildren[locationIndex], 'z');
                 if (!(z != null && !isNaN(z)))
-                    return "unable to parse z-coordinate of the light position for ID = " + lightId;
+                    return "unable to parse z-coordinate of the omni = " + omniId;
                 else
-                    positionLight.push(z);
-
-                // w
-                var w = this.reader.getFloat(grandChildren[positionIndex], 'w');
-                if (!(w != null && !isNaN(w) && w >= 0 && w <= 1))
-                    return "unable to parse x-coordinate of the light position for ID = " + lightId;
+                    locationCoordinates.push(z); 
+				
+					// w
+                var w = this.reader.getFloat(grandChildren[locationIndex], 'w');
+                if (!(w != null && !isNaN(w)))
+                    return "unable to parse w-coordinate of the spot = " + spotId;
                 else
-                    positionLight.push(w);
+                    locationCoordinates.push(w); 
             }
             else
-                return "light position undefined for ID = " + lightId;
-
-            // Retrieves the ambient component.
-            var ambientIllumination = [];
-            if (ambientIndex != -1) {
-                // R
-                var r = this.reader.getFloat(grandChildren[ambientIndex], 'r');
-                if (!(r != null && !isNaN(r) && r >= 0 && r <= 1))
-                    return "unable to parse R component of the ambient illumination for ID = " + lightId;
-                else
-                    ambientIllumination.push(r);
-
-                // G
-                var g = this.reader.getFloat(grandChildren[ambientIndex], 'g');
-                if (!(g != null && !isNaN(g) && g >= 0 && g <= 1))
-                    return "unable to parse G component of the ambient illumination for ID = " + lightId;
-                else
-                    ambientIllumination.push(g);
-
-                // B
-                var b = this.reader.getFloat(grandChildren[ambientIndex], 'b');
-                if (!(b != null && !isNaN(b) && b >= 0 && b <= 1))
-                    return "unable to parse B component of the ambient illumination for ID = " + lightId;
-                else
-                    ambientIllumination.push(b);
-
-                // A
-                var a = this.reader.getFloat(grandChildren[ambientIndex], 'a');
-                if (!(a != null && !isNaN(a) && a >= 0 && a <= 1))
-                    return "unable to parse A component of the ambient illumination for ID = " + lightId;
-                else
-                    ambientIllumination.push(a);
-            }
-            else
-                return "ambient component undefined for ID = " + lightId;
-
-            // TODO: Retrieve the diffuse component
-			      var diffuseIllumination = [];
-            if (diffuseIndex != -1) {
-                // R
-                var r = this.reader.getFloat(grandChildren[diffuseIndex], 'r');
-                if (!(r != null && !isNaN(r) && r >= 0 && r <= 1))
-                    return "unable to parse R component of the diffuse illumination for ID = " + lightId;
-                else
-                    diffuseIllumination.push(r);
-
-                // G
-                var g = this.reader.getFloat(grandChildren[diffuseIndex], 'g');
-                if (!(g != null && !isNaN(g) && g >= 0 && g <= 1))
-                    return "unable to parse G component of the diffuse illumination for ID = " + lightId;
-                else
-                    diffuseIllumination.push(g);
-
-                // B
-                var b = this.reader.getFloat(grandChildren[diffuseIndex], 'b');
-                if (!(b != null && !isNaN(b) && b >= 0 && b <= 1))
-                    return "unable to parse B component of the diffuse illumination for ID = " + lightId;
-                else
-                    diffuseIllumination.push(b);
-
-                // A
-                var a = this.reader.getFloat(grandChildren[diffuseIndex], 'a');
-                if (!(a != null && !isNaN(a) && a >= 0 && a <= 1))
-                    return "unable to parse A component of the diffuse illumination for ID = " + lightId;
-                else
-                    diffuseIllumination.push(a);
-            }
-            else
-                return "diffuse component undefined for ID = " + lightId;
+                return "translation coordinates undefined for ID = " + omniId;
+		
 			
-			//Isto esta tudo feito com base no ambiente component
+			var ambientColor = [];
+            if (ambientIndex != -1) {
+                // r
+                var r = this.reader.getFloat(grandChildren[ambientIndex], 'r');
+                if (!(r != null && !isNaN(r)))
+                    return "unable to parse r color for the ambient color for the ID = " + omniId;
+                else
+                    ambientColor.push(r);
 
-            // TODO: Retrieve the specular component
-			      var specularIllumination = [];
+                // g
+                var g = this.reader.getFloat(grandChildren[ambientIndex], 'g');
+                if (!(g != null && !isNaN(g)))
+                    return "unable to parse g color for the ambient color for the I D= " + omniId;
+                else
+                    ambientColor.push(g);
+
+                // b
+                var b = this.reader.getFloat(grandChildren[ambientIndex], 'b');
+                if (!(b != null && !isNaN(b)))
+                    return "unable to parse b color for the ambient color for the ID = " + omniId;
+                else
+                    ambientColor.push(b);
+
+                // a
+                var a = this.reader.getFloat(grandChildren[ambientIndex], 'a');
+                if (!(a != null && !isNaN(a) && a >= 0 && a <= 100))
+                    return "unable to parse transparency for the ambient color for the ID = " + omniId;
+                else
+                    ambientColor.push(a);
+            }
+			
+			var diffuseColor = [];
+            if (diffuseIndex != -1) {
+                // r
+                var r = this.reader.getFloat(grandChildren[diffuseIndex], 'r');
+                if (!(r != null && !isNaN(r)))
+                    return "unable to parse r color for the diffuse color for the ID = " + omniId;
+                else
+                    diffuseColor.push(r);
+
+                // g
+                var g = this.reader.getFloat(grandChildren[diffuseIndex], 'g');
+                if (!(g != null && !isNaN(g)))
+                    return "unable to parse g color for the diffuse color for the I D= " + omniId;
+                else
+                    diffuseColor.push(g);
+
+                // b
+                var b = this.reader.getFloat(grandChildren[diffuseIndex], 'b');
+                if (!(b != null && !isNaN(b)))
+                    return "unable to parse b color for the diffuse color for the ID = " + omniId;
+                else
+                    diffuseColor.push(b);
+
+                // a
+                var a = this.reader.getFloat(grandChildren[diffuseIndex], 'a');
+                if (!(a != null && !isNaN(a) && a >= 0 && a <= 100))
+                    return "unable to parse transparency for the ambient color for the ID = " + omniId;
+                else
+                    emissionColor.push(a);
+			}
+			
+			var specularColor = [];
             if (specularIndex != -1) {
-                // R
+                // r
                 var r = this.reader.getFloat(grandChildren[specularIndex], 'r');
-                if (!(r != null && !isNaN(r) && r >= 0 && r <= 1))
-                    return "unable to parse R component of the specular illumination for ID = " + lightId;
+                if (!(r != null && !isNaN(r)))
+                    return "unable to parse r color for the specular color for the ID = " + omniId;
                 else
-                    specularIllumination.push(r);
+                    specularColor.push(r);
 
-                // G
+                // g
                 var g = this.reader.getFloat(grandChildren[specularIndex], 'g');
-                if (!(g != null && !isNaN(g) && g >= 0 && g <= 1))
-                    return "unable to parse G component of the specular illumination for ID = " + lightId;
+                if (!(g != null && !isNaN(g)))
+                    return "unable to parse g color for the specular color for the I D= " + omniId;
                 else
-                    specularIllumination.push(g);
+                    specularColor.push(g);
 
-                // B
+                // b
                 var b = this.reader.getFloat(grandChildren[specularIndex], 'b');
-                if (!(b != null && !isNaN(b) && b >= 0 && b <= 1))
-                    return "unable to parse B component of the specular illumination for ID = " + lightId;
+                if (!(b != null && !isNaN(b)))
+                    return "unable to parse b color for the specular color for the ID = " + omniId;
                 else
-                    specularIllumination.push(b);
+                    specularColor.push(b);
 
-                // A
+                // a
                 var a = this.reader.getFloat(grandChildren[specularIndex], 'a');
-                if (!(a != null && !isNaN(a) && a >= 0 && a <= 1))
-                    return "unable to parse A component of the specular illumination for ID = " + lightId;
+                if (!(a != null && !isNaN(a) && a >= 0 && a <= 100))
+                    return "unable to parse transparency for the specular color for the ID = " + omniId;
                 else
-                    specularIllumination.push(a);
+                    specularColor.push(a);
+				}
+				
+				 
+			this.omnis[omniId] = [locationCoordinates, ambientColor, diffuseColor, specularColor];
+            numOmnis++;
+			}
+			
+			
+			
+			
+			
+			
+			if (children[i].nodeName != "spot") {
+                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                continue;
+            }
+			else{
+            var spotId = this.reader.getString(children[i], 'id');
+            if (materialid == null)
+                return "no ID defined for spot";
+			
+			  var enabled = this.reader.getString(children[i], 'enabled');
+            if (enabled == null)
+                return "no enabled defined for spot";
+			
+			  
+            grandChildren = children[i].children;
+            // Specifications for the current light.
+
+              nodeNames = [];
+            for (var j = 0; j < grandChildren.length; j++) {
+                nodeNames.push(grandChildren[j].nodeName);
+            }
+
+            // Gets indices of each element.
+          
+            var ambientIndex = nodeNames.indexOf("ambient");
+            var diffuseIndex = nodeNames.indexOf("diffuse");
+            var specularIndex = nodeNames.indexOf("specular");
+			var locationIndex = nodeNames.indexOf("location");
+			var targetIndex = nodeNames.indexOf("target");
+ 
+			
+			  var locationCoordinates = [];
+            if (locationIndex != -1) {
+                // x
+                var x = this.reader.getFloat(grandChildren[locationIndex], 'x');
+                if (!(x != null && !isNaN(x)))
+                    return "unable to parse x-coordinate of the spot = " + spotId;
+                else
+                    locationCoordinates.push(x);
+
+                // y
+                var y = this.reader.getFloat(grandChildren[locationIndex], 'y');
+                if (!(y != null && !isNaN(y)))
+                    return "unable to parse y-coordinate of the spot = " + spotId;
+                else
+                    locationCoordinates.push(y);
+
+                // z
+                var z = this.reader.getFloat(grandChildren[locationIndex], 'z');
+                if (!(z != null && !isNaN(z)))
+                    return "unable to parse z-coordinate of the spot = " + spotId;
+                else
+                    locationCoordinates.push(z); 
+				
+				// w
+                var w = this.reader.getFloat(grandChildren[locationIndex], 'w');
+                if (!(w != null && !isNaN(w)))
+                    return "unable to parse w-coordinate of the spot = " + spotId;
+                else
+                    locationCoordinates.push(w); 
             }
             else
-                return "specular component undefined for ID = " + lightId;
+                return "translation coordinates undefined for ID = " + spotId;
+			
+				  var targetCoordinates = [];
+            if (targetIndex != -1) {
+                // x
+                var x = this.reader.getFloat(grandChildren[targetIndex], 'x');
+                if (!(x != null && !isNaN(x)))
+                    return "unable to parse x-coordinate of the spot = " + spotId;
+                else
+                    targetCoordinates.push(x);
 
-            // TODO: Store Light global information.
-            this.lights[lightId] = [enableLight, positionLight, ambientIllumination, diffuseIllumination, specularIllumination];
-            numLights++;
-        }
+                // y
+                var y = this.reader.getFloat(grandChildren[targetIndex], 'y');
+                if (!(y != null && !isNaN(y)))
+                    return "unable to parse y-coordinate of the spot = " + spotId;
+                else
+                    targetCoordinates.push(y);
 
-        if (numLights == 0)
-            return "at least one light must be defined";
-        else if (numLights > 8)
-            this.onXMLMinorError("too many lights defined; WebGL imposes a limit of 8 lights");
+                // z
+                var z = this.reader.getFloat(grandChildren[targetIndex], 'z');
+                if (!(z != null && !isNaN(z)))
+                    return "unable to parse z-coordinate of the spot = " + spotId;
+                else
+                    targetCoordinates.push(z); 
+            }
+            else
+                return "translation coordinates undefined for ID = " + spotId;
+		
+			
+			var ambientColor = [];
+            if (ambientIndex != -1) {
+                // r
+                var r = this.reader.getFloat(grandChildren[ambientIndex], 'r');
+                if (!(r != null && !isNaN(r)))
+                    return "unable to parse r color for the ambient color for the ID = " + spotId;
+                else
+                    ambientColor.push(r);
 
+                // g
+                var g = this.reader.getFloat(grandChildren[ambientIndex], 'g');
+                if (!(g != null && !isNaN(g)))
+                    return "unable to parse g color for the ambient color for the I D= " + spotId;
+                else
+                    ambientColor.push(g);
+
+                // b
+                var b = this.reader.getFloat(grandChildren[ambientIndex], 'b');
+                if (!(b != null && !isNaN(b)))
+                    return "unable to parse b color for the ambient color for the ID = " + spotId;
+                else
+                    ambientColor.push(b);
+
+                // a
+                var a = this.reader.getFloat(grandChildren[ambientIndex], 'a');
+                if (!(a != null && !isNaN(a) && a >= 0 && a <= 100))
+                    return "unable to parse transparency for the ambient color for the ID = " + spotId;
+                else
+                    ambientColor.push(a);
+            }
+			
+			var diffuseColor = [];
+            if (diffuseIndex != -1) {
+                // r
+                var r = this.reader.getFloat(grandChildren[diffuseIndex], 'r');
+                if (!(r != null && !isNaN(r)))
+                    return "unable to parse r color for the diffuse color for the ID = " + spotId;
+                else
+                    diffuseColor.push(r);
+
+                // g
+                var g = this.reader.getFloat(grandChildren[diffuseIndex], 'g');
+                if (!(g != null && !isNaN(g)))
+                    return "unable to parse g color for the diffuse color for the I D= " + spotId;
+                else
+                    diffuseColor.push(g);
+
+                // b
+                var b = this.reader.getFloat(grandChildren[diffuseIndex], 'b');
+                if (!(b != null && !isNaN(b)))
+                    return "unable to parse b color for the diffuse color for the ID = " + spotId;
+                else
+                    diffuseColor.push(b);
+
+                // a
+                var a = this.reader.getFloat(grandChildren[diffuseIndex], 'a');
+                if (!(a != null && !isNaN(a) && a >= 0 && a <= 100))
+                    return "unable to parse transparency for the ambient color for the ID = " + spotId;
+                else
+                    emissionColor.push(a);
+			}
+			
+			var specularColor = [];
+            if (specularIndex != -1) {
+                // r
+                var r = this.reader.getFloat(grandChildren[specularIndex], 'r');
+                if (!(r != null && !isNaN(r)))
+                    return "unable to parse r color for the specular color for the ID = " + spotId;
+                else
+                    specularColor.push(r);
+
+                // g
+                var g = this.reader.getFloat(grandChildren[specularIndex], 'g');
+                if (!(g != null && !isNaN(g)))
+                    return "unable to parse g color for the specular color for the I D= " + spotId;
+                else
+                    specularColor.push(g);
+
+                // b
+                var b = this.reader.getFloat(grandChildren[specularIndex], 'b');
+                if (!(b != null && !isNaN(b)))
+                    return "unable to parse b color for the specular color for the ID = " + spotId;
+                else
+                    specularColor.push(b);
+
+                // a
+                var a = this.reader.getFloat(grandChildren[specularIndex], 'a');
+                if (!(a != null && !isNaN(a) && a >= 0 && a <= 100))
+                    return "unable to parse transparency for the specular color for the ID = " + spotId;
+                else
+                    specularColor.push(a);
+				}
+				
+				 
+			this.spots[spotId] = [locationCoordinates, targetCoordinates, ambientColor, diffuseColor, specularColor];
+            numSpots++;
+			}
+		
+		
+		}
         this.log("Parsed lights");
 
         return null;
@@ -645,7 +822,7 @@ class MySceneGraph {
 		 for (var i = 0; i < children.length; i++) {
 
 		 var grandChildren = children[i].children;
-            if (children[i].nodeName != "TEXTURE") {
+            if (children[i].nodeName != "texture") {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
                 continue;
             }
@@ -679,6 +856,9 @@ class MySceneGraph {
         var grandChildren = [];
         var nodeNames = [];
 		
+		
+    for (var i = 0; i < children.length; i++)
+        nodeNames.push(children[i].nodeName);
 		
 	 for (var i = 0; i < children.length; i++) {
 
@@ -861,6 +1041,9 @@ class MySceneGraph {
         var nodeNames = [];
 		
 		
+    for (var i = 0; i < children.length; i++)
+        nodeNames.push(children[i].nodeName);
+		
 		for(var i = 0; i < children.length; i++){
 			
 			
@@ -964,6 +1147,375 @@ class MySceneGraph {
             numTransformations++;
 		}
 		
+		
+		
+        this.log("Parsed nodes");
+        return null;
+    }
+
+	
+	
+	  /**
+     * Parses the <PRIMITIVES> block.
+     * @param {primitives block element} nodesNode
+     */
+    parsePrimitives(primitivesNode) {
+        
+		var children = primitivesNode.children;
+		
+		
+       
+        var numComponents = 0;
+
+        var grandChildren = [];
+        var nodeNames = [];
+		var possibleValues = ["DefaultZero", "DefaultSquare", "DefaultTriangleRectangle", "DefaultCylinder", "DefaultSphere", "DefaultTorus"];
+		
+		
+    for (var i = 0; i < children.length; i++)
+        nodeNames.push(children[i].nodeName);
+		
+		for (var i = 0; i < children.length; i++) {
+			
+        if (children[i].nodeName != "primitive") {
+                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                continue;
+            }
+			
+            var primitiveId = this.reader.getString(children[i], 'id');
+            if (primitiveId == null)
+                return "no ID defined for primitive";
+			
+			
+            var grandChildren = children[i].children;
+			 nodeNames = [];
+            for (var j = 0; j < grandChildren.length; j++) {
+                nodeNames.push(grandChildren[j].nodeName);
+            }
+			
+			var primitiveNumber = possibleValues.findIndex(primitiveId);
+			var primitiveDetails[];
+			
+			switch(primitiveNumber){
+				
+				case 0: //Zero
+			
+			var translateIndex = nodeNames.indexOf("translate");
+            var rotateIndex  = nodeNames.indexOf("rotate");
+            var scaleIndex = nodeNames.indexOf("scale");
+ 
+			
+			  
+			  var translateCoordinates = [];
+            if (translateIndex != -1) {
+                // x
+                var x = this.reader.getFloat(grandChildren[translateIndex], 'x');
+                if (!(x != null && !isNaN(x)))
+                    return "unable to parse x-coordinate of the primitive = " + primitiveId;
+                else
+                    translateCoordinates.push(x);
+
+                // y
+                var y = this.reader.getFloat(grandChildren[translateIndex], 'y');
+                if (!(y != null && !isNaN(y)))
+                    return "unable to parse y-coordinate of the primitive = " + primitiveId;
+                else
+                    translateCoordinates.push(y);
+
+                // z
+                var z = this.reader.getFloat(grandChildren[translateIndex], 'z');
+                if (!(z != null && !isNaN(z)))
+                    return "unable to parse z-coordinate of the primitive = " + primitiveId;
+                else
+                    translateCoordinates.push(z); 
+            }
+			
+            else
+                return "translation coordinates undefined for ID = " + primitiveId;
+			
+			  var rotatingCoordinates = [];
+            if (rotateIndex != -1) {
+                // axis
+                var axis = this.reader.getFloat(grandChildren[rotateIndex], 'axis');
+                if (!(axis != null && !isNaN(axis)))
+                    return "unable to parse axis of the primitive = " + primitiveId;
+                else
+                    rotatingCoordinates.push(axis);
+
+                // angle
+                var angle = this.reader.getFloat(grandChildren[rotateIndex], 'angle');
+                if (!(angle != null && !isNaN(angle)))
+                    return "unable to parse angle of the primitive = " + primitiveId;
+                else
+                    rotatingCoordinates.push(y);
+
+            }
+			
+            else
+                return "rotation coordinates undefined for ID = " + primitiveId;
+			
+				  var scaleCoordinates = [];
+            if (scaleIndex != -1) {
+                // x
+                var x = this.reader.getFloat(grandChildren[scaleIndex], 'x');
+                if (!(x != null && !isNaN(x)))
+                    return "unable to parse x-coordinate of the primitive = " + primitiveId;
+                else
+                    scaleCoordinates.push(x);
+
+                // y
+                var y = this.reader.getFloat(grandChildren[scaleIndex], 'y');
+                if (!(y != null && !isNaN(y)))
+                    return "unable to parse y-coordinate of the primitive = " + primitiveId;
+                else
+                    scaleCoordinates.push(y);
+
+                // z
+                var z = this.reader.getFloat(grandChildren[scaleIndex], 'z');
+                if (!(z != null && !isNaN(z)))
+                    return "unable to parse z-coordinate of the primitive = " + primitiveId;
+                else
+                    scaleCoordinates.push(z); 
+            }
+			
+            else
+                return "scaling coordinates undefined for ID = " + primitiveId;
+			
+			this.primitiveDetails = [translateCoordinates, scaleCoordinates, rotatingCoordinates];
+         
+				//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+				
+				break;
+				case 1: //Square
+					
+			var rectangleIndex = nodeNames.indexOf("rectangle");
+			  var rectangleCoordinates = [];
+            if (rectangleIndex != -1) {
+                // x1
+                var x1 = this.reader.getFloat(grandChildren[rectangleIndex], 'x1');
+                if (!(x1 != null && !isNaN(x1)))
+                    return "unable to parse x-coordinate  " 
+                else
+                    rectangleCoordinates.push(x1);
+
+                // y1
+                var y1 = this.reader.getFloat(grandChildren[rectangleIndex], 'y1');
+                if (!(y1 != null && !isNaN(y1)))
+                    return "unable to parse y-coordinate of the primitive = " + primitiveId;
+                else
+                    rectangleCoordinates.push(y1);
+
+                // x2
+                var x2 = this.reader.getFloat(grandChildren[rectangleIndex], 'x2');
+                if (!(x2 != null && !isNaN(x2)))
+                    return "unable to parse x-coordinate of the primitive = " + primitiveId;
+                else
+                    rectangleCoordinates.push(x2); 
+				
+				 // y2
+                var y2 = this.reader.getFloat(grandChildren[rectangleIndex], 'y2');
+                if (!(y2 != null && !isNaN(y2)))
+                    return "unable to parse y-coordinate of the primitive = " + primitiveId;
+                else
+                    rectangleCoordinates.push(y2);
+            }
+			
+            else
+                return "translation coordinates undefined for ID = " + primitiveId;
+			
+				
+				break;
+				case 2: //TriangleRectangle
+				
+							var triangleIndex = nodeNames.indexOf("triangle");
+			  var triangleCoordinates = [];
+            if (triangleIndex != -1) {
+                // x1
+                var x1 = this.reader.getFloat(grandChildren[triangleIndex], 'x1');
+                if (!(x1 != null && !isNaN(x1)))
+                    return "unable to parse x-coordinate  " 
+                else
+                    triangleCoordinates.push(x1);
+
+                // y1
+                var y1 = this.reader.getFloat(grandChildren[triangleIndex], 'y1');
+                if (!(y1 != null && !isNaN(y1)))
+                    return "unable to parse y-coordinate of the primitive = " + primitiveId;
+                else
+                    triangleCoordinates.push(y1);
+
+                // x2
+                var x2 = this.reader.getFloat(grandChildren[triangleIndex], 'x2');
+                if (!(x2 != null && !isNaN(x2)))
+                    return "unable to parse x-coordinate of the primitive = " + primitiveId;
+                else
+                    triangleCoordinates.push(x2); 
+				
+				 // y2
+                var y2 = this.reader.getFloat(grandChildren[triangleIndex], 'y2');
+                if (!(y2 != null && !isNaN(y2)))
+                    return "unable to parse y-coordinate of the primitive = " + primitiveId;
+                else
+                    triangleCoordinates.push(y2);
+				
+				// x3
+                var x3 = this.reader.getFloat(grandChildren[triangleIndex], 'x3');
+                if (!(x3 != null && !isNaN(x3)))
+                    return "unable to parse x-coordinate of the primitive = " + primitiveId;
+                else
+                    triangleCoordinates.push(x3); 
+				
+				 // y3
+                var y3 = this.reader.getFloat(grandChildren[triangleIndex], 'y3');
+                if (!(y3 != null && !isNaN(y3)))
+                    return "unable to parse y-coordinate of the primitive = " + primitiveId;
+                else
+                    triangleCoordinates.push(y3);
+				
+				//z1
+                var z1 = this.reader.getFloat(grandChildren[triangleIndex], 'z1');
+                if (!(z1 != null && !isNaN(z1)))
+                    return "unable to parse y-coordinate of the primitive = " + primitiveId;
+                else
+                    triangleCoordinates.push(z1);
+				//z2
+                var z2 = this.reader.getFloat(grandChildren[triangleIndex], 'z2');
+                if (!(z2 != null && !isNaN(z2)))
+                    return "unable to parse y-coordinate of the primitive = " + primitiveId;
+                else
+                    triangleCoordinates.push(z2);
+				//z3
+                var z3 = this.reader.getFloat(grandChildren[triangleIndex], 'z3');
+                if (!(z3 != null && !isNaN(z3)))
+                    return "unable to parse y-coordinate of the primitive = " + primitiveId;
+                else
+                    triangleCoordinates.push(z3);
+            }
+			
+            else
+                return "translation coordinates undefined for ID = " + primitiveId;
+								
+				break:
+				case 3: //Cylinder
+				
+				var cylinderIndex = nodeNames.indexOf("cylinder");
+			  var cylinderCoordinates = [];
+            if (cylinderIndex != -1) {
+                // base
+                var base = this.reader.getFloat(grandChildren[cylinderIndex], 'base');
+                if (!(base != null && !isNaN(base)))
+                    return "unable to parse x-coordinate  " 
+                else
+                    cylinderCoordinates.push(base);
+
+                // top
+                var top = this.reader.getFloat(grandChildren[cylinderIndex], 'top');
+                if (!(top != null && !isNaN(top)))
+                    return "unable to parse y-coordinate of the primitive = " + primitiveId;
+                else
+                    cylinderCoordinates.push(top);
+
+                // height
+                var height = this.reader.getFloat(grandChildren[cylinderIndex], 'height');
+                if (!(height != null && !isNaN(height)))
+                    return "unable to parse x-coordinate of the primitive = " + primitiveId;
+                else
+                    cylinderCoordinates.push(height); 
+				
+				 // slices
+                var slices = this.reader.getFloat(grandChildren[cylinderIndex], 'slices');
+                if (!(slices != null && !isNaN(slices)))
+                    return "unable to parse y-coordinate of the primitive = " + primitiveId;
+                else
+                    cylinderCoordinates.push(slices);
+				
+				 // stacks
+                var stacks = this.reader.getFloat(grandChildren[cylinderIndex], 'stacks');
+                if (!(stacks != null && !isNaN(stacks)))
+                    return "unable to parse y-coordinate of the primitive = " + primitiveId;
+                else
+                    cylinderCoordinates.push(stacks);
+            }
+			
+            else
+                return "translation coordinates undefined for ID = " + primitiveId;
+				
+				break;
+				case 4: //Sphere
+				
+				var sphereIndex = nodeNames.indexOf("sphere");
+			  var sphereCoordinates = [];
+			  
+            if (sphereIndex != -1) {
+				  // radius
+                var radius = this.reader.getFloat(grandChildren[sphereIndex], 'radius');
+                if (!(radius != null && !isNaN(radius)))
+                    return "unable to parse x-coordinate of the primitive = " + primitiveId;
+                else
+                    sphereCoordinates.push(radius); 
+				
+				 // slices
+                var slices = this.reader.getFloat(grandChildren[sphereIndex], 'slices');
+                if (!(slices != null && !isNaN(slices)))
+                    return "unable to parse y-coordinate of the primitive = " + primitiveId;
+                else
+                    sphereCoordinates.push(slices);
+				
+				 // stacks
+                var stacks = this.reader.getFloat(grandChildren[sphereIndex], 'stacks');
+                if (!(stacks != null && !isNaN(stacks)))
+                    return "unable to parse y-coordinate of the primitive = " + primitiveId;
+                else
+                    sphereCoordinates.push(stacks);
+            }
+			
+            else
+                return "translation coordinates undefined for ID = " + primitiveId;
+				break;
+				case 5: //Torus
+				
+					
+				var torusIndex = nodeNames.indexOf("torus");
+			  var torusCoordinates = [];
+			  
+            if (torusIndex != -1) {
+				
+				  // inner
+                var inner = this.reader.getFloat(grandChildren[torusIndex], 'inner');
+                if (!(inner != null && !isNaN(inner)))
+                    return "unable to parse x-coordinate of the primitive = " + primitiveId;
+                else
+                    torusCoordinates.push(inner); 
+				
+				 // outer
+                var outer = this.reader.getFloat(grandChildren[torusIndex], 'outer');
+                if (!(outer != null && !isNaN(outer)))
+                    return "unable to parse x-coordinate of the primitive = " + primitiveId;
+                else
+                    torusCoordinates.push(outer); 
+				
+				 // slices
+                var slices = this.reader.getFloat(grandChildren[torusIndex], 'slices');
+                if (!(slices != null && !isNaN(slices)))
+                    return "unable to parse y-coordinate of the primitive = " + primitiveId;
+                else
+                    torusCoordinates.push(slices);
+				
+				 // loops
+                var loops = this.reader.getFloat(grandChildren[torusIndex], 'loops');
+                if (!(loops != null && !isNaN(loops)))
+                    return "unable to parse y-coordinate of the primitive = " + primitiveId;
+                else
+                    torusCoordinates.push(loops);
+            }
+			
+            else
+                return "translation coordinates undefined for ID = " + primitiveId;
+				break:
+			}
+		
+			
+            
 		
 		
         this.log("Parsed nodes");
