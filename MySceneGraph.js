@@ -1242,17 +1242,181 @@ class MySceneGraph {
     parseComponents(nodesNode) {
         
 		var children = nodesNode.children;
-		
-		
+        
+        //Variables
         this.components = [];
-        var numComponents = 0;
-
-        var grandChildren = [];
+        //var numComponents = 0;
         var nodeNames = [];
 		
-		
-		
-		
+		for (var i = 0; i < children.length; i++)
+        nodeNames.push(children[i].nodeName);
+        
+        for (var i = 0; i < children.length; i++) {
+        
+        var componentName="";
+        var transformationValues = [];
+        var materialId="";
+        var textureInfo =[];
+        var primitiveRefs = [];
+        var componentRefs = [];
+        var component=[];
+
+
+            if (children[i].nodeName != "component") {
+                   this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                   continue;
+               }
+               else{
+               var componentId = this.reader.getString(children[i], 'id');
+               if (componentId == null)
+                   return "no ID defined for component";
+                else 
+                componentName=componentId;
+               
+                         
+                 
+               var grandChildren = children[i].children;
+                  
+                grandNodeNames = [];
+                for (var j = 0; j < grandChildren.length; j++) {
+                   grandNodeNames.push(grandChildren[j].nodeName);
+                }
+                for(k=0;k<grandChildren.length;k++){
+
+                //Component Transformation
+                //Todas as transformações sao guardadas em transformationValues
+
+                if(grandChildren[k].nodeName != "transformation") {
+                    this.onXMLMinorError("unknown transformation tag <" + grandChildren[k].nodeName + ">");
+                    continue;
+                }
+                else{
+   
+                //variables
+                var grandGrandChildren = grandChildren[0].children;
+                var grandGrandNodeNames = [];
+                //END variables
+
+                for (var j = 0; j < grandGrandChildren.length; j++) {
+                    grandGrandNodeNames.push(grandGrandChildren[j].nodeName);
+                }
+                
+                var transformationType = grandGrandChildren[0].nodeName;
+                if(transformationType=="transformationref") {
+                    var transformationId = this.reader.getString(grandGrandChildren[0], "id");
+                }
+                else{
+                    for(j=0; j<grandGrandChildren.length;j++){
+                        switch (grandGrandChildren[j].nodeName) {
+
+                        case "translate":
+
+                        var final = [];
+                        var x = this.reader.getFloat(grandGrandChildren[j], 'x');
+                        if (!(x != null && !isNaN(x)))
+                        return "unable to parse x-coordinate on a translation on the component " + this.reader.getFloat(children[i],"id");
+                        var y = this.reader.getFloat(grandGrandChildren[j], 'y');
+                        if (!(y != null && !isNaN(y)))
+                        return "unable to parse y-coordinate on a translation on the component " + this.reader.getFloat(children[i],"id");
+                        var z = this.reader.getFloat(grandGrandChildren[j], 'z');
+                        if (!(z != null && !isNaN(z)))
+                        return "unable to parse x-coordinate on a translation on the component " + this.reader.getFloat(children[i],"id");
+                        final.push(x);
+                        final.push(y);
+                        final.push(z);
+                        break;
+
+                        case "rotate":
+
+                        var axis = this.reader.getString(grandGrandChildren[j], "axis");
+                        if (!(axis != null && !isNaN(x)))
+                        return "unable to parse axis on a rotate on the component " + this.reader.getString(children[i],"id");
+                        var angle = this.reader.getFloat(grandGrandChildren[j], "angle");
+                        if (!(angle != null && !isNaN(x)))
+                        return "unable to parse angle on a rotate on the component " + this.reader.getString(children[i],"id");
+                        final.push(axis);
+                        final.push(angle);
+                        break;
+
+                        case "scale":
+
+                        var final = [];
+                        var x = this.reader.getFloat(grandGrandChildren[j], 'x');
+                        if (!(x != null && !isNaN(x)))
+                        return "unable to parse x-coordinate on a scale on the component " + this.reader.getFloat(children[i],"id");
+                        var y = this.reader.getFloat(grandGrandChildren[j], 'y');
+                        if (!(y != null && !isNaN(y)))
+                        return "unable to parse y-coordinate on a scale on the component " + this.reader.getFloat(children[i],"id");
+                        var z = this.reader.getFloat(grandGrandChildren[j], 'z');
+                        if (!(z != null && !isNaN(z)))
+                        return "unable to parse x-coordinate on a scale on the component " + this.reader.getFloat(children[i],"id");
+                        final.push(x);
+                        final.push(y);
+                        final.push(z);
+                        break;
+
+                        transformationValues.push(final);
+                        }
+                    }
+                }
+            }
+
+            //Component Materials
+
+            if(grandChildren[k].nodeName != "materials") {
+                this.onXMLMinorError("unknown materials tag <" + grandChildren[k].nodeName + ">");
+                continue;
+            }
+            else{
+                materialId = this.reader.getString(grandChildren[k].children[0],"id");
+            }
+
+            //Component Texture
+
+            if(grandChildren[k].nodeName != "texture") {
+                this.onXMLMinorError("unknown texture tag <" + grandChildren[k].nodeName + ">");
+                continue;
+            }
+            else{
+                textureId = this.reader.getString(grandChildren[k],"id");
+                textureLS = this.reader.getFloat(grandChildren[k],"length_s");
+                textureLT = this.reader.getFloat(grandChildren[k],"length_t");
+
+                textureInfo.push(textureId);
+                textureInfo.push(textureLS);
+                textureInfo.push(textureLT);
+            }
+
+            //Component Children
+
+            
+            if(grandChildren[k].nodeName != "children") {
+                this.onXMLMinorError("unknown texture tag <" + grandChildren[k].nodeName + ">");
+                continue;
+            }
+            else{
+                var grandGrandChildren = grandChildren[k].children;
+                for(j=0;j<grandGrandChildren.length;j++){
+                    if(grandGrandChildren[j].nodeName=="primitiveref") {
+                        primitiveRefs.push(this.reader.getString(grandGrandChildren[j],"id"));
+                    }
+                    if(grandGrandChildren[j].nodeName=="componentref"){
+                        componentRefs.push(this.reader.getString(grandGrandChildren[j],"id"));
+                    }
+                }
+            }
+        }
+        }
+             component.push(componentName);
+             component.push(transformationValues);
+             component.push(textureInfo);
+             component.push(materialId);
+             component.push(primitiveRefs);
+             component.push(componentRefs); 
+             
+             this.components.push(component);
+           }
+           this.log("Parsed lights");
 		
 		
         this.log("Parsed nodes");
