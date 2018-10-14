@@ -485,17 +485,17 @@ class MySceneGraph {
             grandChildren = children[i].children;
             // Specifications for the current light.
 
-              nodeNames = [];
+              grandNodeNames = [];
             for (var j = 0; j < grandChildren.length; j++) {
-                nodeNames.push(grandChildren[j].nodeName);
+                grandNodeNames.push(grandChildren[j].nodeName);
             }
 
             // Gets indices of each element.
           
-            var ambientIndex = nodeNames.indexOf("ambient");
-            var diffuseIndex = nodeNames.indexOf("diffuse");
-            var specularIndex = nodeNames.indexOf("specular");
-			var locationIndex = nodeNames.indexOf("location");
+            var ambientIndex = grandNodeNames.indexOf("ambient");
+            var diffuseIndex = grandNodeNames.indexOf("diffuse");
+            var specularIndex = grandNodeNames.indexOf("specular");
+			var locationIndex = grandNodeNames.indexOf("location");
       
  
 			
@@ -653,18 +653,18 @@ class MySceneGraph {
             grandChildren = children[i].children;
             // Specifications for the current light.
 
-              nodeNames = [];
+              grandNodeNames = [];
             for (var j = 0; j < grandChildren.length; j++) {
-                nodeNames.push(grandChildren[j].nodeName);
+                grandNodeNames.push(grandChildren[j].nodeName);
             }
 
             // Gets indices of each element.
           
-            var ambientIndex = nodeNames.indexOf("ambient");
-            var diffuseIndex = nodeNames.indexOf("diffuse");
-            var specularIndex = nodeNames.indexOf("specular");
-			var locationIndex = nodeNames.indexOf("location");
-			var targetIndex = nodeNames.indexOf("target");
+            var ambientIndex = grandNodeNames.indexOf("ambient");
+            var diffuseIndex = grandNodeNames.indexOf("diffuse");
+            var specularIndex = grandNodeNames.indexOf("specular");
+			var locationIndex = grandNodeNames.indexOf("location");
+			var targetIndex = grandNodeNames.indexOf("target");
  
 			
 			  var locationCoordinates = [];
@@ -1089,15 +1089,15 @@ class MySceneGraph {
                 return "no ID defined for transformation";
 			
 			grandchildren = children[i].children;
-			nodeNames = [];
+			grandNodeNames = [];
             for (var j = 0; j < grandChildren.length; j++) {
-                nodeNames.push(grandChildren[j].nodeName);
+                grandNodeNames.push(grandChildren[j].nodeName);
             }
 			
 			
-            var translateIndex = nodeNames.indexOf("translate");
-            var rotateIndex  = nodeNames.indexOf("rotate");
-            var scaleIndex = nodeNames.indexOf("scale");
+            var translateIndex = grandNodeNames.indexOf("translate");
+            var rotateIndex  = grandNodeNames.indexOf("rotate");
+            var scaleIndex = grandNodeNames.indexOf("scale");
  
 			
 			  var translateCoordinates = [];
@@ -1255,7 +1255,7 @@ class MySceneGraph {
         
         var componentName="";
         var transformationValues = [];
-        var materialId="";
+        var materialId=[];
         var textureInfo =[];
         var primitiveRefs = [];
         var componentRefs = [];
@@ -1373,7 +1373,8 @@ class MySceneGraph {
                 continue;
             }
             else{
-                materialId = this.reader.getString(grandChildren[k].children[0],"id");
+                for(j=0;j<grandChildren[k].children.length;j++)
+                materialId.push((this.reader.getString(grandChildren[k].children[j],"id")));
             }
 
             //Component Texture
@@ -1420,12 +1421,83 @@ class MySceneGraph {
              component.push(componentRefs); 
              
              this.components.push(component);
-           }
-           this.log("Parsed lights");
-		
+        }
+        
+        //Check inheritance Materials
+        
+
+        for(i=0;i<this.components.length;i++){
+            var material =[];
+            for(j=0;j<this.components[i].materialId.length;j++){
+                if(this.components[i].materialId[j]!="inherit" && this.components[i].materialId[j]!="none" ){
+                    material.push(this.components[i].materialId[j]);
+                    
+                }
+            }
+            if(material.length!=0){
+
+                for(k=0; k<this.components[i].componentRefs.length;k++){
+                    var pos = this.components.indexOf(this.components[i].componentRefs[k])
+                    this.materialInherit(this.components,material,pos);
+                }
+            }
+        }
+        
+        //Check inheritance Textures
+        for(i=0;i<this.components.length;i++){
+            var texture ="";
+                if(this.components[i].textureInfo[0]!="inherit" && this.components[i].textureInfo[0]!="none" ){
+                    texture=this.components[i].textureInfo[0];
+                    for(k=0; k<this.components[i].componentRefs.length;k++){
+                        var pos = this.components.indexOf(this.components[i].componentRefs[k])
+                        this.textureInherit(this.components,texture,pos);
+                    }    
+                }
+            
+                
+            }
+        
 		
         this.log("Parsed nodes");
         return null;
+    }
+
+    //Material inheritance
+
+    materialInherit(componentList, material,pos){
+        for(j=0;j<this.components[pos].materialId.length;j++){
+            if(this.components[pos].materialId[j]!="inherit" && this.components[pos].materialId[j]!="none" ){
+                material.push(this.components[pos].materialId[j]);
+                
+            }
+            else if(this.components[pos].materialId[j]=="none"){
+                break;
+            }
+            else {
+                for(k=0;k<material.length;k++){
+                    this.components[pos].materialId.push(material[k]);
+                }
+            } 
+        }
+        for(k=0; k<this.components[pos].componentRefs.length;k++){
+            var pos2 = this.components.indexOf(this.components[pos].componentRefs[k])
+            this.materialInherit(this.components,material,pos2);
+        }
+    }
+
+    textureInherit(componentList, material,pos){
+        if(this.components[pos].textureInfo[0]=="inherit"){
+            this.components[pos].textureInfo[0] = texture;                  
+        }
+        else if(this.components[pos].textureInfo[0]!="none"){
+            texture=this.components[pos].textureInfo[0];
+        }
+       
+
+        for(k=0; k<this.components[pos].componentRefs.length;k++){
+            var pos2 = this.components.indexOf(this.components[pos].componentRefs[k])
+            this.textureInherit(this.components,texture,pos2);
+        }
     }
 
 	
