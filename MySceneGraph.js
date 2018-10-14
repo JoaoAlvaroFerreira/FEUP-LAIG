@@ -1307,11 +1307,13 @@ class MySceneGraph {
                 }
                 else{
                     for(j=0; j<grandGrandChildren.length;j++){
-                        switch (grandGrandChildren[j].nodeName) {
+                        //the transformations will be distinguished as t-translate r-rotate and s-scale                        
+                        var final = [];    
 
+                        switch (grandGrandChildren[j].nodeName) {
+                        
                         case "translate":
 
-                        var final = [];
                         var x = this.reader.getFloat(grandGrandChildren[j], 'x');
                         if (!(x != null && !isNaN(x)))
                         return "unable to parse x-coordinate on a translation on the component " + this.reader.getFloat(children[i],"id");
@@ -1321,6 +1323,7 @@ class MySceneGraph {
                         var z = this.reader.getFloat(grandGrandChildren[j], 'z');
                         if (!(z != null && !isNaN(z)))
                         return "unable to parse x-coordinate on a translation on the component " + this.reader.getFloat(children[i],"id");
+                        final.push('t');
                         final.push(x);
                         final.push(y);
                         final.push(z);
@@ -1334,6 +1337,7 @@ class MySceneGraph {
                         var angle = this.reader.getFloat(grandGrandChildren[j], "angle");
                         if (!(angle != null && !isNaN(x)))
                         return "unable to parse angle on a rotate on the component " + this.reader.getString(children[i],"id");
+                        final.push('r');
                         final.push(axis);
                         final.push(angle);
                         break;
@@ -1350,6 +1354,7 @@ class MySceneGraph {
                         var z = this.reader.getFloat(grandGrandChildren[j], 'z');
                         if (!(z != null && !isNaN(z)))
                         return "unable to parse x-coordinate on a scale on the component " + this.reader.getFloat(children[i],"id");
+                        final.push('s');
                         final.push(x);
                         final.push(y);
                         final.push(z);
