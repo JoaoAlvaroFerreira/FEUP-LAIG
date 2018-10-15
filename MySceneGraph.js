@@ -1175,7 +1175,7 @@ class MySceneGraph {
             else
                 return "scaling coordinates undefined for ID = " + transformationId;
 			
-			this.transformations = [translateCoordinates, scaleCoordinates, rotatingCoordinates];
+			this.transformations = [transformationId, translateCoordinates, scaleCoordinates, rotatingCoordinates];
          
 		}
 		
@@ -1295,6 +1295,7 @@ class MySceneGraph {
                 //variables
                 var grandGrandChildren = grandChildren[0].children;
                 var grandGrandNodeNames = [];
+                var final = [];
                 //END variables
 
                 for (var j = 0; j < grandGrandChildren.length; j++) {
@@ -1304,11 +1305,85 @@ class MySceneGraph {
                 var transformationType = grandGrandChildren[0].nodeName;
                 if(transformationType=="transformationref") {
                     var transformationId = this.reader.getString(grandGrandChildren[0], "id");
+                    var transPos = -1;
+                    for(k=0;k<this.transformations.length;k++){
+                        if(this.transformations[k][0]==transformationId) transPos = k;
+                    }
+                    //translate
+                    var sep = 0;
+                    var x = 0;
+                    var y = 0;
+                    var z = 0;
+                    if(this.transformations[transPos][1].length!=0){
+                        for(k=0;k<this.transformations[transPos][1].length;k++){
+                            switch (sep) {
+                                case 0:
+                                x+=this.transformations[transPos][1][sep];
+                                break;
+                                case 1:
+                                y+=this.transformations[transPos][1][sep];
+                                break;
+                                case 2:
+                                z+=this.transformations[transPos][1][sep];
+                                break;
+                            }
+                            sep++;
+                            if(sep==3) sep =0;
+                        }
+                        final.push(['t',x,y,z]);
+                    }
+                    //rotate
+                    sep=0;
+                    var axis = '';
+                    var angle = 0;
+                    if(this.transformations[transPos][2].length!=0){
+                        for(k=0;k<this.transformations[transPos][2].length;k++){
+                            switch (sep) {
+                                case 0:
+                                axis=this.transformations[transPos][2][sep];
+                                break;
+                                case 1:
+                                angle=this.transformations[transPos][2][sep];
+                                break;
+                               
+                            }
+                            sep++;
+                            if(sep==2) {
+                                sep =0;
+                                final.push(['r',axis,angle]);
+                            }
+                        }
+                        
+                    }
+
+                    //scale
+                    sep=0;
+                    var x = 0;
+                    var y = 0;
+                    var z = 0;
+                    if(this.transformations[transPos][3].length!=0){
+                        for(k=0;k<this.transformations[transPos][3].length;k++){
+                            switch (sep) {
+                                case 0:
+                                x*=this.transformations[transPos][3][sep];
+                                break;
+                                case 1:
+                                y*=this.transformations[transPos][3][sep];
+                                break;
+                                case 2:
+                                z*=this.transformations[transPos][3][sep];
+                                break;
+                            }
+                            sep++;
+                            if(sep==3) sep =0;
+                        }
+                        final.push(['s',x,y,z]);
+                    }
                 }
                 else{
                     for(j=0; j<grandGrandChildren.length;j++){
                         //the transformations will be distinguished as t-translate r-rotate and s-scale                        
-                        var final = [];    
+                         
 
                         switch (grandGrandChildren[j].nodeName) {
                         
@@ -1360,10 +1435,11 @@ class MySceneGraph {
                         final.push(z);
                         break;
 
-                        transformationValues.push(final);
+                        
                         }
                     }
                 }
+                transformationValues.push(final);
             }
 
             //Component Materials
