@@ -1514,7 +1514,7 @@ class MySceneGraph {
 
                 for(k=0; k<this.components[i].componentRefs.length;k++){
                     var pos = this.components.indexOf(this.components[i].componentRefs[k])
-                    this.materialInherit(this.components,material,pos);
+                    this.components = this.materialInherit(this.components,material,pos);
                 }
             }
         }
@@ -1532,6 +1532,8 @@ class MySceneGraph {
             
                 
             }
+
+            this.components=topNodes(this.components);
         
 		
         this.log("Parsed nodes");
@@ -1541,39 +1543,74 @@ class MySceneGraph {
     //Material inheritance
 
     materialInherit(componentList, material,pos){
-        for(j=0;j<this.components[pos].materialId.length;j++){
-            if(this.components[pos].materialId[j]!="inherit" && this.components[pos].materialId[j]!="none" ){
-                material.push(this.components[pos].materialId[j]);
+        for(j=0;j<componentList[pos].materialId.length;j++){
+            if(componentList[pos].materialId[j]!="inherit" && componentList[pos].materialId[j]!="none" ){
+                material.push(componentList[pos].materialId[j]);
                 
             }
-            else if(this.components[pos].materialId[j]=="none"){
+            else if(componentList[pos].materialId[j]=="none"){
                 break;
             }
             else {
                 for(k=0;k<material.length;k++){
-                    this.components[pos].materialId.push(material[k]);
+                    componentList[pos].materialId.push(material[k]);
                 }
             } 
         }
-        for(k=0; k<this.components[pos].componentRefs.length;k++){
-            var pos2 = this.components.indexOf(this.components[pos].componentRefs[k])
-            this.materialInherit(this.components,material,pos2);
+        for(k=0; k<componentList[pos].componentRefs.length;k++){
+            var pos2 = componentList.indexOf(componentList[pos].componentRefs[k])
+            this.materialInherit(componentList,material,pos2);
         }
+        return componentList;
     }
 
     textureInherit(componentList, material,pos){
-        if(this.components[pos].textureInfo[0]=="inherit"){
-            this.components[pos].textureInfo[0] = texture;                  
+        if(componentList[pos].textureInfo[0]=="inherit"){
+            componentList[pos].textureInfo[0] = texture;                  
         }
-        else if(this.components[pos].textureInfo[0]!="none"){
-            texture=this.components[pos].textureInfo[0];
+        else if(componentList[pos].textureInfo[0]!="none"){
+            texture=componentList[pos].textureInfo[0];
         }
        
 
-        for(k=0; k<this.components[pos].componentRefs.length;k++){
-            var pos2 = this.components.indexOf(this.components[pos].componentRefs[k])
-            this.textureInherit(this.components,texture,pos2);
+        for(k=0; k<componentList[pos].componentRefs.length;k++){
+            var pos2 = componentList.indexOf(componentList[pos].componentRefs[k])
+            this.textureInherit(componentList,texture,pos2);
         }
+        return this.componentList;
+    }
+
+    topNodes(componentList){
+        topComponents = [];
+        for(i=0;i<componentList.length;i++){
+            notTop = false;
+            for(j=0;j<componentList.length;j++){
+                for(k=0;k<componentList[j].componentRefs.length;k++){
+                    if(componentList[i].componentName==componentList[j].componentRefs[k]){
+                        notTop=true;
+                    }
+                }
+            }
+            if(notTop==false){
+                topComponents.push(componentList[i]);
+            }
+        }
+        for(i=0;i<topComponents.length;i++){
+            topComponents[i]=this.componentTree(topComponents[i],componentList);
+        }
+        return topComponents;
+    }
+
+    componentTree(component,componentList){
+        for(i=0;i<component.componentRefs.length;i++){
+            for(j=0;j<componentList.length;j++){
+                if(componentList[j].componentName==component.componentRefs[i]){
+                    component.componentRefs[i]=componentList[j];
+                    this.componentTree(componentList[j],componentList);
+                }
+            }
+        }
+        return component;
     }
 
 	
