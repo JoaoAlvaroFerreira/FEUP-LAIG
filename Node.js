@@ -1,7 +1,7 @@
 //Node no = new Node(...);
 //console.log(no);
 
-class Node(){
+class Node{
 
     constructor(obj,idNode){
 

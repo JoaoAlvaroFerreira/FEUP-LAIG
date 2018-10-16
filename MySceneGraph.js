@@ -460,6 +460,7 @@ class MySceneGraph {
 
         var grandChildren = [];
         var nodeNames = [];
+        var grandNodeNames = [];
 
 		
     for (var i = 0; i < children.length; i++)
