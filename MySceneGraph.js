@@ -1224,7 +1224,7 @@ class MySceneGraph {
 			
 			
             var grandChildren = children[i].children;
-			 nodeNames = [];
+			var nodeNames = [];
             for (var j = 0; j < grandChildren.length; j++) {
                 nodeNames.push(grandChildren[j].nodeName);
             }
@@ -1255,8 +1255,8 @@ class MySceneGraph {
         for (var i = 0; i < children.length; i++) {
         
         var componentName="";
-        var transformationValues = mat4.create;
-        mat4.identity(transformationValues);
+        this.transformationValues = mat4.create();
+        mat4.identity(this.transformationValues);
         var materialId=[];
         var textureInfo =[];
         var primitiveRefs = [];
@@ -1279,11 +1279,12 @@ class MySceneGraph {
                  
                var grandChildren = children[i].children;
                   
-                grandNodeNames = [];
+               var grandNodeNames = [];
                 for (var j = 0; j < grandChildren.length; j++) {
                    grandNodeNames.push(grandChildren[j].nodeName);
                 }
-                for(k=0;k<grandChildren.length;k++){
+                
+                for(var k=0;k<grandChildren.length;k++){
 
                 //Component Transformation
                 //Todas as transformações sao guardadas em transformationValues
@@ -1309,13 +1310,13 @@ class MySceneGraph {
                 var transformationType = grandGrandChildren[0].nodeName;
                 if(transformationType=="transformationref") {
                     var transformationId = this.reader.getString(grandGrandChildren[0], "id");
-                    for(k=0;k<this.transformations.length;k++){
+                    for(var k=0;k<this.transformations.length;k++){
                         if(this.transformations[k][0]==transformationId) this.transformationValues=this.transformations[k][1];
                     }
                    
                 }
                 else{
-                    for(j=0; j<grandGrandChildren.length;j++){
+                    for(var j=0; j<grandGrandChildren.length;j++){
                       
                         switch (grandGrandChildren[j].nodeName) {
                         
@@ -1369,10 +1370,10 @@ class MySceneGraph {
 
             if(grandChildren[k].nodeName != "materials") {
                 this.onXMLMinorError("unknown materials tag <" + grandChildren[k].nodeName + ">");
-                continue;
+                
             }
             else{
-                for(j=0;j<grandChildren[k].children.length;j++)
+                for(var j=0;j<grandChildren[k].children.length;j++)
                 materialId.push((this.reader.getString(grandChildren[k].children[j],"id")));
             }
 
@@ -1380,12 +1381,12 @@ class MySceneGraph {
 
             if(grandChildren[k].nodeName != "texture") {
                 this.onXMLMinorError("unknown texture tag <" + grandChildren[k].nodeName + ">");
-                continue;
+               
             }
             else{
-                textureId = this.reader.getString(grandChildren[k],"id");
-                textureLS = this.reader.getFloat(grandChildren[k],"length_s");
-                textureLT = this.reader.getFloat(grandChildren[k],"length_t");
+                var textureId = this.reader.getString(grandChildren[k],"id");
+                var textureLS = this.reader.getFloat(grandChildren[k],"length_s");
+                var textureLT = this.reader.getFloat(grandChildren[k],"length_t");
 
                 textureInfo.push(textureId);
                 textureInfo.push(textureLS);
@@ -1401,7 +1402,7 @@ class MySceneGraph {
             }
             else{
                 var grandGrandChildren = grandChildren[k].children;
-                for(j=0;j<grandGrandChildren.length;j++){
+                for(var j=0;j<grandGrandChildren.length;j++){
                     if(grandGrandChildren[j].nodeName=="primitiveref") {
                         primitiveRefs.push(this.reader.getString(grandGrandChildren[j],"id"));
                     }
@@ -1426,9 +1427,9 @@ class MySceneGraph {
         //Metiral id's are have index = 2
         
 
-        for(i=0;i<this.components.length;i++){
+        for(var i=0;i<this.components.length;i++){
             var material =[];
-            for(j=0;j<this.components[i][2].length;j++){
+            for(var j=0;j<this.components[i][2].length;j++){
                 if(this.components[i][2][j]!="inherit" && this.components[i][2][j]!="none" ){
                     material.push(this.components[i][2][j]);
                     
@@ -1436,7 +1437,7 @@ class MySceneGraph {
             }
             if(material.length!=0){
 
-                for(k=0; k<this.components[i][4].length;k++){
+                for(var k=0; k<this.components[i][4].length;k++){
                     var pos = this.components.indexOf(this.components[i][4][k])
                     this.components = this.materialInherit(this.components,material,pos);
                 }
@@ -1445,11 +1446,11 @@ class MySceneGraph {
         
         //Check inheritance Textures
         //TextureInfo's are on index = 1
-        for(i=0;i<this.components.length;i++){
+        for(var i=0;i<this.components.length;i++){
             var texture ="";
                 if(this.components[i][1][0]!="inherit" && this.components[i][1][0]!="none" ){
                     texture=this.components[i][1][0];
-                    for(k=0; k<this.components[i][4].length;k++){
+                    for(var k=0; k<this.components[i][4].length;k++){
                         var pos = this.components.indexOf(this.components[i][4][k])
                         this.textureInherit(this.components,texture,pos);
                     }    
@@ -1468,7 +1469,7 @@ class MySceneGraph {
     //Material inheritance
 
     materialInherit(componentList, material,pos){
-        for(j=0;j<componentList[pos][2].length;j++){
+        for(var j=0;j<componentList[pos][2].length;j++){
             if(componentList[pos][2][j]!="inherit" && componentList[pos][2][j]!="none" ){
                 material.push(componentList[pos][2][j]);
                 
@@ -1477,12 +1478,12 @@ class MySceneGraph {
                 break;
             }
             else {
-                for(k=0;k<material.length;k++){
+                for(var k=0;k<material.length;k++){
                     componentList[pos][2].push(material[k]);
                 }
             } 
         }
-        for(k=0; k<componentList[pos][4].length;k++){
+        for(var k=0; k<componentList[pos][4].length;k++){
             var pos2 = componentList.indexOf(componentList[pos][4][k])
             this.materialInherit(componentList,material,pos2);
         }
@@ -1498,7 +1499,7 @@ class MySceneGraph {
         }
        
 
-        for(k=0; k<componentList[pos][4].length;k++){
+        for(var k=0; k<componentList[pos][4].length;k++){
             var pos2 = componentList.indexOf(componentList[pos][4][k])
             this.textureInherit(componentList,texture,pos2);
         }
@@ -1507,10 +1508,10 @@ class MySceneGraph {
 
     topNodes(componentList){
         topComponents = [];
-        for(i=0;i<componentList.length;i++){
-            notTop = false;
-            for(j=0;j<componentList.length;j++){
-                for(k=0;k<componentList[j][4].length;k++){
+        for(var i=0;i<componentList.length;i++){
+            var notTop = false;
+            for(var j=0;j<componentList.length;j++){
+                for(var k=0;k<componentList[j][4].length;k++){
                     if(componentList[i].componentName==componentList[j][4][k]){
                         notTop=true;
                     }
@@ -1520,15 +1521,15 @@ class MySceneGraph {
                 topComponents.push(componentList[i]);
             }
         }
-        for(i=0;i<topComponents.length;i++){
+        for(var i=0;i<topComponents.length;i++){
             topComponents[i]=this.componentTree(topComponents[i],componentList);
         }
         return topComponents;
     }
 
     componentTree(component,componentList){
-        for(i=0;i<component[4].length;i++){
-            for(j=0;j<componentList.length;j++){
+        for(var i=0;i<component[4].length;i++){
+            for(var j=0;j<componentList.length;j++){
                 if(componentList[j].componentName==component[4][i]){
                     component[4][i]=componentList[j];
                     this.componentTree(componentList[j],componentList);
