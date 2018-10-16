@@ -1579,7 +1579,7 @@ class MySceneGraph {
             var pos2 = componentList.indexOf(componentList[pos][4][k])
             this.textureInherit(componentList,texture,pos2);
         }
-        return this.componentList;
+        return componentList;
     }
 
     topNodes(componentList){
