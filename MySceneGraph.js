@@ -1256,7 +1256,7 @@ class MySceneGraph {
         
         var componentName="";
         var transformationValues = mat4.create;
-        mat4.identity(this.transformationValues);
+        mat4.identity(transformationValues);
         var materialId=[];
         var textureInfo =[];
         var primitiveRefs = [];
