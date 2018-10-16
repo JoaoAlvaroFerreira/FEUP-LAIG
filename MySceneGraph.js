@@ -1499,33 +1499,35 @@ class MySceneGraph {
              this.components.push(component);
         }
         
-        //Check inheritance Materials
+        //Check inheritance Materials 
+        //Metiral id's are have index = 2
         
 
         for(i=0;i<this.components.length;i++){
             var material =[];
-            for(j=0;j<this.components[i].materialId.length;j++){
-                if(this.components[i].materialId[j]!="inherit" && this.components[i].materialId[j]!="none" ){
-                    material.push(this.components[i].materialId[j]);
+            for(j=0;j<this.components[i][2].length;j++){
+                if(this.components[i][2][j]!="inherit" && this.components[i][2][j]!="none" ){
+                    material.push(this.components[i][2][j]);
                     
                 }
             }
             if(material.length!=0){
 
-                for(k=0; k<this.components[i].componentRefs.length;k++){
-                    var pos = this.components.indexOf(this.components[i].componentRefs[k])
+                for(k=0; k<this.components[i][4].length;k++){
+                    var pos = this.components.indexOf(this.components[i][4][k])
                     this.components = this.materialInherit(this.components,material,pos);
                 }
             }
         }
         
         //Check inheritance Textures
+        //TextureInfo's are on index = 1
         for(i=0;i<this.components.length;i++){
             var texture ="";
-                if(this.components[i].textureInfo[0]!="inherit" && this.components[i].textureInfo[0]!="none" ){
-                    texture=this.components[i].textureInfo[0];
-                    for(k=0; k<this.components[i].componentRefs.length;k++){
-                        var pos = this.components.indexOf(this.components[i].componentRefs[k])
+                if(this.components[i][1][0]!="inherit" && this.components[i][1][0]!="none" ){
+                    texture=this.components[i][1][0];
+                    for(k=0; k<this.components[i][4].length;k++){
+                        var pos = this.components.indexOf(this.components[i][4][k])
                         this.textureInherit(this.components,texture,pos);
                     }    
                 }
@@ -1543,38 +1545,38 @@ class MySceneGraph {
     //Material inheritance
 
     materialInherit(componentList, material,pos){
-        for(j=0;j<componentList[pos].materialId.length;j++){
-            if(componentList[pos].materialId[j]!="inherit" && componentList[pos].materialId[j]!="none" ){
-                material.push(componentList[pos].materialId[j]);
+        for(j=0;j<componentList[pos][2].length;j++){
+            if(componentList[pos][2][j]!="inherit" && componentList[pos][2][j]!="none" ){
+                material.push(componentList[pos][2][j]);
                 
             }
-            else if(componentList[pos].materialId[j]=="none"){
+            else if(componentList[pos][2][j]=="none"){
                 break;
             }
             else {
                 for(k=0;k<material.length;k++){
-                    componentList[pos].materialId.push(material[k]);
+                    componentList[pos][2].push(material[k]);
                 }
             } 
         }
-        for(k=0; k<componentList[pos].componentRefs.length;k++){
-            var pos2 = componentList.indexOf(componentList[pos].componentRefs[k])
+        for(k=0; k<componentList[pos][4].length;k++){
+            var pos2 = componentList.indexOf(componentList[pos][4][k])
             this.materialInherit(componentList,material,pos2);
         }
         return componentList;
     }
 
     textureInherit(componentList, material,pos){
-        if(componentList[pos].textureInfo[0]=="inherit"){
-            componentList[pos].textureInfo[0] = texture;                  
+        if(componentList[pos][1][0]=="inherit"){
+            componentList[pos][1][0] = texture;                  
         }
-        else if(componentList[pos].textureInfo[0]!="none"){
-            texture=componentList[pos].textureInfo[0];
+        else if(componentList[pos][1][0]!="none"){
+            texture=componentList[pos][1][0];
         }
        
 
-        for(k=0; k<componentList[pos].componentRefs.length;k++){
-            var pos2 = componentList.indexOf(componentList[pos].componentRefs[k])
+        for(k=0; k<componentList[pos][4].length;k++){
+            var pos2 = componentList.indexOf(componentList[pos][4][k])
             this.textureInherit(componentList,texture,pos2);
         }
         return this.componentList;
@@ -1585,8 +1587,8 @@ class MySceneGraph {
         for(i=0;i<componentList.length;i++){
             notTop = false;
             for(j=0;j<componentList.length;j++){
-                for(k=0;k<componentList[j].componentRefs.length;k++){
-                    if(componentList[i].componentName==componentList[j].componentRefs[k]){
+                for(k=0;k<componentList[j][4].length;k++){
+                    if(componentList[i].componentName==componentList[j][4][k]){
                         notTop=true;
                     }
                 }
@@ -1602,10 +1604,10 @@ class MySceneGraph {
     }
 
     componentTree(component,componentList){
-        for(i=0;i<component.componentRefs.length;i++){
+        for(i=0;i<component[4].length;i++){
             for(j=0;j<componentList.length;j++){
-                if(componentList[j].componentName==component.componentRefs[i]){
-                    component.componentRefs[i]=componentList[j];
+                if(componentList[j].componentName==component[4][i]){
+                    component[4][i]=componentList[j];
                     this.componentTree(componentList[j],componentList);
                 }
             }
