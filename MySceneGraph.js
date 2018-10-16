@@ -1309,7 +1309,6 @@ class MySceneGraph {
                 var transformationType = grandGrandChildren[0].nodeName;
                 if(transformationType=="transformationref") {
                     var transformationId = this.reader.getString(grandGrandChildren[0], "id");
-                    var transPos = -1;
                     for(k=0;k<this.transformations.length;k++){
                         if(this.transformations[k][0]==transformationId) this.transformationValues=this.transformations[k][1];
                     }
@@ -1317,9 +1316,7 @@ class MySceneGraph {
                 }
                 else{
                     for(j=0; j<grandGrandChildren.length;j++){
-                        //the transformations will be distinguished as t-translate r-rotate and s-scale                        
-                         
-
+                      
                         switch (grandGrandChildren[j].nodeName) {
                         
                         case "translate":
