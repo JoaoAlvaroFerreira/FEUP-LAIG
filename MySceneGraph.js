@@ -20,7 +20,7 @@ var MATERIALS_INDEX = 5;
 var TRANSFORMATIONS_INDEX = 6;
 var PRIMITIVES_INDEX = 7;
 var COMPONENTS_INDEX = 8;
-
+ 
 /**
  * MySceneGraph class, representing the scene graph.
  */
