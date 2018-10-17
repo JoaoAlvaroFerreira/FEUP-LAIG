@@ -54,6 +54,8 @@ class MySceneGraph {
          */
 
         this.reader.open('scenes/' + filename, this);
+
+       
     }
 
     /*
@@ -75,6 +77,8 @@ class MySceneGraph {
 
         // As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
         this.scene.onGraphLoaded();
+
+        this.sceneComponentDisplay(0);
     }
 
     /**
@@ -1011,7 +1015,7 @@ class MySceneGraph {
                 if (!(a != null && !isNaN(a) && a >= 0 && a <= 100))
                     return "unable to parse transparency for the ambient color for the ID = " + materialId;
                 else
-                    emissionColor.push(a);
+                    diffuseColor.push(a);
             }
 
             var specularColor = [];
@@ -1046,7 +1050,7 @@ class MySceneGraph {
             }
 
 
-            this.materials = [emissionColor, shininess, ambientColor, diffuseColor, specularColor];
+            this.materials = [materialid, shininess,emissionColor, ambientColor, diffuseColor, specularColor];
 
         }
 
@@ -1818,6 +1822,46 @@ onXMLMinorError(message) {
  */
 log(message) {
     console.log("   " + message);
+}
+
+sceneComponentDisplay(materialPos){
+    for(var i=0;i<this.components.length;i++){
+        this.sceneDisplay(this.components[i]);
+    }
+}
+
+sceneDisplay(component,materialPos){
+    var newMaterial = new CGFappearance(this.scene);
+    for(var i =0;i<this.materials.length;i++){
+        if(component[2][materialPos][0]==this.materials[i][0]){
+            newMaterial.setShininess(component[2][materialPos][1]);
+            newMaterial.setAmbient(component[2][materialPos][3][0], component[2][materialPos][3][1], component[2][materialPos][3][2], component[2][materialPos][3][3]);
+            newMaterial.setDiffuse(component[2][materialPos][4][0],comonent[2][materialPos][4][1], component[2][materialPos][4][2], component[2][materialPos][4][3]);
+            newMaterial.setSpecular(component[2][materialPos][5][0], component[2][materialPos][5][1], component[2][materialPos][5][2], component[2][materialPos][5][3]);
+            newMaterial.setEmission(component[2][materialPos][2][0], component[2][materialPos][2][1], component[2][materialPos][2][2], component[2][materialPos][2][3]);
+        }
+    }
+    newMaterial.apply();
+
+    this.scene.multMatrix(componentList[index][1]);
+
+    var pos = null;
+    for(var i =0;i<this.textureTemp.length;i++){
+        if(component[3][0]==this.textureTemp[i][0]){
+            pos=i;
+        }
+    }
+    var texture = new CGFtexture(this.scene, "./scenes/" + this.textureTemp[pos][1]);
+    var currTexture = [texture,component[3][1],component[3][2]];
+    currTexture.bind();
+
+    for(var i=0;i<component[4].length;i++){
+        this.scene.pushMatrix();
+        this.sceneDisplay(component[4][i]);
+        this.scene.popMatrix();
+    }
+    
+
 }
 
 /**
