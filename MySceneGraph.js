@@ -843,9 +843,8 @@ class MySceneGraph {
 
         var children = texturesNode.children;
 
-
-        this.components = [];
-        var numComponents = 0;
+        var textureTemp = [];
+        this.textures = [];
 
 
         var nodeNames = [];
@@ -865,6 +864,8 @@ class MySceneGraph {
             for (var j = 0; j < grandChildren.length; j++) {
                 nodeNames.push(grandChildren[j].nodeName);
             }
+            textureTemp = [idTextura, path];
+            this.textures.push(textureTemp);
         }
 
         console.log("Parsed textures");
@@ -880,8 +881,6 @@ class MySceneGraph {
     parseMaterials(materialsNode) {
 
         var children = materialsNode.children;
-        var numMaterial = 0;
-
 
         this.materials = [];
 
@@ -1047,7 +1046,7 @@ class MySceneGraph {
             }
 
 
-            this.materials = [emissionColor, ambientColor, diffuseColor, specularColor];
+            this.materials = [emissionColor, shininess, ambientColor, diffuseColor, specularColor];
 
         }
 
@@ -1485,7 +1484,7 @@ parseComponents(nodesNode) {
         var componentName = "";
         this.transformationValues = mat4.create();
         mat4.identity(this.transformationValues);
-        var materialId = [];
+        var materialRefs = [];
         var textureInfo = [];
         var primitiveRefs = [];
         var componentRefs = [];
@@ -1621,7 +1620,7 @@ parseComponents(nodesNode) {
                 }
                 else {
                     for (var j = 0; j < grandChildren[k].children.length; j++)
-                        materialId.push((this.reader.getString(grandChildren[k].children[j], "id")));
+                        materialRefs.push((this.reader.getString(grandChildren[k].children[j], "id")));
                 }
 
                 //Component Texture
@@ -1639,6 +1638,31 @@ parseComponents(nodesNode) {
                     textureInfo.push(textureId);
                     textureInfo.push(textureLS);
                     textureInfo.push(textureLT);
+                }
+
+
+                 //Component Materials
+
+                 if (grandChildren[k].nodeName != "materials") {
+                    this.onXMLMinorError("unknown materials tag <" + grandChildren[k].nodeName + ">");
+                    continue;
+
+                }
+                else {
+                    for (var j = 0; j < grandChildren[k].children.length; j++)
+                        materialRefs.push((this.reader.getString(grandChildren[k].children[j], "id")));
+                }
+
+                //Component Primitives
+
+                if (grandChildren[k].nodeName != "primitives") {
+                    this.onXMLMinorError("unknown primitives tag <" + grandChildren[k].nodeName + ">");
+                    continue;
+
+                }
+                else {
+                    for (var j = 0; j < grandChildren[k].children.length; j++)
+                        primitiveRefs.push((this.reader.getString(grandChildren[k].children[j], "id")));
                 }
 
                 //Component Children
@@ -1664,7 +1688,7 @@ parseComponents(nodesNode) {
         component.push(componentName);
         component.push(transformationValues);
         component.push(textureInfo);
-        component.push(materialId);
+        component.push(materialRefs);
         component.push(primitiveRefs);
         component.push(componentRefs);
 
