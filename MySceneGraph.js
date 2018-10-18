@@ -1436,28 +1436,6 @@ class MySceneGraph {
     }
 
 
-
-
-    topNodes(componentList) {
-        var topComponents = [];
-        for (var i = 0; i < componentList.length; i++) {
-            var notTop = false;
-            for (var j = 0; j < componentList.length; j++) {
-                for (var k = 0; k < componentList[j][4].length; k++) {
-                    if (componentList[i].componentName == componentList[j][4][k]) {
-                        notTop = true;
-                    }
-                }
-            }
-            if (notTop == false) {
-                topComponents.push(componentList[i]);
-            }
-        }
-        for (var i = 0; i < topComponents.length; i++) {
-            topComponents[i] = this.componentTree(topComponents[i], componentList);
-        }
-        return topComponents;
-    }
     /**
      * Parses the <NODES> block.
      * @param {nodes block element} nodesNode
@@ -1667,13 +1645,36 @@ class MySceneGraph {
         return null;
     }
 
+    
+
+
+    topNodes(componentList) {
+        var topComponents = [];
+        for (var i = 0; i < componentList.length; i++) {
+            var notTop = false;
+            for (var j = 0; j < componentList.length; j++) {
+                for (var k = 0; k < componentList[j][5].length; k++) {
+                    if (componentList[i][0] == componentList[j][5][k]) {
+                        notTop = true;
+                    }
+                }
+            }
+            if (notTop == false) {
+                topComponents.push(componentList[i]);
+            }
+        }
+        for (var i = 0; i < topComponents.length; i++) {
+            topComponents[i] = this.componentTree(topComponents[i], componentList);
+        }
+        return topComponents;
+    }
    
 
     componentTree(component, componentList) {
-        for (var i = 0; i < component[4].length; i++) {
+        for (var i = 0; i < component[5].length; i++) {
             for (var j = 0; j < componentList.length; j++) {
-                if (componentList[j].componentName == component[4][i]) {
-                    component[4][i] = componentList[j];
+                if (componentList[j][0] == component[5][i]) {
+                    component[5][i] = componentList[j];
                     this.componentTree(componentList[j], componentList);
                 }
             }
@@ -1742,9 +1743,9 @@ class MySceneGraph {
         var currTexture = [texture, component[3][1], component[3][2]];
         currTexture.bind();
 
-        for (var i = 0; i < component[4].length; i++) {
+        for (var i = 0; i < component[5].length; i++) {
             this.scene.pushMatrix();
-            this.sceneDisplay(component[4][i]);
+            this.sceneDisplay(component[5][i]);
             this.scene.popMatrix();
         }
 
