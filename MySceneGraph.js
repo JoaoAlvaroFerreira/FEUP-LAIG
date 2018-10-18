@@ -1083,7 +1083,7 @@ class MySceneGraph {
         for (var i = 0; i < children.length; i++) {
 
 
-            if (children[i].nodeName != "transformations") {
+            if (children[i].nodeName != "transformation") {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
                 continue;
             }
@@ -1110,23 +1110,23 @@ class MySceneGraph {
 
                 // x
                 var x = this.reader.getFloat(grandChildren[translateIndex], 'x');
-                if (!(x != null && !isNaN(x)))
+                /*if (!(x != null && !isNaN(x)))
                     return "unable to parse x-coordinate of the transformation = " + transformationId;
-                else
+                else*/
                     translateCoordinates.push(x);
 
                 // y
                 var y = this.reader.getFloat(grandChildren[translateIndex], 'y');
-                if (!(y != null && !isNaN(y)))
+                /*if (!(y != null && !isNaN(y)))
                     return "unable to parse y-coordinate of the transformation = " + transformationId;
-                else
+                else*/
                     translateCoordinates.push(y);
 
                 // z
                 var z = this.reader.getFloat(grandChildren[translateIndex], 'z');
-                if (!(z != null && !isNaN(z)))
+                /*if (!(z != null && !isNaN(z)))
                     return "unable to parse z-coordinate of the transformation = " + transformationId;
-                else
+                else*/
                     translateCoordinates.push(z);
             }
 
@@ -1136,17 +1136,17 @@ class MySceneGraph {
             var rotatingCoordinates = [];
             if (rotateIndex != -1) {
                 // axis
-                var axis = this.reader.getFloat(grandChildren[rotateIndex], 'axis');
-                if (!(axis != null && !isNaN(axis)))
+                var axis = this.reader.getString(grandChildren[rotateIndex], 'axis');
+                /*if (!(axis != null && !isNaN(axis)))
                     return "unable to parse axis of the transformation = " + transformationId;
-                else
+                else*/
                     rotatingCoordinates.push(axis);
 
                 // angle
                 var angle = this.reader.getFloat(grandChildren[rotateIndex], 'angle');
-                if (!(angle != null && !isNaN(angle)))
+                /*if (!(angle != null && !isNaN(angle)))
                     return "unable to parse angle of the transformation = " + transformationId;
-                else
+                else*/
                     rotatingCoordinates.push(y);
 
             }
@@ -1158,23 +1158,23 @@ class MySceneGraph {
             if (scaleIndex != -1) {
                 // x
                 var x = this.reader.getFloat(grandChildren[scaleIndex], 'x');
-                if (!(x != null && !isNaN(x)))
+                /*if (!(x != null && !isNaN(x)))
                     return "unable to parse x-coordinate of the transformation = " + transformationId;
-                else
+                else*/
                     scaleCoordinates.push(x);
 
                 // y
                 var y = this.reader.getFloat(grandChildren[scaleIndex], 'y');
-                if (!(y != null && !isNaN(y)))
+                /*if (!(y != null && !isNaN(y)))
                     return "unable to parse y-coordinate of the transformation = " + transformationId;
-                else
+                else*/
                     scaleCoordinates.push(y);
 
                 // z
                 var z = this.reader.getFloat(grandChildren[scaleIndex], 'z');
-                if (!(z != null && !isNaN(z)))
+                /*if (!(z != null && !isNaN(z)))
                     return "unable to parse z-coordinate of the transformation = " + transformationId;
-                else
+                else*/
                     scaleCoordinates.push(z);
             }
 
