@@ -1050,7 +1050,7 @@ class MySceneGraph {
             }
 
 
-            this.materials = [materialid, shininess, emissionColor, ambientColor, diffuseColor, specularColor];
+            this.materials.push([materialid, shininess, emissionColor, ambientColor, diffuseColor, specularColor]);
 
         }
 
@@ -1517,7 +1517,11 @@ class MySceneGraph {
                                     if (this.transformations[k][0] == transformationId) {
                                         mat4.translate(transformationValues, transformationValues, [this.transformations[k][1][0],this.transformations[k][1][1],this.transformations[k][1][2]]);
                                         mat4.scale(transformationValues, transformationValues, [this.transformations[k][2][0],this.transformations[k][2][1],this.transformations[k][2][2]]);
-                                        mat4.rotate(transformationValues, transformationValues, DEGREE_TO_RAD * this.transformations[k][3][1], this.transformations[k][3][0]);
+                                        var axis =[];
+                                        if(this.transformations[k][3][0]=='x') axis = [1,0,0];
+                                        if(this.transformations[k][3][0]=='y') axis = [0,1,0];
+                                        if(this.transformations[k][3][0]=='z') axis = [0,0,1];
+                                        mat4.rotate(transformationValues, transformationValues, DEGREE_TO_RAD * this.transformations[k][3][1], axis);
                                     }
                                 }
 
@@ -1558,8 +1562,12 @@ class MySceneGraph {
                                 var angle = this.reader.getFloat(grandGrandChildren[j], "angle");
                                 /*if (!(angle != null && !isNaN(x)))
                                     return "unable to parse angle on a rotate on the component " + this.reader.getString(grandGrandChildren[i], "id");*/
+                                var axisCoord =[];
+                                    if(this.transformations[k][3][0]=='x') axisCoord = [1,0,0];
+                                    if(this.transformations[k][3][0]=='y') axisCoord = [0,1,0];
+                                    if(this.transformations[k][3][0]=='z') axisCoord = [0,0,1];
 
-                                mat4.rotate(transformationValues, transformationValues, DEGREE_TO_RAD * angle, axis);
+                                mat4.rotate(transformationValues, transformationValues, DEGREE_TO_RAD * angle, axisCoord);
 
                             }
 
@@ -1589,8 +1597,15 @@ class MySceneGraph {
                     if (grandNodeNames[k] == "materials") {
                         var grandGrandChildren = grandChildren[k].children;
                         for (var l = 0; l < grandChildren[k].children.length; l++)
-                            materialRefs.push((this.reader.getString(grandGrandChildren[0], "id")));
-
+                            for(var j=0;j<this.materials.length;j++){
+                                if(this.reader.getString(grandGrandChildren[0], "id")=="inherit" || this.reader.getString(grandGrandChildren[0], "id")=="none"){
+                                    materialRefs.push((this.reader.getString(grandGrandChildren[0], "id")));
+                                }
+                                else {
+                                if(this.materials[j][0]==this.reader.getString(grandGrandChildren[0], "id"))
+                                materialRefs.push(this.materials[j]);
+                                }
+                            }
                     }
 
                     //Component Texture
@@ -1599,8 +1614,16 @@ class MySceneGraph {
                         var textureId = this.reader.getString(grandChildren[k], "id");
                         var textureLS = this.reader.getFloat(grandChildren[k], "length_s");
                         var textureLT = this.reader.getFloat(grandChildren[k], "length_t");
-
+                        var path = ""
+                        
+                        for(var j=0;j<this.textures.length;j++){
+                            if(this.textures[j][0]==textureId){
+                                path=this.textures[j][1];
+                            }
+                        }
+                        
                         textureInfo.push(textureId);
+                        if(textureId!="inherit" && textureId!="none") textureInfo.push(path);
                         textureInfo.push(textureLS);
                         textureInfo.push(textureLT);
                         console.log(textureId);
