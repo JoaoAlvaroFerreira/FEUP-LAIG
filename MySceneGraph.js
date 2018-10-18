@@ -1181,7 +1181,7 @@ class MySceneGraph {
             else
                 return "scaling coordinates undefined for ID = " + transformationId;
 
-            this.transformations = [transformationId, translateCoordinates, scaleCoordinates, rotatingCoordinates];
+            this.transformations.push([transformationId, translateCoordinates, scaleCoordinates, rotatingCoordinates]);
 
         }
 
@@ -1474,14 +1474,7 @@ class MySceneGraph {
 
         //Variables
         this.components = [];
-        var componentName = "";
-        this.transformationValues = mat4.create();
-        mat4.identity(this.transformationValues);
-        var materialRefs = [];
-        var textureInfo = [];
-        var primitiveRefs = [];
-        var componentRefs = [];
-        var component = [];
+        
         //var numComponents = 0;
         var nodeNames = [];
 
@@ -1492,7 +1485,14 @@ class MySceneGraph {
 
 
         for (var i = 0; i < children.length; i++) {
-
+            
+            var componentName = "";
+            var transformationValues = mat4.create();
+            mat4.identity(transformationValues);
+            var materialRefs = [];
+            var textureInfo = [];
+            var primitiveRefs = [];
+            var componentRefs = [];
 
             if (children[i].nodeName != "component") {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
@@ -1525,9 +1525,6 @@ class MySceneGraph {
                         //variables
                         var grandGrandChildren = grandChildren[k].children;
                         var grandGrandNodeNames = [];
-                        var final = [];
-                        var transformationValues = mat4.create;
-                        mat4.identity(this.transformationValues);
                         //END variables
 
                         for (var j = 0; j < grandGrandChildren.length; j++) {
@@ -1551,7 +1548,6 @@ class MySceneGraph {
                                     }
                                 }
 
-                                continue;
                             }
 
 
@@ -1562,49 +1558,49 @@ class MySceneGraph {
 
                                 // x
                                 var x = this.reader.getFloat(grandGrandChildren[j], 'x');
-                                if (!(x != null && !isNaN(x)))
-                                    return "unable to parse x-coordinate of the transformation = " + this.reader.getString(grandGrandChildren[i], "id");
+                                /*if (!(x != null && !isNaN(x)))
+                                    return "unable to parse x-coordinate of the transformation = " + this.reader.getString(grandGrandChildren[i], "id");*/
 
                                 // y
                                 var y = this.reader.getFloat(grandGrandChildren[j], 'y');
-                                if (!(y != null && !isNaN(y)))
-                                    return "unable to parse y-coordinate of the transformation = " + this.reader.getString(grandGrandChildren[i], "id");
+                                /*if (!(y != null && !isNaN(y)))
+                                    return "unable to parse y-coordinate of the transformation = " + this.reader.getString(grandGrandChildren[i], "id");*/
 
 
                                 // z
                                 var z = this.reader.getFloat(grandGrandChildren[j], 'z');
-                                if (!(z != null && !isNaN(z)))
-                                    return "unable to parse z-coordinate of the transformation = " + this.reader.getString(grandGrandChildren[i], "id");
+                                /*if (!(z != null && !isNaN(z)))
+                                    return "unable to parse z-coordinate of the transformation = " + this.reader.getString(grandGrandChildren[i], "id");*/
 
 
-                                mat4.translate(this.transformationValues, this.transformationValues, [x, y, z]);
+                                mat4.translate(transformationValues, transformationValues, [x, y, z]);
 
                             }
                             if (grandGrandNodeNames[j] == "rotate") {
 
                                 var axis = this.reader.getString(grandGrandChildren[j], "axis");
-                                if (!(axis != null))
-                                    return "unable to parse axis on a rotate on the component " + this.reader.getString(grandGrandChildren[i], "id");
+                                /*if (!(axis != null))
+                                    return "unable to parse axis on a rotate on the component " + this.reader.getString(grandGrandChildren[i], "id");*/
 
                                 var angle = this.reader.getFloat(grandGrandChildren[j], "angle");
-                                if (!(angle != null && !isNaN(x)))
-                                    return "unable to parse angle on a rotate on the component " + this.reader.getString(grandGrandChildren[i], "id");
+                                /*if (!(angle != null && !isNaN(x)))
+                                    return "unable to parse angle on a rotate on the component " + this.reader.getString(grandGrandChildren[i], "id");*/
 
-                                mat4.rotate(this.transformationValues, this.transformationValues, DEGREE_TO_RAD * angle, axis);
+                                mat4.rotate(transformationValues, transformationValues, DEGREE_TO_RAD * angle, axis);
 
                             }
 
                             if (grandGrandNodeNames[j] == "scale") {
                                 var x = this.reader.getFloat(grandGrandChildren[j], 'x');
-                                if (!(x != null && !isNaN(x)))
-                                    return "unable to parse x-coordinate on a scale on the component  " + this.reader.getString(grandGrandChildren[i], "id");
+                                /*if (!(x != null && !isNaN(x)))
+                                    return "unable to parse x-coordinate on a scale on the component  " + this.reader.getString(grandGrandChildren[i], "id");*/
                                 var y = this.reader.getFloat(grandGrandChildren[j], 'y');
-                                if (!(y != null && !isNaN(y)))
-                                    return "unable to parse y-coordinate on a scale on the component " + this.reader.getString(grandGrandChildren[i], "id");
+                                /*if (!(y != null && !isNaN(y)))
+                                    return "unable to parse y-coordinate on a scale on the component " + this.reader.getString(grandGrandChildren[i], "id");*/
                                 var z = this.reader.getFloat(grandGrandChildren[j], 'z');
-                                if (!(z != null && !isNaN(z)))
-                                    return "unable to parse z-coordinate on a translation on the component " + this.reader.getString(grandGrandChildren[i], "id");
-                                mat4.scale(this.transformationValues, this.transformationValues, [x, y, z]);
+                                /*if (!(z != null && !isNaN(z)))
+                                    return "unable to parse z-coordinate on a translation on the component " + this.reader.getString(grandGrandChildren[i], "id");*/
+                                mat4.scale(transformationValues, transformationValues, [x, y, z]);
                                 break;
                             }
 
@@ -1620,7 +1616,7 @@ class MySceneGraph {
                     if (grandNodeNames[k] == "materials") {
                         var grandGrandChildren = grandChildren[k].children;
                         for (var l = 0; l < grandChildren[k].children.length; l++)
-                            materialRefs.push((this.reader.getString(grandGrandChildren[l], "id")));
+                            materialRefs.push((this.reader.getString(grandGrandChildren[0], "id")));
 
                     }
 
@@ -1637,14 +1633,7 @@ class MySceneGraph {
                         console.log(textureId);
                     }
 
-                    //Component Primitives
-
-                    if (grandNodeNames[k] == "primitives") {
-                        var grandGrandChildren = grandChildren[k].children;
-                        for (var j = 0; j < grandGrandChildren.length; j++)
-                            primitiveRefs.push((this.reader.getString(grandGrandChildren[j], "id")));
-                    }
-
+                   
                     //Component Children
 
 
@@ -1660,7 +1649,7 @@ class MySceneGraph {
                         }
                     }
                 }
-
+                var component = [];
                 component.push(componentName);
                 component.push(transformationValues);
                 component.push(textureInfo);
@@ -1669,8 +1658,8 @@ class MySceneGraph {
                 component.push(componentRefs);
 
                 this.components.push(component);
-
             }
+        }
             //Check inheritance Materials 
             //Material id's are have index = 2
 
@@ -1705,7 +1694,7 @@ class MySceneGraph {
                 }
 
             }
-        }
+        
 
         this.components = this.topNodes(this.components);
 
