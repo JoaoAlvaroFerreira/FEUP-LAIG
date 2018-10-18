@@ -1637,10 +1637,11 @@ class MySceneGraph {
                         for (var j = 0; j < grandGrandChildren.length; j++) {
                             if (grandGrandChildren[j].nodeName == "primitiveref") {
                                 for(var l=0;l<this.primitiveVector.length;l++){
-                                primitiveRefs.push(this.reader.getString(grandGrandChildren[j], "id"));
+                                if(this.primitiveVector[l][0]==this.reader.getString(grandGrandChildren[j], "id"))
+                                primitiveRefs.push(this.primitiveVector[l]);
                                 }
                             }
-                            if (grandGrandChildren[j].nodeName == "componentref") {
+                            if (grandGrandChildren[j].nodeName == "componetref") {
                                 componentRefs.push(this.reader.getString(grandGrandChildren[j], "id"));
                             }
                         }
