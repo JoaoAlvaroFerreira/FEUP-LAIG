@@ -1735,40 +1735,59 @@ class MySceneGraph {
 
     sceneComponentDisplay(materialPos) {
         for (var i = 0; i < this.components.length; i++) {
-            this.sceneDisplay(this.components[i], materialPos);
+
+            //creating a default material
+            var defaultMaterial = new CGFappearance(this.scene);
+            defaultMaterial.setShininess(1);
+            defaultMaterial.setSpecular(0, 0, 0, 1);
+            defaultMaterial.setDiffuse(0.5, 0.5, 0.5, 1);
+            defaultMaterial.setAmbient(0, 0, 0, 1);
+            defaultMaterial.setEmission(0, 0, 0, 1);
+
+            this.sceneDisplay(this.components[i], materialPos,defaultMaterial); //Sending a defaul default material
         }
     }
 
-    sceneDisplay(component, materialPos) {
-
-
+    sceneDisplay(component, materialPos,material,texture) {
+        var savePos = materialPos;
         var newMaterial = new CGFappearance(this.scene);
-        for (var i = 0; i < this.materials.length; i++) {
-            if (component[2][materialPos][0] == this.materials[i][0]) {
-                newMaterial.setShininess(component[2][materialPos][1]);
-                newMaterial.setAmbient(component[2][materialPos][3][0], component[2][materialPos][3][1], component[2][materialPos][3][2], component[2][materialPos][3][3]);
-                newMaterial.setDiffuse(component[2][materialPos][4][0], comonent[2][materialPos][4][1], component[2][materialPos][4][2], component[2][materialPos][4][3]);
-                newMaterial.setSpecular(component[2][materialPos][5][0], component[2][materialPos][5][1], component[2][materialPos][5][2], component[2][materialPos][5][3]);
-                newMaterial.setEmission(component[2][materialPos][2][0], component[2][materialPos][2][1], component[2][materialPos][2][2], component[2][materialPos][2][3]);
-            }
+
+        if(materialPos>=component[3].length){
+            materialPos = materialPos-parseInt(materialPos/component[3].length)*component[3].length;
         }
+        if(component[3][materialPos][0]=="inherit"){
+            newMaterial=material;
+            newMaterial.apply();
+        }
+
+        else if(component[3][materialPos][0]!="none")   {    
+        newMaterial.setShininess(component[3][materialPos][1]);
+        newMaterial.setAmbient(component[3][materialPos][3][0], component[3][materialPos][3][1], component[3][materialPos][3][2], component[3][materialPos][3][3]);
+        newMaterial.setDiffuse(component[3][materialPos][4][0], component[3][materialPos][4][1], component[3][materialPos][4][2], component[3][materialPos][4][3]);
+        newMaterial.setSpecular(component[3][materialPos][5][0], component[3][materialPos][5][1], component[3][materialPos][5][2], component[3][materialPos][5][3]);
+        newMaterial.setEmission(component[3][materialPos][2][0], component[3][materialPos][2][1], component[3][materialPos][2][2], component[3][materialPos][2][3]);
+            
+        
         newMaterial.apply();
-
-        this.scene.multMatrix(componentList[index][1]);
-
-        var pos = null;
-        for (var i = 0; i < this.textureTemp.length; i++) {
-            if (component[3][0] == this.textureTemp[i][0]) {
-                pos = i;
-            }
         }
-        var texture = new CGFtexture(this.scene, "./scenes/" + this.textureTemp[pos][1]);
-        var currTexture = [texture, component[3][1], component[3][2]];
-        currTexture.bind();
+
+        this.scene.multMatrix(component[1]); //transformations
+
+        
+        var newTexture = null;
+        if(component[2][0]=="inherit"){
+            newTexture=texture;
+            newTexture.bind();
+        }
+        else if(component[2][0]!="none"){
+            newTexture = new CGFtexture(this.scene, "./scenes/" + component[2][1]);
+            newTexture.bind();
+        }
+        
 
         for (var i = 0; i < component[5].length; i++) {
             this.scene.pushMatrix();
-            this.sceneDisplay(component[5][i]);
+            this.sceneDisplay(component[5][i],savePos,newMaterial,newTexture);
             this.scene.popMatrix();
         }
 
