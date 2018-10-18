@@ -1485,6 +1485,7 @@ class MySceneGraph {
             mat4.identity(transformationValues);
             var materialRefs = [];
             var textureInfo = [];
+            var primitiveFind = "";
             var primitiveRefs = [];
             var componentRefs = [];
 
@@ -1635,7 +1636,9 @@ class MySceneGraph {
                         var grandGrandChildren = grandChildren[k].children;
                         for (var j = 0; j < grandGrandChildren.length; j++) {
                             if (grandGrandChildren[j].nodeName == "primitiveref") {
+                                for(var l=0;l<this.primitiveVector.length;l++){
                                 primitiveRefs.push(this.reader.getString(grandGrandChildren[j], "id"));
+                                }
                             }
                             if (grandGrandChildren[j].nodeName == "componentref") {
                                 componentRefs.push(this.reader.getString(grandGrandChildren[j], "id"));
@@ -1654,40 +1657,6 @@ class MySceneGraph {
                 this.components.push(component);
             }
         }
-            //Check inheritance Materials 
-            //Material id's are have index = 2
-
-
-            for (var p = 0; p < this.components.length; p++) {
-                var material = [];
-                for (var j = 0; j < this.components[p][2].length; j++) {
-                    if (this.components[p][2][j] != "inherit" && this.components[p][2][j] != "none") {
-                        material.push(this.components[p][2][j]);
-
-                    }
-                }
-                if (material.length != 0) {
-
-                    for (var m = 0; m < this.components[p][4].length; m++) {
-                        var pos = this.components.indexOf(this.components[p][4][m])
-                        this.components = this.materialInherit(this.components, material, pos);
-                    }
-                }
-            }
-
-            //Check inheritance Textures
-            //TextureInfo's are on index = 1
-            for (var i = 0; i < this.components.length; i++) {
-                var texture = "";
-                if (this.components[i][3][0] != "inherit" && this.components[i][3][0] != "none") {
-                    texture = this.components[i][3][0];
-                    for (var c = 0; c < this.components[i][4].length; c++) {
-                        var pos = this.components.indexOf(this.components[i][4][c])
-                        this.textureInherit(this.components, texture, pos);
-                    }
-                }
-
-            }
         
 
         this.components = this.topNodes(this.components);
@@ -1697,47 +1666,7 @@ class MySceneGraph {
         return null;
     }
 
-    //Material inheritance
-
-    materialInherit(componentList, material, pos) {
-        for (var j = 0; j < componentList[pos][2].length; j++) {
-            if (componentList[pos][2][j] != "inherit" && componentList[pos][2][j] != "none") {
-                material.push(componentList[pos][2][j]);
-
-            }
-            else if (componentList[pos][2][j] == "none") {
-                break;
-            }
-            else {
-                for (var k = 0; k < material.length; k++) {
-                    componentList[pos][2].push(material[k]);
-                }
-            }
-        }
-        for (var k = 0; k < componentList[pos][4].length; k++) {
-            var pos2 = componentList.indexOf(componentList[pos][4][k])
-            this.materialInherit(componentList, material, pos2);
-        }
-        return componentList;
-    }
-
-    textureInherit(componentList, material, pos) {
-        if (componentList[pos][1][0] == "inherit") {
-            componentList[pos][1][0] = texture;
-        }
-        else if (componentList[pos][1][0] != "none") {
-            texture = componentList[pos][1][0];
-        }
-
-
-        for (var k = 0; k < componentList[pos][4].length; k++) {
-            var pos2 = componentList.indexOf(componentList[pos][4][k])
-            this.textureInherit(componentList, texture, pos2);
-        }
-        return componentList;
-    }
-
-
+   
 
     componentTree(component, componentList) {
         for (var i = 0; i < component[4].length; i++) {
