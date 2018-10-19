@@ -97,11 +97,11 @@
             </materials> 
             <texture id="VidralTexture" length_s="1" length_t="1" /> 
 			<children> 
-                <componetref id="FrontLeftLeg" />
-				<componetref id="FrontRightLeg" />
-				<componetref id="BackLeftLeg" />
-				<componetref id="BackRightLeg" />
-				<componetref id="TableTop" />
+                <componentref id="FrontLeftLeg" />
+				<componentref id="FrontRightLeg" />
+				<componentref id="BackLeftLeg" />
+				<componentref id="BackRightLeg" />
+				<componentref id="TableTop" />
             </children> 
         </component>
 
@@ -116,7 +116,7 @@
             </materials> 
             <texture id="inherit" length_s="1" length_t="1" /> 
 			<children> 
-                <componetref id="Cube" />
+                <componentref id="Cube" />
 			</children> 
         </component>
 
@@ -131,7 +131,7 @@
             </materials> 
             <texture id="inherit" length_s="1" length_t="1" /> 
 			<children> 
-                <componetref id="Cube" />
+                <componentref id="Cube" />
 			</children> 
         </component>
 
@@ -146,7 +146,7 @@
             </materials> 
             <texture id="inherit" length_s="1" length_t="1" /> 
 			<children> 
-                <componetref id="Cube" />
+                <componentref id="Cube" />
 			</children> 
         </component>
 
@@ -161,7 +161,7 @@
             </materials> 
             <texture id="inherit" length_s="1" length_t="1" /> 
 			<children> 
-                <componetref id="Cube" />
+                <componentref id="Cube" />
 			</children> 
         </component>
 
@@ -176,7 +176,7 @@
             </materials> 
             <texture id="inherit" length_s="1" length_t="1" /> 
 			<children> 
-                <componetref id="Cube" />
+                <componentref id="Cube" />
 			</children> 
         </component>
 		<!-- END Table component -->
@@ -191,12 +191,12 @@
             </materials> 
             <texture id="inherit" length_s="1" length_t="1" /> 
 			<children> 
-                <componetref id="FrontSquare" />
-				<componetref id="BackSquare" />
-				<componetref id="LeftSquare" />
-				<componetref id="RightSquare" />
-				<componetref id="TopSquare" />
-				<componetref id="BottomSquare" />
+                <componentref id="FrontSquare" />
+				<componentref id="BackSquare" />
+				<componentref id="LeftSquare" />
+				<componentref id="RightSquare" />
+				<componentref id="TopSquare" />
+				<componentref id="BottomSquare" />
 				 
             </children> 
         </component> 
