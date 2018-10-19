@@ -1744,11 +1744,17 @@ class MySceneGraph {
             defaultMaterial.setAmbient(0, 0, 0, 1);
             defaultMaterial.setEmission(0, 0, 0, 1);
 
-            this.sceneDisplay(this.components[i], materialPos,defaultMaterial); //Sending a defaul default material
+            //creating a default texture
+            var defaultTexture = new CGFappearance(this.scene, "./scenes/" + this.textures[0][1]);
+
+            //creating a default texture Inf
+            var textureInf = [this.textures[0][0],this.textures[0][1],1,1];
+
+            this.sceneDisplay(this.components[i], materialPos,defaultMaterial,defaultTexture,textureInf);
         }
     }
 
-    sceneDisplay(component, materialPos,material,texture) {
+    sceneDisplay(component, materialPos,material,texture,textureInf) {
         var savePos = materialPos;
         var newMaterial = new CGFappearance(this.scene);
 
@@ -1776,18 +1782,20 @@ class MySceneGraph {
         
         var newTexture = null;
         if(component[2][0]=="inherit"){
+            component[2]=textureInf;
             newTexture=texture;
             newTexture.bind();
         }
         else if(component[2][0]!="none"){
             newTexture = new CGFtexture(this.scene, "./scenes/" + component[2][1]);
+            textureInf=component[2];
             newTexture.bind();
         }
         
 
         for (var i = 0; i < component[5].length; i++) {
             this.scene.pushMatrix();
-            this.sceneDisplay(component[5][i],savePos,newMaterial,newTexture);
+            this.sceneDisplay(component[5][i],savePos,newMaterial,newTexture,textureInf);
             this.scene.popMatrix();
         }
 
