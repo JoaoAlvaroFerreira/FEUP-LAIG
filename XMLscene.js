@@ -48,7 +48,7 @@ class XMLscene extends CGFscene {
     initLights() {
         var i = 0;
         // Lights index.
-
+        
         // Reads the lights from the scene graph.
         for (var key in this.graph.lights) {
             if (i >= 8)
@@ -70,6 +70,7 @@ class XMLscene extends CGFscene {
                     this.lights[i].disable();
 
                 this.lights[i].update();
+                
 
                 i++;
             }
@@ -86,6 +87,11 @@ class XMLscene extends CGFscene {
         this.torus = new MyTorus(this);
     }
 
+    loadTextures(infoM, infoT) {
+        this.material=new CGFappearance(this);
+        this.material.loadTexture("./scenes/images/vidral.jpg");
+    }
+
 
 
     /* Handler called when the graph is finally loaded. 
@@ -99,6 +105,10 @@ class XMLscene extends CGFscene {
         //this.axis = new CGFaxis(this, this.graph.referenceLength);
 
         // TODO: Change ambient and background details according to parsed graph
+        this.setGlobalAmbientLight(this.graph.ambientSources[0][0][0],this.graph.ambientSources[0][0][1],
+            this.graph.ambientSources[0][0][2],this.graph.ambientSources[0][0][3]);
+        this.gl.clearColor(this.graph.ambientSources[0][1][0],this.graph.ambientSources[0][1][1],
+            this.graph.ambientSources[0][1][2],this.graph.ambientSources[0][1][3]);
 
         this.initLights();
         
@@ -152,8 +162,9 @@ class XMLscene extends CGFscene {
 
             
            
-            this.loadPrimitives();
+           
             this.graph.sceneComponentDisplay(0);
+
         }
         else {
             // Draw axis

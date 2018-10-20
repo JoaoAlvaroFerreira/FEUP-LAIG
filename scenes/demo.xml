@@ -14,7 +14,7 @@
 </views>
 
 <ambient>
-		<ambient r="0" g="0" b="45" a="90" />
+		<ambient r="0.7" g="0.7" b="0.7" a="1" />
 		<background r="255" g="255" b="0" a="50" />
 	</ambient>
 
@@ -46,6 +46,12 @@
 	
 	<materials>  
         <material id="DefaultMaterial" shininess = "1" > 
+            <emission r="0" g="0" b="0" a="1" /> 
+            <ambient r="0.2" g="0.2" b="0.2" a="1" /> 
+            <diffuse r="0.2" g="0.2" b="0.2" a="1" /> 
+            <specular r="0" g="0" b="0" a="1" /> 
+        </material> 
+        <material id="otherMaterial" shininess = "1" > 
             <emission r="0" g="0" b="0" a="1" /> 
             <ambient r="0.2" g="0.2" b="0.2" a="1" /> 
             <diffuse r="0.2" g="0.2" b="0.2" a="1" /> 

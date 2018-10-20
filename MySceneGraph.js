@@ -1799,82 +1799,75 @@ class MySceneGraph {
         for (var i = 0; i < this.components.length; i++) {
 
             //creating a default material
-            var defaultMaterial = new CGFappearance(this.scene);
-            defaultMaterial.setShininess(1);
-            defaultMaterial.setSpecular(0, 0, 0, 1);
-            defaultMaterial.setDiffuse(0.5, 0.5, 0.5, 1);
-            defaultMaterial.setAmbient(0, 0, 0, 1);
-            defaultMaterial.setEmission(0, 0, 0, 1);
+            //var defaultMaterial = new CGFappearance(this.scene);
+            var defaultMaterial=this.materials[0];
 
             //creating a default texture
-            var defaultTexture = new CGFappearance(this.scene, "./scenes/" + this.textures[0][1]);
+            //var defaultTexture = new CGFappearance(this.scene, "./scenes/" + this.textures[0][1]);
+            var defaultTexture=this.textures[0];
 
             //creating a default texture Inf
-            var textureInf = [this.textures[0][0],this.textures[0][1],1,1];
+            //var textureInf = [this.textures[0][0],this.textures[0][1],1,1];
 
-            this.sceneDisplay(this.components[i], materialPos,defaultMaterial,defaultTexture,textureInf);
+            this.sceneDisplay(this.components[i], materialPos,defaultMaterial,defaultTexture);
         }
     }
 
 
-    sceneDisplay(component, materialPos,material,texture,textureInf) {
+    sceneDisplay(component, materialPos,material,texture) {
 
         
         this.scene.pushMatrix();
 
         var savePos = materialPos;
-        var newMaterial = new CGFappearance(this.scene);
-
+  
         var newTexture = null;
 
         this.scene.multMatrix(component[1]); //transformations
 
-        if(component[2][0]=="inherit"){
-            component[2]=textureInf;
-            newTexture=texture;
-            
-
+        if(component[2][0]=="none"){
+            texture=null;
         }
-        else if(component[2][0]!="none"){
-            newTexture = new CGFtexture(this.scene, "./scenes/" + component[2][1]);
-            newTexture.bind();
-            textureInf=component[2];
-
-            
+        else if(component[2][0]!="inherit"){
+            texture = component[2];
+                     
         }
 
         if(materialPos>=component[3].length){
             materialPos = materialPos-parseInt(materialPos/component[3].length)*component[3].length;
         }
-        if(component[3][materialPos][0]=="inherit"){
-            newMaterial=material;
-            newMaterial.apply();
+        if(component[3][materialPos][0]=="none"){
+            material= null;
+       
         }
 
-        else if(component[3][materialPos][0]!="none")   {    
-        newMaterial.setShininess(component[3][materialPos][1]);
+        else if(component[3][materialPos][0]!="inherit")   {
+        material = component[3][materialPos];    
+     
+        }
+
+        /*newMaterial.setShininess(component[3][materialPos][1]);
         newMaterial.setAmbient(component[3][materialPos][3][0], component[3][materialPos][3][1], component[3][materialPos][3][2], component[3][materialPos][3][3]);
         newMaterial.setDiffuse(component[3][materialPos][4][0], component[3][materialPos][4][1], component[3][materialPos][4][2], component[3][materialPos][4][3]);
         newMaterial.setSpecular(component[3][materialPos][5][0], component[3][materialPos][5][1], component[3][materialPos][5][2], component[3][materialPos][5][3]);
-        newMaterial.setEmission(component[3][materialPos][2][0], component[3][materialPos][2][1], component[3][materialPos][2][2], component[3][materialPos][2][3]);
-            
-        newMaterial.apply();
-        }
-
-              
+        newMaterial.setEmission(component[3][materialPos][2][0], component[3][materialPos][2][1], component[3][materialPos][2][2], component[3][materialPos][2][3]);  */  
      
 
       
         for (var i = 0; i < component[4].length; i++) { //PRIMITIVE REFS
             var name = component[4][i][1];
 
-            this.scene.currMaterial=new CGFappearance(this.scene);
-            this.scene.currMaterial=newMaterial;
-            this.scene.currMaterial.apply();   
+            //this.scene.currMaterial=new CGFappearance(this.scene);
+            //this.scene.currMaterial.loadTexture("./scenes/images/vidral.jpg");
+            //this.scene.currMaterial=newMaterial;
+            //this.scene.currMaterial.apply();   
+
             
-            this.scene.currTexture=new CGFtexture(this.scene, "./scenes/" + component[2][1]);
-            this.scene.currTexutre=newTexture;
-            this.scene.currTexture.bind();
+            //this.scene.currTexture=new CGFtexture(this.scene, "./scenes/" + component[2][1]);
+            //this.scene.currTexutre=newTexture;
+            //this.scene.currTexture.bind();
+
+            //this.scene.loadTexture(material,texture);
 
            switch(name){
                case "rectangle":
@@ -1907,7 +1900,7 @@ class MySceneGraph {
 
         for (var i = 0; i < component[5].length; i++) {
            this.scene.pushMatrix();
-            this.sceneDisplay(component[5][i],savePos,newMaterial,newTexture,textureInf);
+            this.sceneDisplay(component[5][i],savePos,material,texture);
             this.scene.popMatrix();
         }
 
