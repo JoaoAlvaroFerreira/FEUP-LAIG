@@ -12,6 +12,7 @@ var MATERIALS_INDEX = 4;
 var NODES_INDEX = 5;
 */
 
+var SCENE_INDEX = 0;
 var VIEWS_INDEX = 1;
 var AMBIENT_INDEX = 2;
 var LIGHTS_INDEX = 3;
@@ -103,6 +104,19 @@ class MySceneGraph {
         var error;
 
         // Processes each node, verifying errors.
+
+        //<SCENE> - 0
+        var index;
+        if ((index = nodeNames.indexOf("scene")) == -1)
+            return "tag <SCENE> missing";
+        else {
+            if (index != VIEWS_INDEX)
+                this.onXMLMinorError("tag <SCENE> out of order");
+
+            //Parse INITIAL block
+            if ((error = this.parseScene(nodes[index])) != null)
+                return error;
+        }
 
         // <VIEWS> - 1
         var index;
@@ -204,6 +218,19 @@ class MySceneGraph {
         }
     }
 
+    /**
+     * Parses the <SCENE> block 
+     */
+
+    parseScene(sceneNode){
+
+        
+        var sceneRoot = this.reader.getFloat(sceneNode, 'root');
+        var axisLength = this.reader.getFloat(sceneNode, 'axis_length');
+
+        this.sceneInfo = [sceneRoot, axisLength];
+
+    }
 
     /**
      * Parses the <VIEWS> block.
@@ -221,6 +248,13 @@ class MySceneGraph {
         this.near = 0.1;
         this.far = 500;
         this.angles = 0;
+
+        var viewId = this.reader.getString(viewsNode, 'default');
+
+        this.viewsInfo = [];
+        this.viewsInfo.push(viewId);
+
+    
 
         for (var i = 0; i < children.length; i++) {
 
@@ -246,6 +280,9 @@ class MySceneGraph {
             if (angles == null)
                 return "no angles defined for perspective";
 
+            
+            var perspectiveDetails = [perspectiveId, near, far, angles];
+            
 
             grandChildren = children[i].children;
             nodeNames = [];
@@ -305,7 +342,9 @@ class MySceneGraph {
                     toCoordinates.push(z);
             }
 
-
+            perspectiveDetails.push(fromCoordinates);
+            perspectiveDetails.push(toCoordinates);
+            this.viewsInfo.push(perspectiveDetails);
 
 
 
@@ -314,8 +353,8 @@ class MySceneGraph {
                 continue;
             }
             else {
-                this.near = this.reader.getFloat(children[indexOrtho], 'near');
-                this.far = this.reader.getFloat(children[indexOrtho], 'far');
+                var near = this.reader.getFloat(children[indexOrtho], 'near');
+                var far = this.reader.getFloat(children[indexOrtho], 'far');
                 var left = this.reader.getFloat(children[indexOrtho], 'left');
                 var right = this.reader.getFloat(children[indexOrtho], 'right');
                 var top = this.reader.getFloat(children[indexOrtho], 'top');
@@ -339,6 +378,10 @@ class MySceneGraph {
                     bottom = "-5";
                     this.onXMLMinorError("failed to parse coordinates of final perspective position; assuming standard ones");
                 }
+
+                var perspectiveDetails = [near, far, angles, left,right, top, bottom];
+                this.viewsInfo.push(perspectiveDetails);
+                            
             }
         }
 
@@ -1642,7 +1685,7 @@ class MySceneGraph {
                                 primitiveRefs.push(this.primitiveVector[l]);
                                 }
                             }
-                            if (grandGrandChildren[j].nodeName == "componetref") {
+                            if (grandGrandChildren[j].nodeName == "componentref") {
                                 componentRefs.push(this.reader.getString(grandGrandChildren[j], "id"));
                             }
                         }
@@ -1754,6 +1797,7 @@ class MySceneGraph {
         }
     }
 
+
     sceneDisplay(component, materialPos,material,texture,textureInf) {
         var savePos = materialPos;
         var newMaterial = new CGFappearance(this.scene);
@@ -1784,14 +1828,21 @@ class MySceneGraph {
         if(component[2][0]=="inherit"){
             component[2]=textureInf;
             newTexture=texture;
-            newTexture.bind();
+            
+
         }
         else if(component[2][0]!="none"){
             newTexture = new CGFtexture(this.scene, "./scenes/" + component[2][1]);
             textureInf=component[2];
-            newTexture.bind();
+            
         }
-        
+            
+
+        for (var i = 0; i < component[4].length; i++) {
+            this.scene.pushMatrix();
+            
+            this.scene.popMatrix();
+        }
 
         for (var i = 0; i < component[5].length; i++) {
             this.scene.pushMatrix();
@@ -1799,50 +1850,7 @@ class MySceneGraph {
             this.scene.popMatrix();
         }
 
-
-
     }
 
-    /**
-     * Displays the scene, processing each node, starting in the root node.
-     */
-    displayScene() { //displayScene(nodeName,tex1,Mat1)
-
-        /*
-            var material = Mat1;
-            var texture = tex1;
-            console.log(nodeName);
-        	
-            if(nodeName != null){
-                var node = this.graph[nodeName];
-            	
-                if(node.material!=null)
-                    material = node.material;
-            	
-                if(node.texture!=null)
-                    texture = node.texture;
-            	
-        	
-            }
-        	
-            this.multMatrix(node.mat);
-        	
-            for(i= 0; i<node.descendents.length;i++){
-                this.pushMatrix();
-                this.DisplayScene(node.descendents[i],texture,material);
-                this.popMatrix();
-            }
-        	
-            //desenhar Geometria
-        	
-            if(node.primitive != null){
-            	
-                //Aplicar material
-                //Aplicar textura
-                node.primitive.draw();
-            }
-            */
-        return null;
-    }
 
 }

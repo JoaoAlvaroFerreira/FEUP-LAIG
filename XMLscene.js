@@ -117,6 +117,7 @@ class XMLscene extends CGFscene {
 
         this.pushMatrix();
 
+
         if (this.sceneInited) {
             // Draw axis
             this.axis.display();
@@ -138,12 +139,16 @@ class XMLscene extends CGFscene {
             }
 
             // Displays the scene (MySceneGraph function).
-            this.graph.displayScene();
+            //this.graph.sceneDisplay()
         }
         else {
             // Draw axis
             this.axis.display();
         }
+
+        //Draw Stuff
+
+
 
         this.popMatrix();
         // ---- END Background, camera and axis setup
