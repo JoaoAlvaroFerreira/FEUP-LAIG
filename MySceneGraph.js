@@ -1890,7 +1890,7 @@ class MySceneGraph {
                break;
 
                case "cylinder":
-                this.scene.cylinder=new Wheel(this.scene,component[4][i][2][0],component[4][i][2][1]);    
+                this.scene.cylinder=new Wheel(this.scene,component[4][i][2][3],component[4][i][2][4]);    
                 this.scene.cylinder.display();
                break;
 
