@@ -45,6 +45,8 @@ class MySceneGraph {
         this.axisCoords['y'] = [0, 1, 0];
         this.axisCoords['z'] = [0, 0, 1];
 
+        
+
         // File reading 
         this.reader = new CGFXMLreader();
 
@@ -79,7 +81,7 @@ class MySceneGraph {
         // As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
         this.scene.onGraphLoaded();
 
-        this.sceneComponentDisplay(0);
+       // this.sceneComponentDisplay(0);
     }
 
     /**
@@ -224,6 +226,7 @@ class MySceneGraph {
 
     parseScene(sceneNode){
 
+        
         
         var sceneRoot = this.reader.getFloat(sceneNode, 'root');
         var axisLength = this.reader.getFloat(sceneNode, 'axis_length');
@@ -873,7 +876,7 @@ class MySceneGraph {
                 numSpots++;
             }
 
-
+            this.lights[this.omnis,this.spots];
         }
         this.log("Parsed lights");
 
@@ -1679,11 +1682,17 @@ class MySceneGraph {
                     if (grandNodeNames[k] == "children") {
                         var grandGrandChildren = grandChildren[k].children;
                         for (var j = 0; j < grandGrandChildren.length; j++) {
+                           // console.log("This is : " + grandGrandChildren[j].nodeName);
                             if (grandGrandChildren[j].nodeName == "primitiveref") {
-                                for(var l=0;l<this.primitiveVector.length;l++){
+
+                              /*  for(var l=0;l<this.primitiveVector.length;l++){
+
                                 if(this.primitiveVector[l][0]==this.reader.getString(grandGrandChildren[j], "id"))
-                                primitiveRefs.push(this.primitiveVector[l]);
-                                }
+                                primitiveRefs.push(this.primitiveVector[l][0]);
+                                console.log("Primitive Refs A:" + primitiveRefs[l]);
+
+                                }*/ 
+                                primitiveRefs.push(this.reader.getString(grandGrandChildren[j], "id"));
                             }
                             if (grandGrandChildren[j].nodeName == "componentref") {
                                 componentRefs.push(this.reader.getString(grandGrandChildren[j], "id"));
@@ -1698,6 +1707,7 @@ class MySceneGraph {
                 component.push(materialRefs);
                 component.push(primitiveRefs);
                 component.push(componentRefs);
+                
 
                 this.components.push(component);
             }
@@ -1777,6 +1787,8 @@ class MySceneGraph {
     }
 
     sceneComponentDisplay(materialPos) {
+
+        
         for (var i = 0; i < this.components.length; i++) {
 
             //creating a default material
@@ -1799,8 +1811,30 @@ class MySceneGraph {
 
 
     sceneDisplay(component, materialPos,material,texture,textureInf) {
+
+        
+        
+
         var savePos = materialPos;
         var newMaterial = new CGFappearance(this.scene);
+
+        var newTexture = null;
+
+       // this.scene.multMatrix(component[1]); //transformations
+
+        if(component[2][0]=="inherit"){
+            component[2]=textureInf;
+            newTexture=texture;
+            
+
+        }
+        else if(component[2][0]!="none"){
+            newTexture = new CGFtexture(this.scene, "./scenes/" + component[2][1]);
+            newTexture.bind();
+            textureInf=component[2];
+
+            
+        }
 
         if(materialPos>=component[3].length){
             materialPos = materialPos-parseInt(materialPos/component[3].length)*component[3].length;
@@ -1817,37 +1851,55 @@ class MySceneGraph {
         newMaterial.setSpecular(component[3][materialPos][5][0], component[3][materialPos][5][1], component[3][materialPos][5][2], component[3][materialPos][5][3]);
         newMaterial.setEmission(component[3][materialPos][2][0], component[3][materialPos][2][1], component[3][materialPos][2][2], component[3][materialPos][2][3]);
             
-        
         newMaterial.apply();
         }
 
-        this.scene.multMatrix(component[1]); //transformations
+        
+
+      
+     
+
+      
+        for (var i = 0; i < component[4].length; i++) { //PRIMITIVE REFS
+            var name = component[4][i];
+                            
+           switch(name){
+               case "DefaultSquare":
+               this.scene.triangle.display();
+               break;
+
+               case "DefaultTriangleRectangle":
+               this.scene.triangle.display();
+               break;
+
+               case "DefaultCylinder":
+               this.scene.cylinder.display();
+               break;
+
+               case "DefaultSphere":
+               this.scene.sphere.display();
+               break;
+
+               case "DefaultTorus":
+               this.scene.torus.display();
+               default:
+               continue;                             
+
+           }
+           
+        }
 
         
-        var newTexture = null;
-        if(component[2][0]=="inherit"){
-            component[2]=textureInf;
-            newTexture=texture;
-            
-
-        }
-        else if(component[2][0]!="none"){
-            newTexture = new CGFtexture(this.scene, "./scenes/" + component[2][1]);
-            textureInf=component[2];
-            
-        }
-            
-
-        for (var i = 0; i < component[4].length; i++) {
-            this.scene.pushMatrix();
-            
-            this.scene.popMatrix();
-        }
+        
+       
+        
+        
+      
 
         for (var i = 0; i < component[5].length; i++) {
-            this.scene.pushMatrix();
+           
             this.sceneDisplay(component[5][i],savePos,newMaterial,newTexture,textureInf);
-            this.scene.popMatrix();
+        
         }
 
     }

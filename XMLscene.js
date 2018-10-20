@@ -76,6 +76,15 @@ class XMLscene extends CGFscene {
         }
     }
 
+    loadPrimitives(){
+        this.square = new MyQuad(this);
+        this.triangle = new MyTriangle(this);
+        this.cube = new MyUnitCube(this);
+        this.sphere = new MySphere(this);
+        this.torus = new MyTorus(this);
+    }
+
+
 
     /* Handler called when the graph is finally loaded. 
      * As loading is asynchronous, this may be called already after the application has started the run loop
@@ -90,7 +99,8 @@ class XMLscene extends CGFscene {
         // TODO: Change ambient and background details according to parsed graph
 
         this.initLights();
-
+        
+        
         // Adds lights group.
         this.interface.addLightsGroup(this.graph.lights);
 
@@ -138,8 +148,10 @@ class XMLscene extends CGFscene {
                 }
             }
 
-            // Displays the scene (MySceneGraph function).
-            //this.graph.sceneDisplay()
+            
+           
+            this.loadPrimitives();
+            this.graph.sceneComponentDisplay(0);
         }
         else {
             // Draw axis
