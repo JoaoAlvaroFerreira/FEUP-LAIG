@@ -6,25 +6,27 @@
 
 class MyQuad extends CGFobject
 {
-	//constructor(scene,minS = -0.5,minT = -0.5, maxS = 0.5, maxT = 0.5)
-	constructor(scene,minS,minT, maxS, maxT)
+	constructor(scene,x1,y1, x2, y2,ls,lt)
 	{
 		super(scene);
-		this.minS = minS;
-		this.minT = minT;
-		this.maxS = maxS
-		this.maxT = maxT;
+		this.x1 = x1;
+		this.y1 = y1;
+		this.x2 = x2;
+		this.y2 = y2;
+		this.ls=ls;
+		this.lt=lt;
 		this.initBuffers();
 
 	};
 
+
 	initBuffers()
 	{
 		this.vertices = [
-				-0.5, -0.5, 0,
-				0.5, -0.5, 0,
-				-0.5, 0.5, 0,
-				0.5, 0.5, 0
+			this.x1, this.y1, 0,
+			this.x2, this.y1, 0,
+			this.x1, this.y2, 0,
+			this.x2, this.y2, 0
 				];
 
 		this.indices = [
@@ -36,10 +38,10 @@ class MyQuad extends CGFobject
 
 			];
 		this.texCoords = [
-				this.minS,this.minT,
-				this.minS,this.maxT,
-				this.maxS,this.minT,
-				this.maxS,this.maxT
+				0,this.lt,
+				this.ls,this.lt,
+				0,0,
+				this.ls,0
 		];
 		this.primitiveType=this.scene.gl.TRIANGLES;
 		this.normals = [

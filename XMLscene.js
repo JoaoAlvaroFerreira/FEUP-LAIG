@@ -87,9 +87,10 @@ class XMLscene extends CGFscene {
         this.torus = new MyTorus(this);
     }
 
-    loadTextures(infoM, infoT) {
+    loadTextures() {
         this.material=new CGFappearance(this);
         this.material.loadTexture("./scenes/images/vidral.jpg");
+     
     }
 
 
@@ -117,6 +118,7 @@ class XMLscene extends CGFscene {
         this.interface.addLightsGroup(this.graph.lights);
 
         this.sceneInited = true;
+        this.loadTextures();
     }
 
 
@@ -164,6 +166,9 @@ class XMLscene extends CGFscene {
            
            
             this.graph.sceneComponentDisplay(0);
+            this.loadTextures(null,null);
+            
+            
 
         }
         else {

@@ -1,17 +1,13 @@
-/**
- * MySphere
- * @param gl {WebGLRenderingContext}
- * @constructor
- */
+
 
 class MySphere extends CGFobject
 {
-	constructor(scene,radius = 0.5,slices=16, loops=16)
+	constructor(scene,radius,slices,stacks)
 	{
 		super(scene);
 		this.radius = radius;
 		this.slices = slices;
-		this.loops = loops;
+		this.stacks = stacks;
 		this.initBuffers();
 
     };
@@ -46,5 +42,5 @@ class MySphere extends CGFobject
 
     this.primitiveType = this.scene.gl.TRIANGLES;
     this.initGLBuffers();
-    }
+    };
 };

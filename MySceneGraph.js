@@ -81,7 +81,7 @@ class MySceneGraph {
         // As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
         this.scene.onGraphLoaded();
 
-       // this.sceneComponentDisplay(0);
+   
     }
 
     /**
@@ -1867,29 +1867,41 @@ class MySceneGraph {
             //this.scene.currTexutre=newTexture;
             //this.scene.currTexture.bind();
 
-            //this.scene.loadTexture(material,texture);
+            //this.scene.load(material,texture);
+            /*this.scene.newmaterial=new CGFappearance(this.scene);
+            this.scene.newmaterial.loadTexture("./scenes/images/vidral.jpg");
+            this.scene.newmaterial.apply();*/
+            this.scene.material.apply();
+
 
            switch(name){
                case "rectangle":
-                this.scene.square=new MyQuad(this.scene,component[4][i][2][0],component[4][i][2][1],component[4][i][2][2],component[4][i][2][3]);
-                this.scene.square.display();               
+                this.scene.square=new MyQuad(this.scene,component[4][i][2][0],component[4][i][2][1],component[4][i][2][2],
+                    component[4][i][2][3],component[2][component[2].length-2],component[2][component[2].length-1]);
+                this.scene.square.display();     
+               
                break;
 
                case "triangle":
-               this.scene.triangle.display();
+                this.scene.triangle=new MyTriangle(this.scene,component[4][i][2][0],component[4][i][2][1],component[4][i][2][6],
+                    component[4][i][2][2],component[4][i][2][3],component[4][i][2][7], component[4][i][2][4],
+                    component[4][i][2][5],component[4][i][2][8],component[2][component[2].length-2],component[2][component[2].length-1]);    
+                this.scene.triangle.display();
                break;
 
                case "cylinder":
-               this.scene.cylinder.display();
+                this.scene.cylinder=new Wheel(this.scene,component[4][i][2][0],component[4][i][2][1]);    
+                this.scene.cylinder.display();
                break;
 
                case "sphere":
-               this.scene.sphere.display();
+                this.scene.sphere=new MySphere(this.scene,component[4][i][2][0],component[4][i][2][1],component[4][i][2][2]);
+                this.scene.sphere.display();
                break;
 
                case "torus":
-               this.scene.torus.display();
-               default:
+                this.scene.torus=new MyTorus(this.scene,component[4][i][2][0],component[4][i][2][1],component[4][i][2][2],component[4][i][2][3]);
+                this.scene.torus.display();
                continue;                             
 
            }

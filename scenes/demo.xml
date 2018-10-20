@@ -74,12 +74,12 @@
 		
 		<primitive id="DefaultTriangleRectangle"> 
 			<triangle   x1="0" y1="0" z1="0"                          
-				x2="0" y2="1" z2="0"                          
-				x3="1" y3="0" z3="0" /> 
+				x2="1" y2="0" z2="0"                          
+				x3="0" y3="1" z3="0" /> 
 		</primitive > 
 		
 		<primitive id="DefaultCylinder"> 
-			<cylinder base="0.5" top="0.5" height="2" slices="16" stacks="4" /> 
+			<cylinder base="0.5" top="0.5" height="2" slices="16" stacks="10" /> 
 		</primitive > 
 		
 		<primitive id="DefaultSphere"> 
@@ -87,13 +87,13 @@
 		</primitive > 
 		
 		<primitive id="DefaultTorus"> 
-			<torus inner="0.2" outer="0.3" slices="16" loops="16" />
+			<torus inner="0.5" outer="1" slices="16" loops="16" />
 		</primitive > 
 		
 	</primitives > 
 
 	<components> 
-		<!-- Table Component -->
+		<!-- Table Component --> 
 		<component id="Table"> 
             <transformation> 
                  <transformationref id="DefaultZero" />
@@ -103,10 +103,10 @@
             </materials> 
             <texture id="VidralTexture" length_s="1" length_t="1" /> 
 			<children> 
-                <!-- <componentref id="FrontLeftLeg" />
+                <componentref id="FrontLeftLeg" />
 				<componentref id="FrontRightLeg" />
 				<componentref id="BackLeftLeg" />
-				<componentref id="BackRightLeg" /> -->
+				<componentref id="BackRightLeg" /> 
 				<componentref id="TableTop" />
             </children> 
         </component>
@@ -285,6 +285,19 @@
             </children> 
         </component> 
 		<!-- END Cube component -->
+
+        <component id="Cylinder"> 
+            <transformation>
+                <translate x="6" y="0" z="6" /> 
+            </transformation> 
+            <materials> 
+                <material id="inherit" /> 
+            </materials> 
+            <texture id="inherit" length_s="1" length_t="1" /> 
+			<children> 
+                <primitiveref id="DefaultTorus" /> 
+            </children> 
+        </component> 
 
     </components>
 	
