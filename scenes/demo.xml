@@ -20,13 +20,13 @@
 
 
 	<lights>
-		<omni id="FirstOmni" enabled="0" >
+		<omni id="FirstOmni" enabled="1" >
 			<location x="2" y="2" z="5" w="10" />
-			<ambient r="0" g="0" b="0" a="0" />
-			<diffuse r="0" g="50" b="0" a="10" />
-			<specular r="0" g="0" b="0" a="0" />
+			<ambient r="0.2" g="0.2" b="0.2" a="1" />
+			<diffuse r="1" g="1" b="1" a="1" />
+			<specular r="1" g="1" b="1" a="1" />
 		</omni>
-		<spot id="FirstSpot" enabled="0" angle="90" exponent="180">
+		<spot id="FirstSpot" enabled="1" angle="90" exponent="180">
 			<location x="10" y="10" z="50" w="1" />
 			<target x="0" y="0" z="0" />
 			<ambient r="0" g="0" b="0" a="0" />
@@ -97,19 +97,18 @@
             </materials> 
             <texture id="VidralTexture" length_s="1" length_t="1" /> 
 			<children> 
-                <componentref id="FrontLeftLeg" />
+                <!-- <componentref id="FrontLeftLeg" />
 				<componentref id="FrontRightLeg" />
 				<componentref id="BackLeftLeg" />
-				<componentref id="BackRightLeg" />
+				<componentref id="BackRightLeg" /> -->
 				<componentref id="TableTop" />
             </children> 
         </component>
 
 		<component id="FrontLeftLeg"> 
             <transformation> 
-                 <translate x="0" y="0.5" z="0" />
+                 <translate x="0.5" y="1.5" z="3.5" />
 				 <scale x="1" y="3" z="1" /> 
-				 <translate x="1" y="0" z="4" />
             </transformation> 
             <materials> 
                 <material id="inherit" /> 
@@ -122,9 +121,8 @@
 
 		<component id="FrontRightLeg"> 
             <transformation> 
-                 <translate x="0" y="0.5" z="0" />
+                 <translate x="4.5" y="1.5" z="3.5" />
 				 <scale x="1" y="3" z="1" /> 
-				 <translate x="5" y="0" z="4" />
             </transformation> 
             <materials> 
                 <material id="inherit" /> 
@@ -137,9 +135,8 @@
 
 		<component id="BackLeftLeg"> 
             <transformation> 
-                 <translate x="0" y="0.5" z="0" />
+                 <translate x="0.5" y="1.5" z="0.5" />
 				 <scale x="1" y="3" z="1" /> 
-				 <translate x="1" y="0" z="1" />
             </transformation> 
             <materials> 
                 <material id="inherit" /> 
@@ -148,14 +145,13 @@
 			<children> 
                 <componentref id="Cube" />
 			</children> 
-        </component>
+        </component> 
 
 		<component id="TableTop"> 
             <transformation> 
-                 <translate x="0.5" y="0.5" z="0.5" />
-				 <scale x="5" y="0.75" z="4" /> 
-				 <translate x="0.5" y="3.5" z="0.5" />
-            </transformation> 
+                <translate x="2.5" y="3.25" z="2" />
+                <scale x="5" y="0.75" z="4" /> 
+		    </transformation> 
             <materials> 
                 <material id="inherit" /> 
             </materials> 
@@ -167,10 +163,9 @@
 
 		<component id="BackRightLeg"> 
             <transformation> 
-                 <translate x="0" y="0.5" z="0" />
-				 <scale x="1" y="4" z="1" /> 
-				 <translate x="5" y="0" z="1" />
-            </transformation> 
+                 <translate x="4.5" y="1.5" z="0.5" />
+				 <scale x="1" y="3" z="1" /> 
+			</transformation> 
             <materials> 
                 <material id="inherit" /> 
             </materials> 
@@ -179,7 +174,7 @@
                 <componentref id="Cube" />
 			</children> 
         </component>
-		<!-- END Table component -->
+		 <!-- END Table component -->
 
  	 	<!-- Cube Component -->
 		<component id="Cube"> 
@@ -216,7 +211,8 @@
 
 		<component id="BackSquare"> 
             <transformation> 
-				<rotate axis="y" angle="180" />  
+                <translate x="0" y="0" z="-0.5" /> 
+				<rotate axis="y" angle="180" /> 
             </transformation> 
             <materials> 
                 <material id="inherit" /> 
@@ -228,7 +224,8 @@
         </component> 
 
 		<component id="TopSquare"> 
-            <transformation> 
+            <transformation>
+                <translate x="0" y="0.5" z="0" /> 
 				<rotate axis="x" angle="90" />	
             </transformation> 
             <materials> 
@@ -242,6 +239,7 @@
 
 		<component id="BottomSquare"> 
             <transformation> 
+                <translate x="0" y="-0.5" z="0" />
                 <rotate axis="x" angle="-90" />
             </transformation> 
             <materials> 
@@ -254,7 +252,8 @@
         </component> 
 
 		<component id="RightSquare"> 
-            <transformation> 
+            <transformation>
+                <translate x="0.5" y="0" z="0" /> 
                 <rotate axis="y" angle="90" />
             </transformation> 
             <materials> 
@@ -267,7 +266,8 @@
         </component> 
 
 		<component id="LeftSquare"> 
-            <transformation> 
+            <transformation>
+                <translate x="-0.5" y="0" z="0" /> 
                 <rotate axis="y" angle="-90" />
             </transformation> 
             <materials> 

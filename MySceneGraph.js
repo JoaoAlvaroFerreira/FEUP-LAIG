@@ -519,9 +519,13 @@ class MySceneGraph {
         // Any number of lights.
         for (var i = 0; i < children.length; i++) {
 
+            var omnis=[];
+            var spots=[];
+            
+
             if (children[i].nodeName != "omni") {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
-                continue;
+              
             }
             else {
                 var omniId = this.reader.getString(children[i], 'id');
@@ -678,7 +682,7 @@ class MySceneGraph {
                 }
 
 
-                this.omnis = [locationCoordinates, ambientColor, diffuseColor, specularColor];
+                omnis = [enabled,[locationCoordinates], [ambientColor], [diffuseColor], [specularColor]];
 
             }
 
@@ -689,7 +693,7 @@ class MySceneGraph {
 
             if (children[i].nodeName != "spot") {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
-                continue;
+                
             }
             else {
                 var spotId = this.reader.getString(children[i], 'id');
@@ -837,7 +841,7 @@ class MySceneGraph {
                     if (!(a != null && !isNaN(a) && a >= 0 && a <= 100))
                         return "unable to parse transparency for the ambient color for the ID = " + spotId;
                     else
-                        emissionColor.push(a);
+                        diffuseColor.push(a);
                 }
 
                 var specularColor = [];
@@ -872,11 +876,14 @@ class MySceneGraph {
                 }
 
 
-                this.spots[spotId] = [locationCoordinates, targetCoordinates, ambientColor, diffuseColor, specularColor];
-                numSpots++;
+                spots = [enabled,[locationCoordinates], [ambientColor], [diffuseColor], [specularColor],[targetCoordinates]];
+               
             }
-
-            this.lights[this.omnis,this.spots];
+            if(omnis.length==0) this.lights.push(spots);
+            else this.lights.push(omnis);
+            
+            
+          
         }
         this.log("Parsed lights");
 
@@ -1609,9 +1616,9 @@ class MySceneGraph {
                                 /*if (!(angle != null && !isNaN(x)))
                                     return "unable to parse angle on a rotate on the component " + this.reader.getString(grandGrandChildren[i], "id");*/
                                 var axisCoord =[];
-                                    if(this.transformations[k][3][0]=='x') axisCoord = [1,0,0];
-                                    if(this.transformations[k][3][0]=='y') axisCoord = [0,1,0];
-                                    if(this.transformations[k][3][0]=='z') axisCoord = [0,0,1];
+                                    if(axis=='x') axisCoord = [1,0,0];
+                                    if(axis=='y') axisCoord = [0,1,0];
+                                    if(axis=='z') axisCoord = [0,0,1];
 
                                 mat4.rotate(transformationValues, transformationValues, DEGREE_TO_RAD * angle, axisCoord);
 
@@ -1628,7 +1635,7 @@ class MySceneGraph {
                                 /*if (!(z != null && !isNaN(z)))
                                     return "unable to parse z-coordinate on a translation on the component " + this.reader.getString(grandGrandChildren[i], "id");*/
                                 mat4.scale(transformationValues, transformationValues, [x, y, z]);
-                                break;
+                                
                             }
 
 
@@ -1685,14 +1692,14 @@ class MySceneGraph {
                            // console.log("This is : " + grandGrandChildren[j].nodeName);
                             if (grandGrandChildren[j].nodeName == "primitiveref") {
 
-                              /*  for(var l=0;l<this.primitiveVector.length;l++){
+                                for(var l=0;l<this.primitiveVector.length;l++){
 
                                 if(this.primitiveVector[l][0]==this.reader.getString(grandGrandChildren[j], "id"))
-                                primitiveRefs.push(this.primitiveVector[l][0]);
+                                primitiveRefs.push(this.primitiveVector[l]);
                                 console.log("Primitive Refs A:" + primitiveRefs[l]);
 
-                                }*/ 
-                                primitiveRefs.push(this.reader.getString(grandGrandChildren[j], "id"));
+                                }
+                                //primitiveRefs.push(this.reader.getString(grandGrandChildren[j], "id"));
                             }
                             if (grandGrandChildren[j].nodeName == "componentref") {
                                 componentRefs.push(this.reader.getString(grandGrandChildren[j], "id"));
@@ -1813,14 +1820,14 @@ class MySceneGraph {
     sceneDisplay(component, materialPos,material,texture,textureInf) {
 
         
-        
+        this.scene.pushMatrix();
 
         var savePos = materialPos;
         var newMaterial = new CGFappearance(this.scene);
 
         var newTexture = null;
 
-       // this.scene.multMatrix(component[1]); //transformations
+        this.scene.multMatrix(component[1]); //transformations
 
         if(component[2][0]=="inherit"){
             component[2]=textureInf;
@@ -1854,33 +1861,40 @@ class MySceneGraph {
         newMaterial.apply();
         }
 
-        
-
-      
+              
      
 
       
         for (var i = 0; i < component[4].length; i++) { //PRIMITIVE REFS
-            var name = component[4][i];
-                            
+            var name = component[4][i][1];
+
+            this.scene.currMaterial=new CGFappearance(this.scene);
+            this.scene.currMaterial=newMaterial;
+            this.scene.currMaterial.apply();   
+            
+            this.scene.currTexture=new CGFtexture(this.scene, "./scenes/" + component[2][1]);
+            this.scene.currTexutre=newTexture;
+            this.scene.currTexture.bind();
+
            switch(name){
-               case "DefaultSquare":
+               case "rectangle":
+                this.scene.square=new MyQuad(this.scene,component[4][i][2][0],component[4][i][2][1],component[4][i][2][2],component[4][i][2][3]);
+                this.scene.square.display();               
+               break;
+
+               case "triangle":
                this.scene.triangle.display();
                break;
 
-               case "DefaultTriangleRectangle":
-               this.scene.triangle.display();
-               break;
-
-               case "DefaultCylinder":
+               case "cylinder":
                this.scene.cylinder.display();
                break;
 
-               case "DefaultSphere":
+               case "sphere":
                this.scene.sphere.display();
                break;
 
-               case "DefaultTorus":
+               case "torus":
                this.scene.torus.display();
                default:
                continue;                             
@@ -1888,19 +1902,16 @@ class MySceneGraph {
            }
            
         }
-
-        
-        
-       
-        
-        
       
+        
 
         for (var i = 0; i < component[5].length; i++) {
-           
+           this.scene.pushMatrix();
             this.sceneDisplay(component[5][i],savePos,newMaterial,newTexture,textureInf);
-        
+            this.scene.popMatrix();
         }
+
+        this.scene.popMatrix();
 
     }
 

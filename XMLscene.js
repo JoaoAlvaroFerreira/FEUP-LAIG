@@ -76,8 +76,10 @@ class XMLscene extends CGFscene {
         }
     }
 
+    
+
     loadPrimitives(){
-        this.square = new MyQuad(this);
+        //this.square = new MyQuad(this);
         this.triangle = new MyTriangle(this);
         this.cube = new MyUnitCube(this);
         this.sphere = new MySphere(this);

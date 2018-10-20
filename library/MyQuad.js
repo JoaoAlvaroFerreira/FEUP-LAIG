@@ -6,7 +6,8 @@
 
 class MyQuad extends CGFobject
 {
-	constructor(scene,minS = 0,minT = 0, maxS = 1, maxT = 1)
+	//constructor(scene,minS = -0.5,minT = -0.5, maxS = 0.5, maxT = 0.5)
+	constructor(scene,minS,minT, maxS, maxT)
 	{
 		super(scene);
 		this.minS = minS;
