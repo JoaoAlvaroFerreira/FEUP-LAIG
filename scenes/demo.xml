@@ -8,9 +8,11 @@
 		<from x="200" y="30" z="100"/>
 		<to x="0" y="0" z="0"/>
 	</perspective>	
-		<ortho id="FirstOrtho" near="0" far="200"
-			left="-5" right="5" top="5" bottom="-5" />
-				
+	<ortho id="FirstOrtho" near="0" far="200"
+		left="-5" right="5" top="5" bottom="-5" >
+            <from x="10" y="5" z="20" /> 
+            <to x="10" y="5" z="0" /> 
+	</ortho>	
 </views>
 
 <ambient>

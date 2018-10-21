@@ -261,13 +261,9 @@ class MySceneGraph {
 
         for (var i = 0; i < children.length; i++) {
 
-            if (children[i].nodeName != "perspective") {
-                this.onXMLMinorError("Perspective is not <" + children[i].nodeName + ">");
-                continue;
-
-            }
-
-            var perspectiveId = this.reader.getFloat(children[i], 'id');
+            if (children[i].nodeName == "perspective") {
+              
+            var perspectiveId = this.reader.getString(children[i], 'id');
             if (perspectiveId == null)
                 return "no ID defined for perspective";
 
@@ -348,14 +344,68 @@ class MySceneGraph {
             perspectiveDetails.push(fromCoordinates);
             perspectiveDetails.push(toCoordinates);
             this.viewsInfo.push(perspectiveDetails);
+        }
 
 
+            if (children[i].nodeName == "ortho") {
 
-            if (children[i].nodeName != "ortho") {
-                this.onXMLMinorError("ortho is not <" + children[i].nodeName + ">");
-                continue;
+                grandChildren = children[i].children;
+                nodeNames = [];
+            for (var j = 0; j < grandChildren.length; j++) {
+                nodeNames.push(grandChildren[j].nodeName);
             }
-            else {
+
+                var fromIndex = nodeNames.indexOf("from");
+                var toIndex = nodeNames.indexOf("to");
+                var fromCoordinates = [];
+            if (fromIndex != -1) {
+                // x
+                var x = this.reader.getFloat(grandChildren[fromIndex], 'x');
+                if (!(x != null && !isNaN(x)))
+                    return "unable to parse x-coordinate = " + perspectiveId;
+                else
+                    fromCoordinates.push(x);
+
+                // y
+                var y = this.reader.getFloat(grandChildren[fromIndex], 'y');
+                if (!(y != null && !isNaN(y)))
+                    return "unable to parse y-coordinate = " + perspectiveId;
+                else
+                    fromCoordinates.push(y);
+
+                // z
+                var z = this.reader.getFloat(grandChildren[fromIndex], 'z');
+                if (!(z != null && !isNaN(z)))
+                    return "unable to parse z-coordinate = " + perspectiveId;
+                else
+                    fromCoordinates.push(z);
+            }
+
+            var toCoordinates = [];
+            if (toIndex != -1) {
+                // x
+                var x = this.reader.getFloat(grandChildren[toIndex], 'x');
+                if (!(x != null && !isNaN(x)))
+                    return "unable to parse x-coordinate = " + perspectiveId;
+                else
+                    toCoordinates.push(x);
+
+                // y
+                var y = this.reader.getFloat(grandChildren[toIndex], 'y');
+                if (!(y != null && !isNaN(y)))
+                    return "unable to parse y-coordinate = " + perspectiveId;
+                else
+                    toCoordinates.push(y);
+
+                // z
+                var z = this.reader.getFloat(grandChildren[toIndex], 'z');
+                if (!(z != null && !isNaN(z)))
+                    return "unable to parse z-coordinate = " + perspectiveId;
+                else
+                    toCoordinates.push(z);
+            }
+              
+           
                 
                 var near = this.reader.getFloat(children[i], 'near');
                 var far = this.reader.getFloat(children[i], 'far');
@@ -365,7 +415,7 @@ class MySceneGraph {
                 var bottom = this.reader.getFloat(children[i], 'bottom');
 
 
-                var orthoDetails = [near, far, angles, left,right, top, bottom];
+                var orthoDetails = [near, far , left,right, top, bottom,fromCoordinates,toCoordinates];
                 this.viewsInfo.push(orthoDetails);
                             
             }
