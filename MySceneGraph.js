@@ -349,6 +349,9 @@ class MySceneGraph {
 
             if (children[i].nodeName == "ortho") {
 
+                var orthoId = this.reader.getString(children[i], 'id');
+                if (orthoId == null)
+                    return "no ID defined for perspective";
                 grandChildren = children[i].children;
                 nodeNames = [];
             for (var j = 0; j < grandChildren.length; j++) {
@@ -415,7 +418,7 @@ class MySceneGraph {
                 var bottom = this.reader.getFloat(children[i], 'bottom');
 
 
-                var orthoDetails = [near, far , left,right, top, bottom,fromCoordinates,toCoordinates];
+                var orthoDetails = [orthoId, near, far , left,right, top, bottom,fromCoordinates,toCoordinates];
                 this.viewsInfo.push(orthoDetails);
                             
             }
