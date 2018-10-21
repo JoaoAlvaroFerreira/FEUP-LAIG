@@ -88,8 +88,8 @@ class XMLscene extends CGFscene {
     }
 
     loadTextures() {
-        this.material=new CGFappearance(this);
-        this.material.loadTexture("./scenes/images/rocks.jpg");
+        this.currTexture=new CGFtexture(this, "./scenes/images/vidral.jpg");
+  
      
     }
 

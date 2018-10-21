@@ -1650,14 +1650,14 @@ class MySceneGraph {
                     if (grandNodeNames[k] == "materials") {
                         var grandGrandChildren = grandChildren[k].children;
                         for (var l = 0; l < grandChildren[k].children.length; l++)
-                            for(var j=0;j<this.materials.length;j++){
-                                if(this.reader.getString(grandGrandChildren[0], "id")=="inherit" || this.reader.getString(grandGrandChildren[0], "id")=="none"){
-                                    materialRefs.push((this.reader.getString(grandGrandChildren[0], "id")));
-                                }
-                                else {
+                        if(this.reader.getString(grandGrandChildren[0], "id")=="inherit" || this.reader.getString(grandGrandChildren[0], "id")=="none"){
+                            materialRefs.push([this.reader.getString(grandGrandChildren[0], "id")]);
+                        }
+                            for(var j=0;j<this.materials.length;j++){                                
+                
                                 if(this.materials[j][0]==this.reader.getString(grandGrandChildren[0], "id"))
                                 materialRefs.push(this.materials[j]);
-                                }
+                                
                             }
                     }
 
@@ -1669,6 +1669,7 @@ class MySceneGraph {
                         var textureLT = this.reader.getFloat(grandChildren[k], "length_t");
                         var path = ""
                         
+                        
                         for(var j=0;j<this.textures.length;j++){
                             if(this.textures[j][0]==textureId){
                                 path=this.textures[j][1];
@@ -1679,6 +1680,8 @@ class MySceneGraph {
                         if(textureId!="inherit" && textureId!="none") textureInfo.push(path);
                         textureInfo.push(textureLS);
                         textureInfo.push(textureLT);
+                        this.thisTexture=new CGFtexture(this.scene, "./scenes/" + path);
+                        textureInfo.push(this.thisTexture);
                         console.log(textureId);
                     }
 
@@ -1821,8 +1824,6 @@ class MySceneGraph {
 
         var savePos = materialPos;
   
-        var newTexture = null;
-
         this.scene.multMatrix(component[1]); //transformations
 
         if(component[2][0]=="none"){
@@ -1846,38 +1847,31 @@ class MySceneGraph {
      
         }
 
-        /*newMaterial.setShininess(component[3][materialPos][1]);
-        newMaterial.setAmbient(component[3][materialPos][3][0], component[3][materialPos][3][1], component[3][materialPos][3][2], component[3][materialPos][3][3]);
-        newMaterial.setDiffuse(component[3][materialPos][4][0], component[3][materialPos][4][1], component[3][materialPos][4][2], component[3][materialPos][4][3]);
-        newMaterial.setSpecular(component[3][materialPos][5][0], component[3][materialPos][5][1], component[3][materialPos][5][2], component[3][materialPos][5][3]);
-        newMaterial.setEmission(component[3][materialPos][2][0], component[3][materialPos][2][1], component[3][materialPos][2][2], component[3][materialPos][2][3]);  */  
-     
-
+       
       
         for (var i = 0; i < component[4].length; i++) { //PRIMITIVE REFS
             var name = component[4][i][1];
 
-            //this.scene.currMaterial=new CGFappearance(this.scene);
-            //this.scene.currMaterial.loadTexture("./scenes/images/vidral.jpg");
-            //this.scene.currMaterial=newMaterial;
-            //this.scene.currMaterial.apply();   
+            if(material!=null){
+                this.scene.currMaterial=new CGFappearance(this.scene);
+                this.scene.currMaterial.loadTexture("./scenes/" + texture[1]);
+                this.scene.currMaterial.setShininess(material[1]);
+                this.scene.currMaterial.setAmbient(material[3][0], material[3][1], material[3][2], material[3][3]);
+                this.scene.currMaterial.setDiffuse(material[4][0], material[4][1], material[4][2], material[4][3]);
+                this.scene.currMaterial.setSpecular(material[5][0], material[5][1], material[5][2], material[5][3]);
+                this.scene.currMaterial.setEmission(material[2][0], material[2][1], material[2][2], material[2][3]);
+            }
+            if(texture!=null){
+                texture[4].bind();
+            }
 
-            
-            //this.scene.currTexture=new CGFtexture(this.scene, "./scenes/" + component[2][1]);
-            //this.scene.currTexutre=newTexture;
-            //this.scene.currTexture.bind();
-
-            //this.scene.load(material,texture);
-            /*this.scene.newmaterial=new CGFappearance(this.scene);
-            this.scene.newmaterial.loadTexture("./scenes/images/vidral.jpg");
-            this.scene.newmaterial.apply();*/
-            this.scene.material.apply();
-
+            this.scene.currMaterial.apply();
+ 
 
            switch(name){
                case "rectangle":
                 this.scene.square=new MyQuad(this.scene,component[4][i][2][0],component[4][i][2][1],component[4][i][2][2],
-                    component[4][i][2][3],component[2][component[2].length-2],component[2][component[2].length-1]);
+                    component[4][i][2][3],component[2][component[2].length-3],component[2][component[2].length-2]);
                 this.scene.square.display();     
                
                break;
