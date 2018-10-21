@@ -250,7 +250,7 @@ class MySceneGraph {
 
         this.near = 0.1;
         this.far = 500;
-        this.angles = 0;
+        this.angle = 0;
 
         var viewId = this.reader.getString(viewsNode, 'default');
 
@@ -275,12 +275,12 @@ class MySceneGraph {
             if (far == null)
                 return "no far defined for perspective";
 
-            var angles = this.reader.getString(children[i], 'angles');
-            if (angles == null)
+            var angle = this.reader.getFloat(children[i], 'angle');
+            if (angle == null)
                 return "no angles defined for perspective";
 
             
-            var perspectiveDetails = [perspectiveId, near, far, angles];
+            var perspectiveDetails = [perspectiveId, near, far, angle];
             
 
             grandChildren = children[i].children;
