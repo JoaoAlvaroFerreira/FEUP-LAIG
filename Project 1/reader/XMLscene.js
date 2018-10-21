@@ -38,12 +38,13 @@ class XMLscene extends CGFscene {
         this.currentMaterial = 0;
 
         
-        this.camerasAvailable = [this.freeCamera, this.camera1];
+       
         this.cameraList = {
-			
 		"Free Camera": 0,
-        "Camera 1": 1
-		};
+        "Perspective Camera": 1,
+        "Ortho Camera": 2
+        };
+        
         this.currentCamera = 0;
 
         this.axis = new CGFaxis(this);
@@ -57,9 +58,6 @@ class XMLscene extends CGFscene {
       
 
         this.freeCamera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
-        
-    
-
 
         this.cameras.push(this.freeCamera);
             
@@ -128,19 +126,31 @@ class XMLscene extends CGFscene {
        this.camera.far = this.graph.far;
 
       var viewName = this.graph.viewsInfo[0];
-        
-      this.camera1 = new CGFcamera(this.graph.viewsInfo[1][1], this.graph.viewsInfo[1][2], this.graph.viewsInfo[1][3],  //near, far e angles
-        vec3.fromValues(this.graph.viewsInfo[1][4][0], this.graph.viewsInfo[1][4][1], this.graph.viewsInfo[1][4][2]),  //fromValues
-        vec3.fromValues(this.graph.viewsInfo[1][5][0], this.graph.viewsInfo[1][5][1], this.graph.viewsInfo[1][5][2])); //toValues
 
-        this.cameras.push(this.camera1);
+      for(var i = 1; i < this.graph.viewsInfo.length; i++)
+      {
+        
+      
+      if(this.graph.viewsInfo[i][0] == "FirstPerspective")  {
+      var cameraAux = new CGFcamera(this.graph.viewsInfo[i][1], this.graph.viewsInfo[i][2], this.graph.viewsInfo[i][3],  //near, far e angles
+        vec3.fromValues(this.graph.viewsInfo[i][4][0], this.graph.viewsInfo[i][4][1], this.graph.viewsInfo[i][4][2]),  //fromValues
+        vec3.fromValues(this.graph.viewsInfo[i][5][0], this.graph.viewsInfo[i][5][1], this.graph.viewsInfo[i][5][2])); //toValues
+      }
+      else if (this.graph.viewsInfo[i][0] == "FirstOrtho"){
+
+         vec3.fromValues(0, 0, 0)
+        
+     var cameraAux = new CGFcameraOrtho( this.graph.viewsInfo[i][3], this.graph.viewsInfo[i][4], this.graph.viewsInfo[i][6],
+        this.graph.viewsInfo[i][5], this.graph.viewsInfo[i][1], this.graph.viewsInfo[i][2], this.graph.viewsInfo[i][7], this.graph.viewsInfo[i][8], [0,1,0] )
+
+        
+      }
+      else continue;
+
+        this.cameras.push(cameraAux);
      
 
-        var position = [this.graph.viewsInfo[1][4][0], this.graph.viewsInfo[1][4][1], this.graph.viewsInfo[1][4][2]];
-        var target = [this.graph.viewsInfo[1][5][0], this.graph.viewsInfo[1][5][1], this.graph.viewsInfo[1][5][2]];
-        var up = [0,1,0]
-
-
+        }
         //IMPORTANTE RESOLVER PARA FUNCIONAR
        // console.log(this.graph.viewsInfo[1][1]);
       /*this.camera2 = new CGFcameraOrtho(this.graph.viewsInfo[2][2], this.graph.viewsInfo[2][3], this.graph.viewsInfo[2][5],
@@ -195,25 +205,6 @@ class XMLscene extends CGFscene {
         if (this.sceneInited) {
             // Draw axis
             this.axis.display();
-
-           /* var i = 0;
-            for (var key in this.lightValues) {
-                if (this.lightValues.hasOwnProperty(key)) {
-                    if (this.lightValues[key]) {
-                        this.lights[i].setVisible(true);
-                        this.lights[i].enable();
-                    }
-                    else {
-                        this.lights[i].setVisible(false);
-                        this.lights[i].disable();
-                    }
-                    this.lights[i].update();
-                    i++;
-                }
-            }
-*/
-            
-           
             
             this.graph.sceneComponentDisplay(this.currentMaterial);
         
@@ -225,8 +216,6 @@ class XMLscene extends CGFscene {
             // Draw axis
             this.axis.display();
         }
-
-        //Draw Stuff
 
 
 
