@@ -91,6 +91,15 @@ class XMLscene extends CGFscene {
                 this.lights[i].setAmbient(light[2][0][0], light[2][0][1], light[2][0][2], light[2][0][3]);
                 this.lights[i].setDiffuse(light[3][0][0], light[3][0][1], light[3][0][2], light[3][0][3]);
                 this.lights[i].setSpecular(light[4][0][0], light[4][0][1], light[4][0][2], light[4][0][3]);
+                if(light[5]){
+                    this.lights[i].setSpotDirection(light[5][0][0],light[5][0][1],light[5][0][2]);
+                }
+                if(light[6]){
+                    this.lights[i].setSpotCutOff(light[6]);
+                }
+                if(light[7]){
+                    this.lights[i].setSpotExponent(light[7]);
+                }
 
                 this.lights[i].setVisible(true);
                 if (light[0])
@@ -227,7 +236,7 @@ class XMLscene extends CGFscene {
 */
             
            
-           
+            
             this.graph.sceneComponentDisplay(this.currentMaterial);
             this.loadTextures(null,null);
             
@@ -251,18 +260,14 @@ class XMLscene extends CGFscene {
 
     checkKeys()
 		{
-		var text="Keys pressed: ";
-		var keysPressed=false;
+		
+		this.keysPressed=false;
 		if (this.gui.isKeyPressed("KeyM"))
 		{
-		text+=" M ";
-		keysPressed=true;
-        
+	
+        this.keysPressed=true;           
 		}
 	
-		if (keysPressed)
-        console.log(text);
-       
 		}
 
 	
@@ -270,6 +275,11 @@ class XMLscene extends CGFscene {
 	update(currTime) {
 
       this.checkKeys();
+
+        if(this.keysPressed==true){
+            this.currentMaterial++;
+            this.keysPressed=false;
+        }
 
         if(!this.Light1){
 			this.lights[0].disable();
@@ -291,15 +301,9 @@ class XMLscene extends CGFscene {
 			this.lights[1].update();
         }
         
-       this.updateMaterial();
+   
     }
 
-    updateMaterial(){
-
-        if (this.gui.isKeyPressed("KeyS")){
-        this.currentMaterial++;
-        this.sceneComponentDisplay(this.currentMaterial);
-        }
-    }
+    
 	
 }

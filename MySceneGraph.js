@@ -683,6 +683,14 @@ class MySceneGraph {
                 if (spotId == null)
                     return "no ID defined for spot";
 
+                var angle = this.reader.getString(children[i], 'angle');
+                if (angle == null)
+                    return "no angle defined for spot";
+
+                var exponent = this.reader.getString(children[i], 'exponent');
+                if (exponent == null)
+                    return "no exponent defined for spot";
+
                 var enabled = this.reader.getString(children[i], 'enabled');
                 if (enabled == null)
                     return "no enabled defined for spot";
@@ -859,7 +867,7 @@ class MySceneGraph {
                 }
 
 
-                spots = [enabled,[locationCoordinates], [ambientColor], [diffuseColor], [specularColor],[targetCoordinates]];
+                spots = [enabled,[locationCoordinates], [ambientColor], [diffuseColor], [specularColor],[targetCoordinates],angle,exponent];
                
             }
             if(omnis.length==0) this.lights.push(spots);
@@ -1632,15 +1640,15 @@ class MySceneGraph {
 
                     if (grandNodeNames[k] == "materials") {
                         var grandGrandChildren = grandChildren[k].children;
-                        for (var l = 0; l < grandChildren[k].children.length; l++)
+                        for (var l = 0; l < grandChildren[k].children.length; l++){
                              if(this.reader.getString(grandGrandChildren[0], "id")=="inherit" || this.reader.getString(grandGrandChildren[0], "id")=="none"){
                                 materialRefs.push([this.reader.getString(grandGrandChildren[0], "id")]);
                                 }
                                 for(var j=0;j<this.materials.length;j++){           
-                                if(this.materials[j][0]==this.reader.getString(grandGrandChildren[0], "id"))
+                                if(this.materials[j][0]==this.reader.getString(grandGrandChildren[l], "id"))
                                 materialRefs.push(this.materials[j]);
                                 }
-                            
+                            }
                     }
 
                     //Component Texture
