@@ -1,5 +1,0 @@
-Var mt = math.create()
-
-math.rotate(mt,mt, Math.PI/4, [1,0,0]);
-math.translate(mt,mt, Math.PI/4, [2,0,0]);
-math.scale(mt,mt, Math.PI/4, [10,0.1,5]);

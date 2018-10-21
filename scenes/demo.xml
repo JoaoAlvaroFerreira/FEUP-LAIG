@@ -5,8 +5,8 @@
 <views default = "BasicView">
 
 	<perspective id = "FirstPerspective" near="0.1" far="500" angles="0">
-		<from x="0" y="0" z="0"/>
-		<to x="20" y="20" z="20"/>
+		<from x="200" y="30" z="100"/>
+		<to x="0" y="0" z="0"/>
 	</perspective>	
 		<ortho id="FirstOrtho" near="0" far="200"
 			left="-5" right="5" top="5" bottom="-5" />
@@ -323,7 +323,7 @@
          <!-- Plank --> 
         <component id="Plank"> 
             <transformation>
-                <translate x="10" y="0.3" z="9" /> 
+                 <translate x="10" y="0.3" z="9" /> 
                 <scale x="2" y="0.2" z="8" />
             </transformation> 
             <materials> 

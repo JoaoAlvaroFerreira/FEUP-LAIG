@@ -19,7 +19,7 @@ class MyInterface extends CGFinterface {
         //  http://workshop.chromeexperiments.com/examples/gui
 
         this.gui = new dat.GUI();
-
+        this.initKeys();
         // add a group of controls (and open/expand by defult)
 
         return true;
@@ -31,17 +31,45 @@ class MyInterface extends CGFinterface {
      */
     addLightsGroup(lights) {
 
-        var group = this.gui.addFolder("Lights");
-        group.open();
+        var lightsGroup = this.gui.addFolder("Lights");
+		lightsGroup.close();
 
-        // add two check boxes to the group. The identifiers must be members variables of the scene initialized in scene.init as boolean
-        // e.g. this.option1=true; this.option2=false;
+		// add two check boxes to the group. The identifiers must be members variables of the scene initialized in scene.init as boolean
+		// e.g. this.option1=true; this.option2=false;
 
+		lightsGroup.add(this.scene, 'Light1');
+        lightsGroup.add(this.scene, 'Light2');
+        
+        this.gui.add(this.scene, 'currentCamera', this.scene.cameraList );
+/*
         for (var key in lights) {
             if (lights.hasOwnProperty(key)) {
                 this.scene.lightValues[key] = lights[key][0];
                 group.add(this.scene.lightValues, key);
             }
-        }
+        } */
     }
+
+    
+	/**
+	 * processKeyboard
+	 * @param event {Event}
+	 */
+	
+	//Key Processing Unit
+        initKeys() {
+          
+            this.scene.gui=this;
+            this.processKeyboard=function(){};
+            this.activeKeys={};
+            }
+            processKeyDown(event) {
+            this.activeKeys[event.code]=true;
+            };
+            processKeyUp(event) {
+            this.activeKeys[event.code]=false;
+            };
+            isKeyPressed(keyCode) {
+            return this.activeKeys[keyCode] || false;
+            }
 }

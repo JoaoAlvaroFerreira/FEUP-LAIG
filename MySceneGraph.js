@@ -267,15 +267,15 @@ class MySceneGraph {
 
             }
 
-            var perspectiveId = this.reader.getString(children[i], 'id');
+            var perspectiveId = this.reader.getFloat(children[i], 'id');
             if (perspectiveId == null)
                 return "no ID defined for perspective";
 
-            var near = this.reader.getString(children[i], 'near');
+            var near = this.reader.getFloat(children[i], 'near');
             if (near == null)
                 return "no near defined for transformation";
 
-            var far = this.reader.getString(children[i], 'far');
+            var far = this.reader.getFloat(children[i], 'far');
             if (far == null)
                 return "no far defined for perspective";
 
@@ -356,34 +356,17 @@ class MySceneGraph {
                 continue;
             }
             else {
-                var near = this.reader.getFloat(children[indexOrtho], 'near');
-                var far = this.reader.getFloat(children[indexOrtho], 'far');
-                var left = this.reader.getFloat(children[indexOrtho], 'left');
-                var right = this.reader.getFloat(children[indexOrtho], 'right');
-                var top = this.reader.getFloat(children[indexOrtho], 'top');
-                var bottom = this.reader.getFloat(children[indexOrtho], 'bottom');
+                
+                var near = this.reader.getFloat(children[i], 'near');
+                var far = this.reader.getFloat(children[i], 'far');
+                var left = this.reader.getFloat(children[i], 'left');
+                var right = this.reader.getFloat(children[i], 'right');
+                var top = this.reader.getFloat(children[i], 'top');
+                var bottom = this.reader.getFloat(children[i], 'bottom');
 
-                if (!(this.near != null && !isNaN(this.near))) {
-                    this.near = 0.1;
-                    this.onXMLMinorError("unable to parse value for near plane; assuming 'near = 0.1'");
-                }
-                else if (!(this.far != null && !isNaN(this.far))) {
-                    this.far = 500;
-                    this.onXMLMinorError("unable to parse value for far plane; assuming 'far = 500'");
-                }
-                if (this.near >= this.far)
-                    return "'near' must be smaller than 'far'";
 
-                if (top == null || bottom == null || left == null || right == null) {
-                    left = "-5";
-                    right = "5";
-                    top = "5";
-                    bottom = "-5";
-                    this.onXMLMinorError("failed to parse coordinates of final perspective position; assuming standard ones");
-                }
-
-                var perspectiveDetails = [near, far, angles, left,right, top, bottom];
-                this.viewsInfo.push(perspectiveDetails);
+                var orthoDetails = [near, far, angles, left,right, top, bottom];
+                this.viewsInfo.push(orthoDetails);
                             
             }
         }
@@ -1650,15 +1633,14 @@ class MySceneGraph {
                     if (grandNodeNames[k] == "materials") {
                         var grandGrandChildren = grandChildren[k].children;
                         for (var l = 0; l < grandChildren[k].children.length; l++)
-                        if(this.reader.getString(grandGrandChildren[0], "id")=="inherit" || this.reader.getString(grandGrandChildren[0], "id")=="none"){
-                            materialRefs.push([this.reader.getString(grandGrandChildren[0], "id")]);
-                        }
-                            for(var j=0;j<this.materials.length;j++){                                
-                
+                             if(this.reader.getString(grandGrandChildren[0], "id")=="inherit" || this.reader.getString(grandGrandChildren[0], "id")=="none"){
+                                materialRefs.push([this.reader.getString(grandGrandChildren[0], "id")]);
+                                }
+                                for(var j=0;j<this.materials.length;j++){           
                                 if(this.materials[j][0]==this.reader.getString(grandGrandChildren[0], "id"))
                                 materialRefs.push(this.materials[j]);
-                                
-                            }
+                                }
+                            
                     }
 
                     //Component Texture
@@ -1668,7 +1650,6 @@ class MySceneGraph {
                         var textureLS = this.reader.getFloat(grandChildren[k], "length_s");
                         var textureLT = this.reader.getFloat(grandChildren[k], "length_t");
                         var path = ""
-                        
                         
                         for(var j=0;j<this.textures.length;j++){
                             if(this.textures[j][0]==textureId){
@@ -1847,7 +1828,7 @@ class MySceneGraph {
      
         }
 
-       
+    
       
         for (var i = 0; i < component[4].length; i++) { //PRIMITIVE REFS
             var name = component[4][i][1];
@@ -1871,7 +1852,7 @@ class MySceneGraph {
            switch(name){
                case "rectangle":
                 this.scene.square=new MyQuad(this.scene,component[4][i][2][0],component[4][i][2][1],component[4][i][2][2],
-                    component[4][i][2][3],component[2][component[2].length-3],component[2][component[2].length-2]);
+                     component[4][i][2][3],component[2][component[2].length-3],component[2][component[2].length-2]);
                 this.scene.square.display();     
                
                break;

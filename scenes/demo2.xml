@@ -1,0 +1,542 @@
+<yas>
+
+<scene root="scene" axis_length="1" />
+
+<views default="view1">
+  <perspective id="view1" near="0.1" far="500" angle="0.4">
+    <from x="30" y="30" z="30"/>
+    <to x="0" y="0" z="0"/>
+  </perspective>
+</views>
+
+<ambient>
+ <ambient r="0" g="0" b="0" a="0.1" />
+ <background r="0" g="0" b="0" a="1" />
+</ambient>
+
+<lights>
+  <omni id="luz1" enabled="1" >
+    <location x="10" y="10" z="10" w="1" />
+    <ambient r="0.5" g="0.5" b="0.5" a="1" />
+    <diffuse r="2" g="2" b="2" a="1" />
+    <specular r="1.5" g="1.5" b="1.5" a="1" />
+  </omni>
+
+  <omni id="luz_candeeiro" enabled="0" >
+    <location x="3.4" y="4.4" z="5" w="1" />
+    <ambient r="0.5" g="0.5" b="0.5" a="1" />
+    <diffuse r="3" g="3" b="3" a="1" />
+    <specular r="3" g="3" b="3" a="1" />
+  </omni>
+</lights>
+
+<textures>
+ <texture id="madeira" file="wood.png" />
+ <texture id="madeira_escura" file="darkwood.png" />
+ <texture id="teclado" file="key.png" />
+</textures>
+
+<materials>
+  <material id="default_material" shininess = "500" >
+    <emission r="0" g="0" b="0" a="0" />
+    <ambient r="0.3" g="0.3" b="0.3" a="1" />
+    <diffuse r="0.6" g="0.6" b="0.6" a="1" />
+    <specular r="0.1" g="0.1" b="0.1" a="1" />
+  </material>
+
+  <material id="black" shininess = "10" >
+    <emission r="0" g="0" b="0" a="0" />
+    <ambient r="0.01" g="0.01" b="0.01" a="0.9" />
+    <diffuse r="0.07" g="0.07" b="0.07" a="0.9" />
+    <specular r="0.8" g="0.8" b="0.8" a="1" />
+  </material>
+</materials>
+
+<transformations>
+  <transformation id="t1">
+    <translate x="0" y="0" z="0" />
+  </transformation>
+</transformations>
+
+<primitives>
+  <primitive id="quad">
+    <rectangle x1="0.5" y1="0.5" x2="-0.5" y2="-0.5" />
+  </primitive >
+
+  <primitive id="esfera">
+    <sphere radius="0.5" slices="20" stacks="20" />
+  </primitive >
+
+  <primitive id="cilindro">
+    <cylinder base="0.5" top="0.5" height="0.4" slices="20" stacks="20" />
+  </primitive >
+</primitives >
+
+<components>
+  <!--scene root-->
+    <component id="scene">
+      <transformation>
+        <translate x="0" y="0" z="0" />
+      </transformation>
+      <materials>
+        <material id="default_material" />
+      </materials>
+
+     <texture id="none" length_s="1" length_t="1" />
+
+     <children>
+       <componentref id="candeeiro" />
+       <componentref id="mesa" />
+       <componentref id="cadeira" />
+       <componentref id="macbook" />
+       <componentref id="chao" />
+      </children>
+    </component>
+<!--face da frente-->
+  <component id="face1">
+    <transformation>
+      <translate x="0" y="0" z="0.5" />
+    </transformation>
+    <materials>
+      <material id="inherit" />
+    </materials>
+
+   <texture id="inherit" length_s="1" length_t="1" />
+
+   <children>
+     <primitiveref id="quad" />
+   </children>
+  </component>
+<!--face de baixo-->
+  <component id="face2">
+    <transformation>
+      <translate x="0" y="-0.5" z="0" />
+      <rotate axis="x" angle="90" />
+    </transformation>
+    <materials>
+      <material id="inherit" />
+    </materials>
+
+   <texture id="inherit" length_s="1" length_t="1" />
+
+   <children>
+     <primitiveref id="quad" />
+   </children>
+  </component>
+<!--face de cima-->
+<component id="face3">
+  <transformation>
+    <translate x="0" y="0.5" z="0" />
+    <rotate axis="x" angle="-90" />
+  </transformation>
+  <materials>
+    <material id="inherit" />
+  </materials>
+
+ <texture id="inherit" length_s="1" length_t="1" />
+
+ <children>
+   <primitiveref id="quad" />
+ </children>
+</component>
+<!--face de trás-->
+<component id="face4">
+  <transformation>
+    <translate x="0" y="0" z="-0.5" />
+    <rotate axis="y" angle="180" />
+  </transformation>
+  <materials>
+    <material id="inherit" />
+  </materials>
+
+ <texture id="inherit" length_s="1" length_t="1" />
+
+ <children>
+   <primitiveref id="quad" />
+ </children>
+</component>
+<!--face esquerda-->
+<component id="face5">
+  <transformation>
+    <translate x="0.5" y="0" z="0" />
+    <rotate axis="y" angle="90" />
+  </transformation>
+  <materials>
+    <material id="inherit" />
+  </materials>
+
+ <texture id="inherit" length_s="1" length_t="1" />
+
+ <children>
+   <primitiveref id="quad" />
+ </children>
+</component>
+<!--face direita-->
+<component id="face6">
+  <transformation>
+    <translate x="-0.5" y="0" z="0" />
+    <rotate axis="y" angle="-90" />
+  </transformation>
+  <materials>
+    <material id="inherit" />
+  </materials>
+
+ <texture id="inherit" length_s="1" length_t="1" />
+
+ <children>
+   <primitiveref id="quad" />
+ </children>
+</component>
+<!--cubo-->
+ <component id="cubo">
+   <transformation>
+     <translate x="0" y="0" z="0" />
+   </transformation>
+   <materials>
+     <material id="inherit" />
+   </materials>
+
+  <texture id="inherit" length_s="1" length_t="1" />
+
+  <children>
+    <componentref id="face1" />
+    <componentref id="face2" />
+    <componentref id="face3" />
+    <componentref id="face4" />
+    <componentref id="face5" />
+    <componentref id="face6" />
+  </children>
+ </component>
+<!--pernas de mesa-->
+  <component id="perna_mesa1">
+    <transformation>
+      <scale x="0.3" y="3.5" z="0.3" />
+      <translate x="-6" y="0.5" z="-3" />
+    </transformation>
+    <materials>
+      <material id="default_material" />
+    </materials>
+
+   <texture id="none" length_s="1" length_t="1" />
+
+   <children>
+     <componentref id="cubo" />
+   </children>
+  </component>
+<!---->
+   <component id="perna_mesa2">
+     <transformation>
+       <scale x="0.3" y="3.5" z="0.3" />
+       <translate x="-6" y="0.5" z="3" />
+
+     </transformation>
+     <materials>
+       <material id="default_material" />
+     </materials>
+
+    <texture id="none" length_s="1" length_t="1" />
+
+    <children>
+      <componentref id="cubo" />
+    </children>
+   </component>
+<!---->
+    <component id="perna_mesa3">
+      <transformation>
+        <scale x="0.3" y="3.5" z="0.3" />
+        <translate x="6" y="0.5" z="3" />
+      </transformation>
+      <materials>
+        <material id="default_material" />
+      </materials>
+
+     <texture id="none" length_s="1" length_t="1" />
+
+     <children>
+       <componentref id="cubo" />
+     </children>
+    </component>
+<!---->
+     <component id="perna_mesa4">
+       <transformation>
+         <scale x="0.3" y="3.5" z="0.3" />
+         <translate x="6" y="0.5" z="-3" />
+       </transformation>
+       <materials>
+         <material id="default_material" />
+       </materials>
+
+      <texture id="none" length_s="1" length_t="1" />
+
+      <children>
+        <componentref id="cubo" />
+      </children>
+     </component>
+<!--tampo mesa-->
+      <component id="tampo_mesa">
+        <transformation>
+          <scale x="5" y="0.3" z="3" />
+          <translate x="0" y="12" z="0" />
+        </transformation>
+        <materials>
+          <material id="default_material" />
+        </materials>
+
+       <texture id="inherit" length_s="1" length_t="1" />
+
+       <children>
+         <componentref id="cubo" />
+       </children>
+      </component>
+<!--mesa-->
+      <component id="mesa">
+        <transformation>
+          <translate x="5" y="0" z="5" />
+        </transformation>
+        <materials>
+          <material id="default_material" />
+        </materials>
+
+       <texture id="madeira" length_s="1" length_t="1" />
+
+       <children>
+         <componentref id="perna_mesa1" />
+         <componentref id="perna_mesa2" />
+         <componentref id="perna_mesa3" />
+         <componentref id="perna_mesa4" />
+         <componentref id="tampo_mesa" />
+       </children>
+      </component>
+<!--pernas de cadeira-->
+        <component id="perna_cadeira1">
+          <transformation>
+            <translate x="-0.85" y="1" z="-1.10" />
+            <scale x="0.15" y="2" z="0.15" />
+          </transformation>
+          <materials>
+            <material id="default_material" />
+          </materials>
+
+         <texture id="none" length_s="1" length_t="1" />
+
+         <children>
+           <componentref id="cubo" />
+         </children>
+        </component>
+<!---->
+         <component id="perna_cadeira2">
+           <transformation>
+             <translate x="0.85" y="1" z="-1.10" />
+             <scale x="0.15" y="2" z="0.15" />
+           </transformation>
+           <materials>
+             <material id="default_material" />
+           </materials>
+
+          <texture id="none" length_s="1" length_t="1" />
+
+          <children>
+            <componentref id="cubo" />
+          </children>
+         </component>
+<!---->
+          <component id="perna_cadeira3">
+            <transformation>
+              <translate x="-0.85" y="1" z="1.10" />
+              <scale x="0.15" y="2" z="0.15" />
+            </transformation>
+            <materials>
+              <material id="default_material" />
+            </materials>
+
+           <texture id="none" length_s="1" length_t="1" />
+
+           <children>
+             <componentref id="cubo" />
+           </children>
+          </component>
+<!---->
+           <component id="perna_cadeira4">
+             <transformation>
+               <translate x="0.85" y="1" z="1.10" />
+               <scale x="0.15" y="2" z="0.15" />
+             </transformation>
+             <materials>
+               <material id="default_material" />
+             </materials>
+
+            <texture id="none" length_s="1" length_t="1" />
+
+            <children>
+              <componentref id="cubo" />
+            </children>
+           </component>
+<!--costas cadeira-->
+          <component id="costas_cadeira">
+            <transformation>
+              <translate x="0" y="3.25" z="-1.15" />
+              <scale x="2" y="2.5" z="0.15" />
+            </transformation>
+            <materials>
+              <material id="default_material" />
+            </materials>
+
+           <texture id="inherit" length_s="1" length_t="1" />
+
+           <children>
+             <componentref id="cubo" />
+           </children>
+          </component>
+<!--assento cadeira-->
+          <component id="assento_cadeira">
+            <transformation>
+              <translate x="0" y="2" z="0" />
+              <scale x="2" y="0.15" z="2.5" />
+            </transformation>
+            <materials>
+              <material id="default_material" />
+            </materials>
+
+           <texture id="inherit" length_s="1" length_t="1" />
+
+           <children>
+             <componentref id="cubo" />
+           </children>
+          </component>
+<!--cadeira-->
+      <component id="cadeira">
+        <transformation>
+          <translate x="5" y="0" z="8" />
+          <rotate axis="y" angle="180"/>
+        </transformation>
+        <materials>
+          <material id="default_material" />
+        </materials>
+
+       <texture id="madeira" length_s="1" length_t="1" />
+
+       <children>
+         <componentref id="perna_cadeira1" />
+         <componentref id="perna_cadeira2" />
+         <componentref id="perna_cadeira3" />
+         <componentref id="perna_cadeira4" />
+         <componentref id="costas_cadeira" />
+         <componentref id="assento_cadeira" />
+       </children>
+      </component>
+<!--teclado_macbook-->
+      <component id="teclado_macbook">
+        <transformation>
+          <translate x="5" y="3.8" z="5" />
+          <scale x="1.5" y="0.1" z="1" />
+        </transformation>
+        <materials>
+          <material id="default_material" />
+        </materials>
+
+       <texture id="teclado" length_s="1" length_t="1" />
+
+       <children>
+         <componentref id="cubo" />
+       </children>
+      </component>
+<!--ecra_macbook-->
+      <component id="ecra_macbook">
+        <transformation>
+          <rotate axis="x" angle="-120" />
+          <translate x="5" y="-5.8" z="1.5" />
+          <scale x="1.5" y="0.1" z="1" />
+        </transformation>
+        <materials>
+          <material id="black" />
+        </materials>
+
+       <texture id="none" length_s="1" length_t="1" />
+
+       <children>
+         <componentref id="cubo" />
+       </children>
+      </component>
+<!--macbook-->
+      <component id="macbook">
+        <transformation>
+          <translate x="0" y="0" z="0" />
+        </transformation>
+        <materials>
+          <material id="default_material" />
+        </materials>
+
+       <texture id="none" length_s="1" length_t="1" />
+
+       <children>
+         <componentref id="teclado_macbook" />
+         <componentref id="ecra_macbook" />
+       </children>
+      </component>
+<!--chao-->
+      <component id="chao">
+        <transformation>
+          <translate x="5" y="0" z="5" />
+          <scale x="10" y="0" z="10" />
+          <rotate axis="x" angle="-90" />
+        </transformation>
+        <materials>
+          <material id="default_material" />
+        </materials>
+
+       <texture id="none" length_s="1" length_t="1" />
+
+       <children>
+         <primitiveref id="quad" />
+       </children>
+      </component>
+<!--esfera_candeeiro-->
+      <component id="esfera_candeeiro">
+        <transformation>
+          <translate x="3.4" y="4.4" z="5" />
+        </transformation>
+        <materials>
+          <material id="default_material" />
+        </materials>
+
+       <texture id="none" length_s="1" length_t="1" />
+
+       <children>
+         <primitiveref id="esfera" />
+       </children>
+      </component>
+<!--base_candeeiro-->
+      <component id="base_candeeiro">
+        <transformation>
+          <translate x="3.4" y="3.7" z="5" />
+          <rotate axis="x" angle="-90" />
+        </transformation>
+        <materials>
+          <material id="default_material" />
+        </materials>
+
+       <texture id="madeira_escura" length_s="1" length_t="1" />
+
+       <children>
+         <primitiveref id="cilindro" />
+       </children>
+      </component>
+<!--candeeiro-->
+      <component id="candeeiro">
+        <transformation>
+          <translate x="0" y="0" z="0" />
+        </transformation>
+        <materials>
+          <material id="default_material" />
+        </materials>
+
+       <texture id="none" length_s="1" length_t="1" />
+
+       <children>
+         <componentref id="esfera_candeeiro" />
+         <componentref id="base_candeeiro" />
+       </children>
+      </component>
+</components>
+
+</yas>
