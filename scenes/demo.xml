@@ -21,8 +21,8 @@
 
 	<lights>
 		<omni id="FirstOmni" enabled="1" >
-			<location x="2" y="2" z="5" w="10" />
-			<ambient r="0.6" g="0.6" b="0.6" a="1" />
+			<location x="2" y="5" z="5" w="10" />
+			<ambient r="0.8" g="0.8" b="0.8" a="1" />
 			<diffuse r="1" g="1" b="1" a="1" />
 			<specular r="1" g="1" b="1" a="1" />
 		</omni>
@@ -43,19 +43,38 @@
 		<texture id="TrunkTexture" file="images/trunk-image.jpg" /> 
 		<texture id="VidralTexture" file="images/vidral.jpg" /> 
         <texture id="FloaterTexture" file="images/floater.jpg" /> 
+        <texture id="PoolTexture" file="images/pool.jpg" /> 
+        <texture id="FloorTexture" file="images/floor.jpg" /> 
+        <texture id="PlankTexture" file="images/plank.jpg" /> 
+        <texture id="IronTexture" file="images/iron.jpg" /> 
+        <texture id="BallTexture" file="images/ball.jpg" /> 
+        <texture id="WoodTexture" file="images/wood.jpg" /> 
+        <texture id="PoolBottomTexture" file="images/poolBottom.jpg" /> 
 	</textures> 
 	
 	<materials>  
         <material id="DefaultMaterial" shininess = "1" > 
             <emission r="0" g="0" b="0" a="1" /> 
-            <ambient r="0.2" g="0.2" b="0.2" a="1" /> 
+            <ambient r="0.5" g="0.5" b="0.5" a="1" /> 
             <diffuse r="0.2" g="0.2" b="0.2" a="1" /> 
             <specular r="0" g="0" b="0" a="1" /> 
         </material> 
-        <material id="otherMaterial" shininess = "1" > 
+        <material id="IronMaterial" shininess = "1" > 
             <emission r="0" g="0" b="0" a="1" /> 
-            <ambient r="0.2" g="0.2" b="0.2" a="1" /> 
+            <ambient r="0.6" g="0.6" b="0.6" a="1" /> 
             <diffuse r="0.2" g="0.2" b="0.2" a="1" /> 
+            <specular r="1" g="1" b="1" a="1" /> 
+        </material> 
+        <material id="BrighterMaterial" shininess = "1" > 
+            <emission r="0" g="0" b="0" a="1" /> 
+            <ambient r="0.5" g="0.5" b="0.5" a="1" /> 
+            <diffuse r="0.2" g="0.2" b="0.2" a="1" /> 
+            <specular r="0.5" g="0.5" b="0.5" a="1" /> 
+        </material> 
+        <material id="DiffuseMaterial" shininess = "1" > 
+            <emission r="0" g="0" b="0" a="1" /> 
+            <ambient r="0.5" g="0.5" b="0.5" a="1" /> 
+            <diffuse r="0.5" g="0.5" b="0.5" a="1" /> 
             <specular r="0" g="0" b="0" a="1" /> 
         </material> 
 	</materials> 
@@ -106,7 +125,7 @@
             <materials> 
                 <material id="DefaultMaterial" /> 
             </materials> 
-            <texture id="VidralTexture" length_s="1" length_t="1" /> 
+            <texture id="WoodTexture" length_s="2" length_t="2" /> 
 			<children> 
                 <componentref id="FrontLeftLeg" />
 				<componentref id="FrontRightLeg" />
@@ -237,7 +256,7 @@
 		<component id="TopSquare"> 
             <transformation>
                 <translate x="0" y="0.5" z="0" /> 
-				<rotate axis="x" angle="90" />	
+				<rotate axis="x" angle="-90" />	
             </transformation> 
             <materials> 
                 <material id="inherit" /> 
@@ -251,7 +270,7 @@
 		<component id="BottomSquare"> 
             <transformation> 
                 <translate x="0" y="-0.5" z="0" />
-                <rotate axis="x" angle="-90" />
+                <rotate axis="x" angle="90" />
             </transformation> 
             <materials> 
                 <material id="inherit" /> 
@@ -299,7 +318,7 @@
                 <rotate axis="y" angle="20" />
             </transformation> 
             <materials> 
-                <material id="DefaultMaterial" /> 
+                <material id="BrighterMaterial" /> 
             </materials> 
             <texture id="FloaterTexture" length_s="1" length_t="1" /> 
 			<children> 
@@ -312,7 +331,7 @@
                 <rotate axis="x" angle="90" />
             </transformation> 
             <materials> 
-                <material id="DefaultMaterial" /> 
+                <material id="BrighterMaterial" /> 
             </materials> 
             <texture id="FloaterTexture" length_s="1" length_t="1" /> 
 			<children> 
@@ -323,13 +342,13 @@
          <!-- Plank --> 
         <component id="Plank"> 
             <transformation>
-                 <translate x="10" y="0.3" z="9" /> 
-                <scale x="2" y="0.2" z="8" />
+                 <translate x="10" y="0.3" z="8" /> 
+                <scale x="1.7" y="0.2" z="6" />
             </transformation> 
             <materials> 
                 <material id="DefaultMaterial" /> 
             </materials> 
-            <texture id="VidralTexture" length_s="1" length_t="1" /> 
+            <texture id="PlankTexture" length_s="1" length_t="3.53" /> 
 			<children> 
                 <componentref id="Cube" /> 
             </children> 
@@ -341,9 +360,9 @@
                 <rotate axis="x" angle="-90" />
             </transformation> 
             <materials> 
-                <material id="DefaultMaterial" /> 
+                <material id="IronMaterial" /> 
             </materials> 
-            <texture id="VidralTexture" length_s="1" length_t="1" /> 
+            <texture id="IronTexture" length_s="1" length_t="1" /> 
 			<children> 
                 <primitiveref id="DefaultCylinder" /> 
             </children> 
@@ -355,9 +374,9 @@
                 <scale x="2" y="2" z="2" />
             </transformation> 
             <materials> 
-                <material id="DefaultMaterial" /> 
+                <material id="BrighterMaterial" /> 
             </materials> 
-            <texture id="VidralTexture" length_s="1" length_t="1" /> 
+            <texture id="BallTexture" length_s="1" length_t="1" /> 
 			<children> 
                 <primitiveref id="DefaultSphere" /> 
             </children> 
@@ -369,15 +388,15 @@
                 <scale x="12" y="5" z="18" />
             </transformation> 
             <materials> 
-                <material id="DefaultMaterial" /> 
+                <material id="DiffuseMaterial" /> 
             </materials> 
-            <texture id="VidralTexture" length_s="1" length_t="1" /> 
+            <texture id="PoolTexture" length_s="2" length_t="1.25" /> 
 			<children> 
-                <componentref id="FrontSquare" />
-				<componentref id="BackSquare" />
-				<componentref id="LeftSquare" />
-				<componentref id="RightSquare" />
-				<componentref id="BottomSquare" /> 
+                <componentref id="FrontSquareInverted" />
+				<componentref id="BackSquareInverted" />
+				<componentref id="LeftSquareInverted" />
+				<componentref id="RightSquareInverted" />
+				<componentref id="BottomSquareInverted" /> 
             </children> 
         </component>
         <component id="PoolGround"> 
@@ -385,7 +404,7 @@
                 <transformationref id="DefaultZero" />
             </transformation> 
             <materials> 
-                <material id="DefaultMaterial" /> 
+                <material id="inherit" /> 
             </materials> 
             <texture id="VidralTexture" length_s="1" length_t="1" /> 
 			<children> 
@@ -399,56 +418,126 @@
              
         <component id="PoolGroundLeft"> 
             <transformation>
-                <translate x="2" y="0.5" z="15" /> 
+                <translate x="2" y="-0.5" z="15" /> 
                 <scale x="4" y="1" z="30" />
+           
             </transformation> 
             <materials> 
-                <material id="DefaultMaterial" /> 
+                <material id="inherit" /> 
             </materials> 
-            <texture id="VidralTexture" length_s="1" length_t="1" /> 
+            <texture id="FloorTexture" length_s="1" length_t="7.5" /> 
 			<children> 
-                <componentref id="BottomSquare" /> 
+                <componentref id="TopSquare" /> 
             </children> 
         </component>
         <component id="PoolGroundRight"> 
             <transformation>
-                <translate x="18" y="0.5" z="15" /> 
+                <translate x="18" y="-0.5" z="15" /> 
                 <scale x="4" y="1" z="30" />
             </transformation> 
             <materials> 
-                <material id="DefaultMaterial" /> 
+                <material id="inherit" /> 
             </materials> 
-            <texture id="VidralTexture" length_s="1" length_t="1" /> 
+            <texture id="FloorTexture" length_s="1" length_t="7.5" /> 
 			<children> 
-                <componentref id="BottomSquare" /> 
+                <componentref id="TopSquare" /> 
             </children> 
         </component>
         <component id="PoolGroundFront"> 
             <transformation>
-                <translate x="10" y="0.5" z="3" /> 
+                <translate x="10" y="-0.5" z="3" /> 
                 <scale x="12" y="1" z="6" />
             </transformation> 
             <materials> 
-                <material id="DefaultMaterial" /> 
+                <material id="inherit" /> 
             </materials> 
-            <texture id="VidralTexture" length_s="1" length_t="1" /> 
+            <texture id="FloorTexture" length_s="3" length_t="1.5" /> 
 			<children> 
-                <componentref id="BottomSquare" /> 
+                <componentref id="TopSquare" /> 
             </children> 
         </component>
         <component id="PoolGroundBack"> 
             <transformation>
-                <translate x="10" y="0.5" z="27" /> 
+                <translate x="10" y="-0.5" z="27" /> 
                 <scale x="12" y="1" z="6" />
             </transformation> 
             <materials> 
-                <material id="DefaultMaterial" /> 
+                <material id="inherit" /> 
             </materials> 
-            <texture id="VidralTexture" length_s="1" length_t="1" /> 
+            <texture id="FloorTexture" length_s="3" length_t="1.5" /> 
 			<children> 
-                <componentref id="BottomSquare" /> 
+                <componentref id="TopSquare" /> 
             </children> 
         </component>
+        <!-- Inverted Cube Faces -->
+        <component id="FrontSquareInverted"> 
+            <transformation> 
+                <translate x="0" y="0" z="-0.5" />     
+            </transformation> 
+            <materials> 
+                <material id="inherit" /> 
+            </materials> 
+            <texture id="inherit" length_s="1" length_t="1" /> 
+			<children> 
+                <primitiveref id="DefaultSquare" /> 
+            </children> 
+        </component> 	 
+
+		<component id="BackSquareInverted"> 
+            <transformation> 
+                <translate x="0" y="0" z="0.5" /> 
+				<rotate axis="y" angle="180" /> 
+            </transformation> 
+            <materials> 
+                <material id="inherit" /> 
+            </materials> 
+            <texture id="inherit" length_s="1" length_t="1" /> 
+			<children> 
+                <primitiveref id="DefaultSquare" />
+			</children> 
+        </component> 
+
+		<component id="BottomSquareInverted"> 
+            <transformation> 
+                <translate x="0" y="-0.5" z="0" />
+                <rotate axis="x" angle="-90" />
+            </transformation> 
+            <materials> 
+                <material id="inherit" /> 
+            </materials> 
+            <texture id="PoolBottomTexture" length_s="2" length_t="3" /> 
+			<children> 
+                <primitiveref id="DefaultSquare" /> 
+            </children> 
+        </component> 
+
+		<component id="RightSquareInverted"> 
+            <transformation>
+                <translate x="-0.5" y="0" z="0" /> 
+                <rotate axis="y" angle="90" />
+            </transformation> 
+            <materials> 
+                <material id="inherit" /> 
+            </materials> 
+            <texture id="inherit" length_s="1" length_t="1" /> 
+			<children> 
+                <primitiveref id="DefaultSquare" /> 
+            </children> 
+        </component> 
+
+		<component id="LeftSquareInverted"> 
+            <transformation>
+                <translate x="0.5" y="0" z="0" /> 
+                <rotate axis="y" angle="-90" />
+            </transformation> 
+            <materials> 
+                <material id="inherit" /> 
+            </materials> 
+            <texture id="inherit" length_s="1" length_t="1" /> 
+			<children> 
+                <primitiveref id="DefaultSquare" /> 
+            </children> 
+        </component> 
 
 
     </components>

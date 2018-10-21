@@ -1852,7 +1852,7 @@ class MySceneGraph {
            switch(name){
                case "rectangle":
                 this.scene.square=new MyQuad(this.scene,component[4][i][2][0],component[4][i][2][1],component[4][i][2][2],
-                     component[4][i][2][3],component[2][component[2].length-3],component[2][component[2].length-2]);
+                     component[4][i][2][3],texture[2],texture[3]);
                 this.scene.square.display();     
                
                break;
@@ -1860,7 +1860,7 @@ class MySceneGraph {
                case "triangle":
                 this.scene.triangle=new MyTriangle(this.scene,component[4][i][2][0],component[4][i][2][1],component[4][i][2][6],
                     component[4][i][2][2],component[4][i][2][3],component[4][i][2][7], component[4][i][2][4],
-                    component[4][i][2][5],component[4][i][2][8],component[2][component[2].length-2],component[2][component[2].length-1]);    
+                    component[4][i][2][5],component[4][i][2][8],texture[2],texture[3]);    
                 this.scene.triangle.display();
                break;
 

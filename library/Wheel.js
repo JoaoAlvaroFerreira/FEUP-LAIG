@@ -15,23 +15,17 @@ class Wheel extends CGFobject
 		var degToRad=0.01745329251;
 		this.scene.translate(0,0,-0.25);
 		this.scene.pushMatrix();
-		this.scene.newmaterial=new CGFappearance(this.scene);
-        this.scene.newmaterial.loadTexture("./scenes/images/vidral.jpg");
-        this.scene.newmaterial.apply();
+	
             super.display();
 		this.scene.popMatrix();
         this.scene.pushMatrix();
-		this.scene.newmaterial=new CGFappearance(this.scene);
-        this.scene.newmaterial.loadTexture("./scenes/images/vidral.jpg");
-        this.scene.newmaterial.apply();
+		
             this.cilindro.display();
 		this.scene.popMatrix();
 		this.scene.pushMatrix();
 			this.scene.translate(0,0,1);
 			this.scene.rotate(180*degToRad,1,0,0);
-		this.scene.newmaterial=new CGFappearance(this.scene);
-        this.scene.newmaterial.loadTexture("./scenes/images/vidral.jpg");
-        this.scene.newmaterial.apply();
+	
             super.display();
 		this.scene.popMatrix();
     }
