@@ -26,7 +26,6 @@ class XMLscene extends CGFscene {
 
         this.cameras = [];
         this.initCameras();
-        this.loadTextures();
         this.setUpdatePeriod(1000 / 60);
 
         this.enableTextures(true);
@@ -114,31 +113,10 @@ class XMLscene extends CGFscene {
             }
         }
     }
-
+   
+ 
     
-
   
-    loadTextures() {
-        
-      /*  this.material=new CGFappearance(this);
-        this.material.loadTexture("./scenes/images/rocks.jpg");
-
-        this.material=new CGFappearance(this);
-        this.material.loadTexture("./scenes/images/bank.jpg");
-
-        this.material=new CGFappearance(this);
-        this.material.loadTexture("./scenes/images/vidral.jpg");
-
-        this.material=new CGFappearance(this);
-        this.material.loadTexture("./scenes/images/leaves.jpg"); */
-
-        this.currTexture=new CGFtexture(this, "./scenes/images/vidral.jpg");
-
-
-
-     
-    }
-
 
 
     /* Handler called when the graph is finally loaded. 
@@ -238,7 +216,7 @@ class XMLscene extends CGFscene {
            
             
             this.graph.sceneComponentDisplay(this.currentMaterial);
-            this.loadTextures(null,null);
+        
             
             
 
