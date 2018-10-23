@@ -343,6 +343,7 @@ class MySceneGraph {
 
             perspectiveDetails.push(fromCoordinates);
             perspectiveDetails.push(toCoordinates);
+            perspectiveDetails.push("perspective");
             this.viewsInfo.push(perspectiveDetails);
         }
 
@@ -418,7 +419,7 @@ class MySceneGraph {
                 var bottom = this.reader.getFloat(children[i], 'bottom');
 
 
-                var orthoDetails = [orthoId, near, far , left,right, top, bottom,fromCoordinates,toCoordinates];
+                var orthoDetails = [orthoId, near, far , left,right, top, bottom,fromCoordinates,toCoordinates,"ortho"];
                 this.viewsInfo.push(orthoDetails);
                             
             }
@@ -1146,8 +1147,15 @@ class MySceneGraph {
                     specularColor.push(a);
             }
 
+             var currMaterial=new CGFappearance(this.scene);
+               currMaterial.loadTexture("./scenes/images/vidral.jpg");
+               currMaterial.setShininess(shininess);
+               currMaterial.setAmbient(ambientColor[0], ambientColor[1], ambientColor[2], ambientColor[3]);
+               currMaterial.setDiffuse(diffuseColor[0], diffuseColor[1], diffuseColor[2], diffuseColor[3]);
+               currMaterial.setSpecular(specularColor[0], specularColor[1], specularColor[2], specularColor[3]);
+               currMaterial.setEmission(emissionColor[0], emissionColor[1], emissionColor[2], emissionColor[3]);
 
-            this.materials.push([materialid, shininess, emissionColor, ambientColor, diffuseColor, specularColor]);
+            this.materials.push([materialid, currMaterial]);
 
         }
 
@@ -1703,8 +1711,13 @@ class MySceneGraph {
 
                     if (grandNodeNames[k] == "texture") {
                         var textureId = this.reader.getString(grandChildren[k], "id");
-                        var textureLS = this.reader.getFloat(grandChildren[k], "length_s");
-                        var textureLT = this.reader.getFloat(grandChildren[k], "length_t");
+
+                        var textureLS=1;
+                        var textureLT=1;
+                        if(textureId!="inherit"){
+                            textureLS = this.reader.getFloat(grandChildren[k], "length_s");
+                            textureLT = this.reader.getFloat(grandChildren[k], "length_t");
+                        }
                         var path = ""
                         
                         for(var j=0;j<this.textures.length;j++){
@@ -1890,19 +1903,12 @@ class MySceneGraph {
             var name = component[4][i][1];
 
             if(material!=null){
-                this.scene.currMaterial=new CGFappearance(this.scene);
-                this.scene.currMaterial.loadTexture("./scenes/" + texture[1]);
-                this.scene.currMaterial.setShininess(material[1]);
-                this.scene.currMaterial.setAmbient(material[3][0], material[3][1], material[3][2], material[3][3]);
-                this.scene.currMaterial.setDiffuse(material[4][0], material[4][1], material[4][2], material[4][3]);
-                this.scene.currMaterial.setSpecular(material[5][0], material[5][1], material[5][2], material[5][3]);
-                this.scene.currMaterial.setEmission(material[2][0], material[2][1], material[2][2], material[2][3]);
+               material[1].apply();
             }
             if(texture!=null){
                 texture[4].bind();
             }
 
-            this.scene.currMaterial.apply();
  
 
            switch(name){
