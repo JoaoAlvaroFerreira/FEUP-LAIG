@@ -1194,91 +1194,85 @@ class MySceneGraph {
             for (var j = 0; j < grandChildren.length; j++) {
                 grandNodeNames.push(grandChildren[j].nodeName);
             }
-
-
-            var translateIndex = grandNodeNames.indexOf("translate");
-            var rotateIndex = grandNodeNames.indexOf("rotate");
-            var scaleIndex = grandNodeNames.indexOf("scale");
-
-
-            var translateCoordinates = [];
-            if (translateIndex != -1) {
-
-
-                // x
-                var x = this.reader.getFloat(grandChildren[translateIndex], 'x');
+            var matrix = mat4.create();
+            mat4.identity(matrix);
+         
+            for(var j = 0; j<grandChildren.length; j++){
+                var transformation = grandChildren[j].nodeName;
+                if(transformation == "translate"){
+                     // x
+                var x = this.reader.getFloat(grandChildren[j], 'x');
                 /*if (!(x != null && !isNaN(x)))
                     return "unable to parse x-coordinate of the transformation = " + transformationId;
                 else*/
-                    translateCoordinates.push(x);
-
+                  
                 // y
-                var y = this.reader.getFloat(grandChildren[translateIndex], 'y');
+                var y = this.reader.getFloat(grandChildren[j], 'y');
                 /*if (!(y != null && !isNaN(y)))
                     return "unable to parse y-coordinate of the transformation = " + transformationId;
                 else*/
-                    translateCoordinates.push(y);
-
+                  
                 // z
-                var z = this.reader.getFloat(grandChildren[translateIndex], 'z');
+                var z = this.reader.getFloat(grandChildren[j], 'z');
                 /*if (!(z != null && !isNaN(z)))
                     return "unable to parse z-coordinate of the transformation = " + transformationId;
                 else*/
-                    translateCoordinates.push(z);
-            }
+                  
+                    mat4.translate(matrix,matrix,[x,y,z]);
+                }
 
-            else
-                return "translation coordinates undefined for ID = " + transformationId;
-
-            var rotatingCoordinates = [];
-            if (rotateIndex != -1) {
-                // axis
-                var axis = this.reader.getString(grandChildren[rotateIndex], 'axis');
+                if(transformation=="rotate"){
+                    // axis
+                var axis = this.reader.getString(grandChildren[j], 'axis');
+                if(axis=='x'){
+                    axis = [1,0,0];  
+                }              
+                if(axis=='y'){
+                    axis=[0,1,0];
+                }
+                if(axis=='z'){
+                    axis=[0,0,1];
+                }
                 /*if (!(axis != null && !isNaN(axis)))
                     return "unable to parse axis of the transformation = " + transformationId;
                 else*/
-                    rotatingCoordinates.push(axis);
-
+                 
                 // angle
-                var angle = this.reader.getFloat(grandChildren[rotateIndex], 'angle');
+                var angle = this.reader.getFloat(grandChildren[j], 'angle');
                 /*if (!(angle != null && !isNaN(angle)))
                     return "unable to parse angle of the transformation = " + transformationId;
                 else*/
-                    rotatingCoordinates.push(y);
+                    
+                    mat4.rotate(matrix,matrix,DEGREE_TO_RAD*angle,axis);
 
-            }
+                }
 
-            else
-                return "rotation coordinates undefined for ID = " + transformationId;
-
-            var scaleCoordinates = [];
-            if (scaleIndex != -1) {
-                // x
-                var x = this.reader.getFloat(grandChildren[scaleIndex], 'x');
+                if(transformation=="scale"){
+                    // x
+                var x = this.reader.getFloat(grandChildren[j], 'x');
                 /*if (!(x != null && !isNaN(x)))
                     return "unable to parse x-coordinate of the transformation = " + transformationId;
                 else*/
-                    scaleCoordinates.push(x);
+                 
 
                 // y
-                var y = this.reader.getFloat(grandChildren[scaleIndex], 'y');
+                var y = this.reader.getFloat(grandChildren[j], 'y');
                 /*if (!(y != null && !isNaN(y)))
                     return "unable to parse y-coordinate of the transformation = " + transformationId;
                 else*/
-                    scaleCoordinates.push(y);
-
+                 
                 // z
-                var z = this.reader.getFloat(grandChildren[scaleIndex], 'z');
+                var z = this.reader.getFloat(grandChildren[j], 'z');
                 /*if (!(z != null && !isNaN(z)))
                     return "unable to parse z-coordinate of the transformation = " + transformationId;
                 else*/
-                    scaleCoordinates.push(z);
+                   
+                mat4.scale(matrix,matrix,[x,y,z]);
+                }
             }
 
-            else
-                return "scaling coordinates undefined for ID = " + transformationId;
-
-            this.transformations.push([transformationId, translateCoordinates, scaleCoordinates, rotatingCoordinates]);
+         
+            this.transformations.push([transformationId, matrix]);
 
         }
 
@@ -1612,13 +1606,14 @@ class MySceneGraph {
                                 var transformationId = this.reader.getString(grandGrandChildren[j], "id");
                                 for (var k = 0; k < this.transformations.length; k++) {
                                     if (this.transformations[k][0] == transformationId) {
-                                        mat4.translate(transformationValues, transformationValues, [this.transformations[k][1][0],this.transformations[k][1][1],this.transformations[k][1][2]]);
+                                        /*mat4.translate(transformationValues, transformationValues, [this.transformations[k][1][0],this.transformations[k][1][1],this.transformations[k][1][2]]);
                                         mat4.scale(transformationValues, transformationValues, [this.transformations[k][2][0],this.transformations[k][2][1],this.transformations[k][2][2]]);
                                         var axis =[];
                                         if(this.transformations[k][3][0]=='x') axis = [1,0,0];
                                         if(this.transformations[k][3][0]=='y') axis = [0,1,0];
                                         if(this.transformations[k][3][0]=='z') axis = [0,0,1];
-                                        mat4.rotate(transformationValues, transformationValues, DEGREE_TO_RAD * this.transformations[k][3][1], axis);
+                                        mat4.rotate(transformationValues, transformationValues, DEGREE_TO_RAD * this.transformations[k][3][1], axis);*/
+                                        transformationValues=this.transformations[k][1];
                                     }
                                 }
 
