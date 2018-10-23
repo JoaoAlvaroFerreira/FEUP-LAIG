@@ -132,7 +132,7 @@ class XMLscene extends CGFscene {
         
       
       if(this.graph.viewsInfo[i][0] == "FirstPerspective")  {
-      var cameraAux = new CGFcamera(this.graph.viewsInfo[i][1], this.graph.viewsInfo[i][2], this.graph.viewsInfo[i][3],  //near, far e angles
+      var cameraAux = new CGFcamera(this.graph.viewsInfo[i][3], this.graph.viewsInfo[i][1], this.graph.viewsInfo[i][2],  //near, far e angles
         vec3.fromValues(this.graph.viewsInfo[i][4][0], this.graph.viewsInfo[i][4][1], this.graph.viewsInfo[i][4][2]),  //fromValues
         vec3.fromValues(this.graph.viewsInfo[i][5][0], this.graph.viewsInfo[i][5][1], this.graph.viewsInfo[i][5][2])); //toValues
       }
@@ -200,7 +200,7 @@ class XMLscene extends CGFscene {
         this.applyViewMatrix();
 
         this.pushMatrix();
-
+        console.log(this.lights);
 
         if (this.sceneInited) {
             // Draw axis

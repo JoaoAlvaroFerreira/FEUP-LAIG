@@ -736,11 +736,11 @@ class MySceneGraph {
                 if (spotId == null)
                     return "no ID defined for spot";
 
-                var angle = this.reader.getString(children[i], 'angle');
+                var angle = this.reader.getFloat(children[i], 'angle');
                 if (angle == null)
                     return "no angle defined for spot";
 
-                var exponent = this.reader.getString(children[i], 'exponent');
+                var exponent = this.reader.getFloat(children[i], 'exponent');
                 if (exponent == null)
                     return "no exponent defined for spot";
 
@@ -920,7 +920,7 @@ class MySceneGraph {
                 }
 
 
-                spots = [enabled,[locationCoordinates], [ambientColor], [diffuseColor], [specularColor],[targetCoordinates],angle,exponent];
+                spots = [enabled,[locationCoordinates], [ambientColor], [diffuseColor], [specularColor],[targetCoordinates],exponent,angle];
                
             }
             if(omnis.length==0) this.lights.push(spots);
