@@ -118,7 +118,6 @@
 		<!-- Table Component --> 
 		<component id="Table"> 
             <transformation> 
-                 <transformationref id="DefaultZero" />
                  <translate x="14" y="0" z="0" />
                  <rotate axis="y" angle="-30" />
                  <scale x="1" y="0.5" z="0.8" />
@@ -540,6 +539,19 @@
                 <primitiveref id="DefaultSquare" /> 
             </children> 
         </component> 
+
+        <!-- <component id="NewComponent"> 
+            <transformation>
+                <transformationref id="DefaultZero" /> 
+            </transformation> 
+            <materials> 
+                <material id="DefaultMaterial" /> 
+            </materials> 
+            <texture id="VidralTexture" length_s="1" length_t="1" /> 
+			<children> 
+                <componentref id="Cube" /> 
+            </children> 
+        </component> -->
 
 
     </components>
