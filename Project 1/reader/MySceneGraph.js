@@ -1748,7 +1748,38 @@ class MySceneGraph {
                                 for(var l=0;l<this.primitiveVector.length;l++){
 
                                 if(this.primitiveVector[l][0]==this.reader.getString(grandGrandChildren[j], "id"))
-                                primitiveRefs.push(this.primitiveVector[l]);
+                                switch(this.primitiveVector[l][1]){
+                                    case "rectangle":
+                                     this.scene.square=new MyQuad(this.scene,this.primitiveVector[l][2][0],this.primitiveVector[l][2][1],this.primitiveVector[l][2][2],
+                                        this.primitiveVector[l][2][3],textureInfo[textureInfo.length-3],textureInfo[textureInfo.length-2]);
+                                     primitiveRefs.push([1,this.scene.square]);    
+                                    
+                                    break;
+
+                                    case "triangle":
+                                     this.scene.triangle=new MyTriangle(this.scene,this.primitiveVector[l][2][0],this.primitiveVector[l][2][1],this.primitiveVector[l][2][6],
+                                        this.primitiveVector[l][2][2],this.primitiveVector[l][2][3],this.primitiveVector[l][2][7], this.primitiveVector[l][2][4],
+                                         this.primitiveVector[l][2][5],this.primitiveVector[l][2][8],textureInfo[textureInfo.length-3],textureInfo[textureInfo.length-2]);    
+                                    primitiveRefs.push([1,this.scene.triangle]);
+                                    break;
+                     
+                                    case "cylinder":
+                                     this.scene.cylinder=new Wheel(this.scene,this.primitiveVector[l][2][3],this.primitiveVector[l][2][4]);    
+                                     primitiveRefs.push([0 ,this.scene.cylinder]);
+                                    break;
+                     
+                                    case "sphere":
+                                     this.scene.sphere=new MySphere(this.scene,this.primitiveVector[l][2][0],this.primitiveVector[l][2][1],this.primitiveVector[l][2][2]);
+                                     primitiveRefs.push([0,this.scene.sphere]);
+                                    break;
+                     
+                                    case "torus":
+                                     this.scene.torus=new MyTorus(this.scene,this.primitiveVector[l][2][0],this.primitiveVector[l][2][1],this.primitiveVector[l][2][2],this.primitiveVector[l][2][3]);
+                                     primitiveRefs.push([0,this.scene.torus]);
+                                    continue;                         
+                     
+                                }
+                                //primitiveRefs.push(this.primitiveVector[l]);
                                 console.log("Primitive Refs A:" + primitiveRefs[l]);
 
                                 }
@@ -1852,16 +1883,14 @@ class MySceneGraph {
         for (var i = 0; i < this.components.length; i++) {
 
             //creating a default material
-            //var defaultMaterial = new CGFappearance(this.scene);
+          
             var defaultMaterial=this.materials[0];
 
             //creating a default texture
-            //var defaultTexture = new CGFappearance(this.scene, "./scenes/" + this.textures[0][1]);
+          
             var defaultTexture=this.textures[0];
 
-            //creating a default texture Inf
-            //var textureInf = [this.textures[0][0],this.textures[0][1],1,1];
-
+     
             this.sceneDisplay(this.components[i], materialPos,defaultMaterial,defaultTexture);
         }
     }
@@ -1908,40 +1937,11 @@ class MySceneGraph {
             if(texture!=null){
                 texture[4].bind();
             }
-
+            if(component[4][i][0]==1){
+            component[4][i][1].updateTextureCoord(texture[2],texture[3]);
+            }
+            component[4][i][1].display();
  
-
-           switch(name){
-               case "rectangle":
-                this.scene.square=new MyQuad(this.scene,component[4][i][2][0],component[4][i][2][1],component[4][i][2][2],
-                     component[4][i][2][3],texture[2],texture[3]);
-                this.scene.square.display();     
-               
-               break;
-
-               case "triangle":
-                this.scene.triangle=new MyTriangle(this.scene,component[4][i][2][0],component[4][i][2][1],component[4][i][2][6],
-                    component[4][i][2][2],component[4][i][2][3],component[4][i][2][7], component[4][i][2][4],
-                    component[4][i][2][5],component[4][i][2][8],texture[2],texture[3]);    
-                this.scene.triangle.display();
-               break;
-
-               case "cylinder":
-                this.scene.cylinder=new Wheel(this.scene,component[4][i][2][3],component[4][i][2][4]);    
-                this.scene.cylinder.display();
-               break;
-
-               case "sphere":
-                this.scene.sphere=new MySphere(this.scene,component[4][i][2][0],component[4][i][2][1],component[4][i][2][2]);
-                this.scene.sphere.display();
-               break;
-
-               case "torus":
-                this.scene.torus=new MyTorus(this.scene,component[4][i][2][0],component[4][i][2][1],component[4][i][2][2],component[4][i][2][3]);
-                this.scene.torus.display();
-               continue;                             
-
-           }
            
         }
       

@@ -71,4 +71,15 @@ class MyQuad extends CGFobject
 		
 
 	};
+	updateTextureCoord(s,t){
+		this.ls=s;
+		this.lt=t;
+		this.texCoords = [];
+		for(var i=0;i<5;i++){
+			for(var k=0; k<5;k++){
+				this.texCoords.push(this.ls/4*k,this.lt-this.lt/4*i);
+			}
+		}
+		this.updateTexCoordsGLBuffers();
+	};
 };

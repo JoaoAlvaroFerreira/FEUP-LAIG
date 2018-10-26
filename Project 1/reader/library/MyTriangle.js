@@ -50,4 +50,15 @@ class MyTriangle extends CGFobject
 				];
 		this.initGLBuffers();
 	};
+	updateTextureCoord(s,t){
+		this.minS=s;
+		this.minT=t;
+		this.texCoords = [
+			0,this.minT,
+			this.minS,this.minT,
+			0,0,
+			this.minS,0
+			
+	];
+	};
 };
