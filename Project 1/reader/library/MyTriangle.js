@@ -60,5 +60,6 @@ class MyTriangle extends CGFobject
 			this.minS,0
 			
 	];
+	this.updateTexCoordsGLBuffers();
 	};
 };
