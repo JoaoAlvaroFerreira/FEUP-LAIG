@@ -1937,8 +1937,10 @@ class MySceneGraph {
             if(texture!=null){
                 texture[4].bind();
             }
-            if(component[4][i][0]==1){
-            component[4][i][1].updateTextureCoord(texture[2],texture[3]);
+            if(texture!=null){
+                if(component[4][i][0]==1){
+                component[4][i][1].updateTextureCoord(texture[2],texture[3]);
+                }
             }
             component[4][i][1].display();
  
