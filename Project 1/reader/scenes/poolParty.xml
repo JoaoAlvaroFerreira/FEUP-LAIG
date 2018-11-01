@@ -571,7 +571,7 @@
         <!-- Boat -->
         <component id="Boat"> 
             <transformation>
-                <transformationref id="DefaultZero" />
+                <transformationref id="Boat" />
             </transformation> 
             <materials> 
                 <material id="DefaultMaterial" /> 
@@ -588,7 +588,7 @@
         <component id="BoatCylinder"> 
             <transformation>
                 <translate x="0" y="0.5" z="0" /> 
-                <scale x="0.05" y="1" z="0.05" />
+                <scale x="0.05" y="0.9" z="0.05" />
             </transformation> 
             <materials> 
                 <material id="DefaultMaterial" /> 
@@ -601,7 +601,7 @@
 
         <component id="BoatSmallTriangle"> 
             <transformation>
-                <translate x="0" y="0" z="0" /> 
+                <translate x="0" y="-0.15" z="0" /> 
                 <scale x="1" y="1.5" z="0.8" />
                  <rotate axis="y" angle="-90" />
             </transformation> 
@@ -617,7 +617,7 @@
 
         <component id="BoatTriangle"> 
             <transformation>
-                <translate x="0" y="0" z="0" /> 
+                <translate x="0" y="-0.15" z="0" /> 
                 <scale x="1" y="1.3" z="0.6" />
                  <rotate axis="y" angle="90" />
             </transformation> 
@@ -633,7 +633,7 @@
 
          <component id="BoatBase"> 
             <transformation>
-                <translate x="0" y="-0.2" z="0.1" /> 
+                <translate x="0" y="-0.35" z="0.1" /> 
                 <scale x="0.12" y="0.2" z="0.5" />
                  <rotate axis="x" angle="90" />
             </transformation> 
