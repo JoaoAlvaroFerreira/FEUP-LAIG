@@ -1421,6 +1421,77 @@ class MySceneGraph {
                 this.primitiveVector.push([primitive,primitiveId,triangleCoordinates]);
 
             }
+
+            else if (primitiveId == "triangleInverted") {
+
+              
+                var triangleCoordinates = [];
+                
+                    // x1
+                    var x1 = this.reader.getFloat(grandChildren[0], 'x1');
+                    if (!(x1 != null && !isNaN(x1)))
+                        return "unable to parse x-coordinate  "
+                    else
+                        triangleCoordinates.push(x1);
+
+                    // y1
+                    var y1 = this.reader.getFloat(grandChildren[0], 'y1');
+                    if (!(y1 != null && !isNaN(y1)))
+                        return "unable to parse y-coordinate of the primitive = " + primitiveId;
+                    else
+                        triangleCoordinates.push(y1);
+
+                    // x2
+                    var x2 = this.reader.getFloat(grandChildren[0], 'x2');
+                    if (!(x2 != null && !isNaN(x2)))
+                        return "unable to parse x-coordinate of the primitive = " + primitiveId;
+                    else
+                        triangleCoordinates.push(x2);
+
+                    // y2
+                    var y2 = this.reader.getFloat(grandChildren[0], 'y2');
+                    if (!(y2 != null && !isNaN(y2)))
+                        return "unable to parse y-coordinate of the primitive = " + primitiveId;
+                    else
+                        triangleCoordinates.push(y2);
+
+                    // x3
+                    var x3 = this.reader.getFloat(grandChildren[0], 'x3');
+                    if (!(x3 != null && !isNaN(x3)))
+                        return "unable to parse x-coordinate of the primitive = " + primitiveId;
+                    else
+                        triangleCoordinates.push(x3);
+
+                    // y3
+                    var y3 = this.reader.getFloat(grandChildren[0], 'y3');
+                    if (!(y3 != null && !isNaN(y3)))
+                        return "unable to parse y-coordinate of the primitive = " + primitiveId;
+                    else
+                        triangleCoordinates.push(y3);
+
+                    //z1
+                    var z1 = this.reader.getFloat(grandChildren[0], 'z1');
+                    if (!(z1 != null && !isNaN(z1)))
+                        return "unable to parse y-coordinate of the primitive = " + primitiveId;
+                    else
+                        triangleCoordinates.push(z1);
+                    //z2
+                    var z2 = this.reader.getFloat(grandChildren[0], 'z2');
+                    if (!(z2 != null && !isNaN(z2)))
+                        return "unable to parse y-coordinate of the primitive = " + primitiveId;
+                    else
+                        triangleCoordinates.push(z2);
+                    //z3
+                    var z3 = this.reader.getFloat(grandChildren[0], 'z3');
+                    if (!(z3 != null && !isNaN(z3)))
+                        return "unable to parse y-coordinate of the primitive = " + primitiveId;
+                    else
+                        triangleCoordinates.push(z3);
+                
+
+                this.primitiveVector.push([primitive,primitiveId,triangleCoordinates]);
+
+            }
             else if (primitiveId == "cylinder") {
                 var cylinderCoordinates = [];
                     // base
@@ -1612,8 +1683,8 @@ class MySceneGraph {
                             var transformationType = grandGrandNodeNames[j]; //Tinha aqui 0
                             if (transformationType == "transformationref") {
                                 var transformationId = this.reader.getString(grandGrandChildren[j], "id");
-                                for (var k = 0; k < this.transformations.length; k++) {
-                                    if (this.transformations[k][0] == transformationId) {
+                                for (var y = 0; y < this.transformations.length; y++) {
+                                    if (this.transformations[y][0] == transformationId) {
                                         /*mat4.translate(transformationValues, transformationValues, [this.transformations[k][1][0],this.transformations[k][1][1],this.transformations[k][1][2]]);
                                         mat4.scale(transformationValues, transformationValues, [this.transformations[k][2][0],this.transformations[k][2][1],this.transformations[k][2][2]]);
                                         var axis =[];
@@ -1621,7 +1692,7 @@ class MySceneGraph {
                                         if(this.transformations[k][3][0]=='y') axis = [0,1,0];
                                         if(this.transformations[k][3][0]=='z') axis = [0,0,1];
                                         mat4.rotate(transformationValues, transformationValues, DEGREE_TO_RAD * this.transformations[k][3][1], axis);*/
-                                        transformationValues=this.transformations[k][1];
+                                        transformationValues=this.transformations[y][1];
                                     }
                                 }
 
@@ -1762,6 +1833,13 @@ class MySceneGraph {
                                          this.primitiveVector[l][2][5],this.primitiveVector[l][2][8],textureInfo[textureInfo.length-3],textureInfo[textureInfo.length-2]);    
                                     primitiveRefs.push([1,this.scene.triangle]);
                                     break;
+
+                                    case "triangleInverted":
+                                    this.scene.triangle=new MyTriangleInverted(this.scene,this.primitiveVector[l][2][0],this.primitiveVector[l][2][1],this.primitiveVector[l][2][6],
+                                       this.primitiveVector[l][2][2],this.primitiveVector[l][2][3],this.primitiveVector[l][2][7], this.primitiveVector[l][2][4],
+                                        this.primitiveVector[l][2][5],this.primitiveVector[l][2][8],textureInfo[textureInfo.length-3],textureInfo[textureInfo.length-2]);    
+                                   primitiveRefs.push([1,this.scene.triangle]);
+                                   break;
                      
                                     case "cylinder":
                                      this.scene.cylinder=new Wheel(this.scene,this.primitiveVector[l][2][3],this.primitiveVector[l][2][4]);    
@@ -1776,7 +1854,7 @@ class MySceneGraph {
                                     case "torus":
                                      this.scene.torus=new MyTorus(this.scene,this.primitiveVector[l][2][0],this.primitiveVector[l][2][1],this.primitiveVector[l][2][2],this.primitiveVector[l][2][3]);
                                      primitiveRefs.push([0,this.scene.torus]);
-                                    continue;                         
+                                    break;                         
                      
                                 }
                                 //primitiveRefs.push(this.primitiveVector[l]);
