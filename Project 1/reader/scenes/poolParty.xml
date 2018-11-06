@@ -1,6 +1,4 @@
 <yas>
-
-
     <scene root="1" axis_length="10" />
     <views default = "BasicView">
 
@@ -148,12 +146,12 @@
 
         <primitive id="DefaultTerrain">
             <terrain idtexture = "RocksTexture" idheightmap="HeightMapTexture" 
-            parts="15" heightscale="2.5">
+            parts="15" heightscale="2.5" />
         </primitive>
 
         <primitive id="DefaultWater">
             <terrain idtexture = "WaterTexture" idwavemap="WaveMapTexture" 
-            parts="10" heightscale="1.5" texscale="2">
+            parts="10" heightscale="1.5" texscale="2" />
         </primitive>
 
     </primitives >

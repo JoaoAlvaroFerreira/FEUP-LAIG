@@ -19,8 +19,9 @@ var LIGHTS_INDEX = 3;
 var TEXTURES_INDEX = 4;
 var MATERIALS_INDEX = 5;
 var TRANSFORMATIONS_INDEX = 6;
-var PRIMITIVES_INDEX = 7;
-var COMPONENTS_INDEX = 8;
+var ANIMATIONS_INDEX = 7;
+var PRIMITIVES_INDEX = 8;
+var COMPONENTS_INDEX = 9;
 
 /**
  * MySceneGraph class, representing the scene graph.
@@ -207,7 +208,19 @@ class MySceneGraph {
                 return error;
         }
 
-        // <COMPONENTS> -8
+         // <ANIMATIONS> -8
+         if ((index = nodeNames.indexOf("animations")) == -1)
+         return "tag <COMPONENTS> missing";
+        else {
+         if (index != ANIMATIONS_INDEX)
+             this.onXMLMinorError("tag <COMPONENTS> out of order");
+
+         //Parse NODES block
+         if ((error = this.parseAnimations(nodes[index])) != null)
+             return error;
+        }
+
+        // <COMPONENTS> -9
         if ((index = nodeNames.indexOf("components")) == -1)
             return "tag <COMPONENTS> missing";
         else {
@@ -1603,6 +1616,60 @@ class MySceneGraph {
         }
 
 
+    }
+
+    /**
+     * Parses the <ANIMATIONS> block. 
+     * @param {textures block element} texturesNode
+     */
+    parseAnimations(animationsNode) {
+
+        var children = animationsNode.children;
+
+        this.animations = [];
+
+
+        var nodeNames = [];
+
+        for (var i = 0; i < children.length; i++) {
+
+            var grandChildren = children[i].children;
+            if (children[i].nodeName == "linear") {
+                var animationId = this.reader.getString(children[i], 'id');
+                var spanTime = this.reader.getFloat(children[i], 'span');
+
+
+                var controlPoints = [];
+                for(var j=0; j<=grandChildren.length-1; j++){
+                    controlPoints.push([this.reader.getFloat(grandChildren[j], 'xx'),
+                        this.reader.getFloat(grandChildren[j], 'yy'),
+                        this.reader.getFloat(grandChildren[j], 'zz')]);
+                }
+                this.animations.push(["linear", animationId,spanTime,controlPoints])
+            }
+            else if(children[i].nodeName == "circular") {
+                var animationId = this.reader.getString(children[i], 'id');
+                var spanTime = this.reader.getFloat(children[i], 'span');
+                var center = this.reader.getString(children[i], 'center');
+                var radius = this.reader.getFloat(children[i], 'radius');
+                var startAng = this.reader.getFloat(children[i], 'startang');
+                var rotAng = this.reader.getFloat(children[i], 'rotang');
+
+                var centerPoints =[];
+                var ind = 0;
+                centerPoints = center.split(" ");
+                for(var j=0; j<= centerPoints.length-1;j++){
+                    centerPoints[j]=Number(centerPoints[j]);
+                }
+                
+                this.animations.push(["circular", animationId,spanTime,centerPoints,radius,startAng,rotAng]);
+            }
+          
+        }
+
+        console.log("Parsed animations");
+
+        return null;
     }
 
 
