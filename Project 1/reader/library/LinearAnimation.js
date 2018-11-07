@@ -10,10 +10,13 @@ class LinearAnimation extends Animation
         this.id = id;
         this.span = span;
         this.pointList = [];
-        this.betweenPoints = [];
-        this.progress;
-        this.speed;
+        this.vectors = [];
+        this.vectorLenghts = [];
+        this.vectorSpans = [];
+        this.progress = 0;
+        this.speed = 0;
         this.totalDistance = 0;
+        this.time = 0;
 
 	};
 
@@ -36,7 +39,7 @@ class LinearAnimation extends Animation
             auxDistance = [x,y,z];
 
             
-            this.betweenPoints.push(auxDistance);
+            this.vectors.push(auxDistance);
             aux++;
             
         }
@@ -44,30 +47,50 @@ class LinearAnimation extends Animation
 
     
 
-    apply(deltaTime){
-        var matrix = mat4.create();
-        mat4.identity(matrix);
+    apply(){
+       
 
+        if(this.time == vectorSpans[progress]){
+            this.time = 0;
+            this.progress++;
+        }
 
-        matrix.translate(matrix,matrix, tempPoint[0],tempPoint[1],tempPoint[2]);
-        return matrix;
+        if(this.progress > this.vectors.length){
+            var matrix = mat4.create();
+            return mat4.identity(matrix);
+        }
 
+        var dX = this.vectors[progress][0]*this.time;
+        var dX = this.vectors[progress][1]*this.time;
+        var dX = this.vectors[progress][2]*this.time;
+        
+        
+        var translation = vec3.fromValues(dX, dY, dZ);
+        var translationMatrix = mat4.fromTranslation(mat4.create(), translation);
+        return translationMatrix;
 
 
     };
 
     calcSpeed(){
         
-
-        for(var i = 0; i < this.betweenPoints.length; i++)
+        
+        for(var i = 0; i < this.vectors.length; i++)
         {
-            this.totalDistance += sqrt(this.betweenPoints[i][0]) + sqrt(this.betweenPoints[i][1]) + sqrt(this.betweenPoints[i][2]);
+            this.vectorLenghts.push(sqrt(this.vectors[i][0]) + sqrt(this.vectors[i][1]) + sqrt(this.vectors[i][2]));
+            this.totalDistance += sqrt(this.vectors[i][0]) + sqrt(this.vectors[i][1]) + sqrt(this.vectors[i][2]);
         }
 
         this.speed = this.totalDistance/this.span;
+
+        for(var j = 0; j < this.vectors.length; j++){
+            this.vectorSpans.push(this.vectorLenghts/this.speed);
+        }
+        
     };
 	
-	update(){
+	update(deltaTime){
+        this.time += deltaTime;
         
         
 
