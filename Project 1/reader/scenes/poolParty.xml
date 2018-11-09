@@ -383,6 +383,22 @@
                 <primitiveref id="DefaultTorus" />
             </children>
         </component>
+        <!-- Vehicle -->
+        
+        <component id="TestVehicle">
+            <transformation>
+               <translate x="0" y="-0.35" z="0.1" />
+                 <scale x="5" y = "5" z = "5"/>
+                <rotate axis="x" angle="90" />
+            </transformation>
+             <materials>
+                <material id="DefaultMaterial" />
+            </materials>
+            <texture id="BallTexture" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="DefaultVehicle" />
+            </children>
+        </component>
 
         <!-- Plank -->
         <component id="Plank">

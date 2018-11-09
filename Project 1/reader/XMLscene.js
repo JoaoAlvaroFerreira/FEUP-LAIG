@@ -217,8 +217,9 @@ class XMLscene extends CGFscene {
             this.axis.display();
         }
 
-
-
+       
+        this.vehicle = new MyVehicle(this);
+        this.vehicle.display();
         this.popMatrix();
         // ---- END Background, camera and axis setup
 

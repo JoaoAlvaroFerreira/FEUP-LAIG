@@ -1921,7 +1921,13 @@ class MySceneGraph {
                                     case "torus":
                                      this.scene.torus=new MyTorus(this.scene,this.primitiveVector[l][2][0],this.primitiveVector[l][2][1],this.primitiveVector[l][2][2],this.primitiveVector[l][2][3]);
                                      primitiveRefs.push([0,this.scene.torus]);
-                                    break;                         
+                                    break;     
+                                    
+                                    case "vehicle":
+                                    printf("ENTROU\n");
+                                    this.scene.vehicle = new MyVehicle(this.scene);
+                                    primitiveRefs.push([0, this.scene.vehicle]);
+                                    break;
                      
                                 }
                                 //primitiveRefs.push(this.primitiveVector[l]);
