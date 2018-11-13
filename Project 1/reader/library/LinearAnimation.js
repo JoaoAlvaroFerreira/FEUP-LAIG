@@ -5,12 +5,12 @@
 
 class LinearAnimation extends Animation
 {
-	constructor(id, span)
+	constructor(id, span, pointList)
 	{  
        super();
         this.id = id;
         this.span = span;
-        this.pointList = [];
+        this.pointList = pointList;
         this.vectors = [];
         this.vectorLenghts = [];
         this.vectorSpans = [];
@@ -18,13 +18,13 @@ class LinearAnimation extends Animation
         this.speed = 0;
         this.totalDistance = 0;
         this.time = 0;
+        
+        this.pointConversion();
+        this.calcSpeed();
 
 	};
 
-    addCenterPoint(x,y,z){
-        var point = [x,y,z];
-        this.pointList.add(point);
-    };
+ 
 
     pointConversion(){
 
@@ -48,10 +48,10 @@ class LinearAnimation extends Animation
 
     
 
-    apply(){
+    applyMatrix(){
        
 
-        if(this.time == vectorSpans[progress]){
+        if(this.time == this.vectorSpans[this.progress]){
             this.time = 0;
             this.progress++;
         }
@@ -61,14 +61,18 @@ class LinearAnimation extends Animation
             return mat4.identity(matrix);
         }
 
-        var dX = this.vectors[progress][0]*this.time;
-        var dX = this.vectors[progress][1]*this.time;
-        var dX = this.vectors[progress][2]*this.time;
+        var dX = this.vectors[this.progress][0]*this.time;
+        var dY = this.vectors[this.progress][1]*this.time;
+        var dZ = this.vectors[this.progress][2]*this.time;
         
-        
+        console.log(this.time);
         var translation = vec3.fromValues(dX, dY, dZ);
-        var translationMatrix = mat4.fromTranslation(mat4.create(), translation);
-        return translationMatrix;
+        var dest = mat4.create();
+        //mat4.fromTranslation(translationMatrix, translation);
+        mat4.translate(dest, dest, translation);
+        console.log(dest);
+        return dest;
+
 
 
     };
@@ -78,8 +82,8 @@ class LinearAnimation extends Animation
         
         for(var i = 0; i < this.vectors.length; i++)
         {
-            this.vectorLenghts.push(sqrt(this.vectors[i][0]) + sqrt(this.vectors[i][1]) + sqrt(this.vectors[i][2]));
-            this.totalDistance += sqrt(this.vectors[i][0]) + sqrt(this.vectors[i][1]) + sqrt(this.vectors[i][2]);
+            this.vectorLenghts.push(Math.sqrt(this.vectors[i][0]) + Math.sqrt(this.vectors[i][1]) + Math.sqrt(this.vectors[i][2]));
+            this.totalDistance += Math.sqrt(this.vectors[i][0]) + Math.sqrt(this.vectors[i][1]) + Math.sqrt(this.vectors[i][2]);
         }
 
         this.speed = this.totalDistance/this.span;
@@ -90,8 +94,8 @@ class LinearAnimation extends Animation
         
     };
 	
-	update(deltaTime){
-        this.time += deltaTime;
+	update(currTime){
+        this.time = currTime;
         
         
 
