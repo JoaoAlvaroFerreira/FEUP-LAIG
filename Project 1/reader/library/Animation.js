@@ -10,12 +10,4 @@ class Animation
 
     };
     
-    apply(){
-        
-    };
-
-
-	
-	update(){
-	};
 };

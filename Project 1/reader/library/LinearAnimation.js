@@ -7,6 +7,7 @@ class LinearAnimation extends Animation
 {
 	constructor(id, span)
 	{  
+       super();
         this.id = id;
         this.span = span;
         this.pointList = [];

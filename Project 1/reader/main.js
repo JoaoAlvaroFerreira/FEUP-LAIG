@@ -20,7 +20,7 @@ function getUrlVars() {
 serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'MyInterface.js',
 './library/MyQuad.js', './library/MyTriangle.js', './library/MyUnitCube.js','./library/MyCylinder.js',
 './library/MySphere.js','./library/MyTorus.js', './library/Wheel.js', './library/MyTriangleInverted.js', 
-'./library/MyVehicle.js',
+'./library/MyVehicle.js','./library/Animation.js','./library/LinearAnimation.js','./library/CircularAnimation.js',
 
 main=function()
 {

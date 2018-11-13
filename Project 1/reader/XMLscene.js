@@ -62,6 +62,8 @@ class XMLscene extends CGFscene {
         this.cameras.push(this.freeCamera);
             
         this.camera = this.freeCamera;
+        this.vehicle = new MyVehicle(this);
+        this.circularAnimation = new CircularAnimation(1,5,0,0,0,5,0,90);
             
        
        
@@ -218,7 +220,8 @@ class XMLscene extends CGFscene {
         }
 
        
-        this.vehicle = new MyVehicle(this);
+       var appMatrix = this.circularAnimation.applyMatrix();
+        this.multMatrix(appMatrix);
         this.vehicle.display();
         this.popMatrix();
         // ---- END Background, camera and axis setup
@@ -242,6 +245,7 @@ class XMLscene extends CGFscene {
 
 	update(currTime) {
 
+      this.circularAnimation.update(currTime/10000);
       this.checkKeys();
 
         if(this.keysPressed==true){

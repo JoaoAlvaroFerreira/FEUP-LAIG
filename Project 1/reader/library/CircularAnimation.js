@@ -7,6 +7,7 @@ class CircularAnimation extends Animation
 {
 	constructor(id, span, centerX, centerY,centerZ, radius, startAng, rotAng)
 	{
+		super();
 		this.id = id;
 		this.span = span;
 		this.centerX = centerX;
@@ -21,14 +22,14 @@ class CircularAnimation extends Animation
 
     };
     
-    apply(){
+    applyMatrix(){
 		var matrix = mat4.create();
 		mat4.identity(matrix);
 
 		if(this.rotAng >= 0){
 
 		this.angularSpeed = this.rotAng/this.span;
-		this.currentAng += this.angularSpeed * this.time;
+		this.currentAng = this.angularSpeed * this.time;
 		
 	
 	  
@@ -41,7 +42,7 @@ class CircularAnimation extends Animation
 		
 
 		this.angularSpeed = -this.rotAng/this.span;
-		this.currentAng += this.angularSpeed * this.time;
+		this.currentAng = this.angularSpeed * this.time;
 		
 	
 	  
