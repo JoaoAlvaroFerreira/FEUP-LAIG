@@ -82,14 +82,14 @@ class LinearAnimation extends Animation
         
         for(var i = 0; i < this.vectors.length; i++)
         {
-            this.vectorLenghts.push(Math.sqrt(this.vectors[i][0]) + Math.sqrt(this.vectors[i][1]) + Math.sqrt(this.vectors[i][2]));
-            this.totalDistance += Math.sqrt(this.vectors[i][0]) + Math.sqrt(this.vectors[i][1]) + Math.sqrt(this.vectors[i][2]);
+            this.vectorLenghts.push(Math.sqrt(Math.abs(this.vectors[i][0])) + Math.sqrt(Math.abs(this.vectors[i][1])) + Math.sqrt(Math.abs(this.vectors[i][2])));
+            this.totalDistance += Math.sqrt(Math.abs(this.vectors[i][0])) + Math.sqrt(Math.abs(this.vectors[i][1])) + Math.sqrt(Math.abs((this.vectors[i][2])));
         }
 
         this.speed = this.totalDistance/this.span;
 
         for(var j = 0; j < this.vectors.length; j++){
-            this.vectorSpans.push(this.vectorLenghts/this.speed);
+            this.vectorSpans.push(this.vectorLenghts[j]/this.speed);
         }
         
     };
