@@ -67,9 +67,30 @@ class XMLscene extends CGFscene {
         var points = [[0,0,0],[1,1,1],[2,2,2],[3,3,3]];
         this.linearAnimation = new LinearAnimation(this,2,5,points);
         this.initialTime = 0;
-            
+        this.initShaders();
        
        
+    }
+
+    
+
+    initShaders(){
+
+    this.testShaders = [new CGFshader(this.gl, "library/vertex.vert", "library/fragment.frag")];
+    this.texture = null;
+    this.appearance = null;
+    this.selectedExampleShader=0;
+    this.wireframe=false;
+    this.scaleFactor=50.0;
+
+    this.testShaders[0].setUniformsValues({uSampler2: 1});
+
+	this.testTexture = new CGFtexture(this, "scenes/images/floater.jpg");
+	
+    
+    this.testShaders[0].setUniformsValues({normScale: this.scaleFactor});
+
+
     }
     /**
      * Initializes the scene lights with the values read from the XML file.
@@ -155,16 +176,7 @@ class XMLscene extends CGFscene {
         this.cameras.push(cameraAux);
      
 
-        }
-        //IMPORTANTE RESOLVER PARA FUNCIONAR
-       // console.log(this.graph.viewsInfo[1][1]);
-      /*this.camera2 = new CGFcameraOrtho(this.graph.viewsInfo[2][2], this.graph.viewsInfo[2][3], this.graph.viewsInfo[2][5],
-        this.graph.viewsInfo[2][4], this.graph.viewsInfo[2][0], this.graph.viewsInfo[2][1], 
-       position, target, up);  */
-
-      
-    
-        
+        }      
 
         //Done: Change reference length according to parsed graph
         this.axis = new CGFaxis(this, this.graph.sceneInfo[1]);
@@ -196,6 +208,7 @@ class XMLscene extends CGFscene {
         // Clear image and depth buffer everytime we update the scene
         this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+        this.gl.enable(this.gl.DEPTH_TEST);
 
         // Initialize Model-View matrix as identity (no transformation
         this.updateProjectionMatrix();
@@ -222,13 +235,16 @@ class XMLscene extends CGFscene {
             this.axis.display();
         }
 
+        //this.setActiveShader(this.testShaders[this.selectedExampleShader]);
        this.pushMatrix();
+      // this.testTexture.bind(1);
        this.translate(15,10,15);
        var appMatrixCircular = this.circularAnimation.applyMatrix();
        var appMatrixLinear = this.linearAnimation.applyMatrix();
-       this.multMatrix(appMatrixLinear);
+       this.multMatrix(appMatrixCircular);
         this.vehicle.display();
         this.popMatrix();
+      //  this.setActiveShader(this.defaultShader);
         this.popMatrix();
         // ---- END Background, camera and axis setup
 
@@ -247,16 +263,28 @@ class XMLscene extends CGFscene {
 	
 		}
 
-	
-
-	update(currTime) {
-    
-      this.circularAnimation.update(currTime/10000);
+    updateAnimations(currTime){
+        this.circularAnimation.update(currTime/10000);
     
       if(this.initialTime == 0){
         this.initialTime = currTime;
       }
       this.linearAnimation.update((currTime- this.initialTime)/1000);
+    }
+	
+
+    updateShaders(currTime){
+    var factor = (Math.sin((currTime * 3.0) % 3141 * 0.002)+1.0)*.5;
+    this.testShaders[0].setUniformsValues({timeFactor: factor});
+    }
+	update(currTime) {
+
+   
+        
+     
+      this.updateAnimations(currTime);
+      this.updateShaders(currTime);
+      
       this.checkKeys();
 
         if(this.keysPressed==true){
