@@ -5,9 +5,9 @@
 
 class CircularAnimation extends Animation
 {
-	constructor(id, span, centerX, centerY,centerZ, radius, startAng, rotAng)
+	constructor(scene,id, span, centerX, centerY,centerZ, radius, startAng, rotAng)
 	{
-		super();
+		super(scene);
 		this.id = id;
 		this.span = span;
 		this.centerX = centerX;

@@ -63,9 +63,9 @@ class XMLscene extends CGFscene {
             
         this.camera = this.freeCamera;
         this.vehicle = new MyVehicle(this);
-        this.circularAnimation = new CircularAnimation(1,5,0,0,0,5,0,90);
+        this.circularAnimation = new CircularAnimation(this,1,5,0,0,0,5,0,90);
         var points = [[0,0,0],[1,1,1],[2,2,2],[3,3,3]];
-        this.linearAnimation = new LinearAnimation(2,5,points);
+        this.linearAnimation = new LinearAnimation(this,2,5,points);
         this.initialTime = 0;
             
        

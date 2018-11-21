@@ -1645,7 +1645,8 @@ class MySceneGraph {
                         this.reader.getFloat(grandChildren[j], 'yy'),
                         this.reader.getFloat(grandChildren[j], 'zz')]);
                 }
-                this.animations.push(["linear", animationId,spanTime,controlPoints])
+                this.scene.animation = new LinearAnimation(this.scene,animationId,spanTime,controlPoints);
+                this.animations.push([animationId,this.scene.animation])
             }
             else if(children[i].nodeName == "circular") {
                 var animationId = this.reader.getString(children[i], 'id');
@@ -1661,8 +1662,9 @@ class MySceneGraph {
                 for(var j=0; j<= centerPoints.length-1;j++){
                     centerPoints[j]=Number(centerPoints[j]);
                 }
-                
-                this.animations.push(["circular", animationId,spanTime,centerPoints,radius,startAng,rotAng]);
+                this.scene.animation = new CircularAnimation(this.scene,animationId,spanTime,centerPoints[0],centerPoints[1],
+                    centerPoints[2],radius,startAng,rotAng);
+                this.animations.push([animationId,this.scene.animation]);
             }
           
         }
@@ -1703,6 +1705,7 @@ class MySceneGraph {
             var primitiveFind = "";
             var primitiveRefs = [];
             var componentRefs = [];
+            var animations = [];
 
             if (children[i].nodeName != "component") {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
@@ -1941,6 +1944,15 @@ class MySceneGraph {
                             }
                         }
                     }
+                    if (grandNodeNames[k] == "animations") {
+                        var grandGrandChildren = grandChildren[k].children;
+                        for (var j = 0; j < grandGrandChildren.length; j++) {
+                            for(var l = 0; l<this.animations.length;l++){
+                                if(this.animations[l][0]==this.reader.getString(grandGrandChildren[j], "id"))
+                                animations.push(this.animations[l][1]);
+                            }
+                        }
+                    }
                 }
                 var component = [];
                 component.push(componentName);
@@ -1949,6 +1961,7 @@ class MySceneGraph {
                 component.push(materialRefs);
                 component.push(primitiveRefs);
                 component.push(componentRefs);
+                component.push(animations);
                 
 
                 this.components.push(component);
@@ -2055,6 +2068,10 @@ class MySceneGraph {
         var savePos = materialPos;
   
         this.scene.multMatrix(component[1]); //transformations
+        for(var i = 0; i< component[6].length;i++){
+            var newMatrix = component[6][i].applyMatrix();
+            this.scene.multMatrix(newMatrix);
+        }
 
         if(component[2][0]=="none"){
             texture=null;

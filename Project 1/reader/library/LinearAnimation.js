@@ -5,9 +5,9 @@
 
 class LinearAnimation extends Animation
 {
-	constructor(id, span, pointList)
+	constructor(scene,id, span, pointList)
 	{  
-       super();
+       super(scene);
         this.id = id;
         this.span = span;
         this.pointList = pointList;
@@ -65,12 +65,12 @@ class LinearAnimation extends Animation
         var dY = this.vectors[this.progress][1]*this.time;
         var dZ = this.vectors[this.progress][2]*this.time;
         
-        console.log(this.time);
+        //console.log(this.time);
         var translation = vec3.fromValues(dX, dY, dZ);
         var dest = mat4.create();
         //mat4.fromTranslation(translationMatrix, translation);
         mat4.translate(dest, dest, translation);
-        console.log(dest);
+        //console.log(dest);
         return dest;
 
 

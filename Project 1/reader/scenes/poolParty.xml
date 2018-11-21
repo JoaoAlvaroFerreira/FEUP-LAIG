@@ -178,6 +178,9 @@
                 <componentref id="BackRightLeg" />
                 <componentref id="TableTop" />
             </children>
+            <animations>
+                <animationref id="DefaultLinear"/>
+            </animations>
         </component>
 
         <component id="FrontLeftLeg">
