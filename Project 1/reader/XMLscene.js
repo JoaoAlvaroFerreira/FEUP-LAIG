@@ -276,7 +276,7 @@ class XMLscene extends CGFscene {
                   this.graph.animations[i][2].update((currTime- this.initialTime)/1000);
             }
               else if(this.graph.animations[i][1]=="circular")  {
-                   if(end==1) this.graph.animations.splice(i,1);
+                  this.graph.animations[i][2].update((currTime- this.initialTime)/1000);
               }
                 }
             }
