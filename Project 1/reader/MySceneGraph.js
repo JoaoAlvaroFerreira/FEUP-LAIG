@@ -1646,7 +1646,7 @@ class MySceneGraph {
                         this.reader.getFloat(grandChildren[j], 'zz')]);
                 }
                 this.scene.animation = new LinearAnimation(this.scene,animationId,spanTime,controlPoints);
-                this.animations.push([animationId,this.scene.animation])
+                this.animations.push([animationId,"linear",this.scene.animation])
             }
             else if(children[i].nodeName == "circular") {
                 var animationId = this.reader.getString(children[i], 'id');
@@ -1664,7 +1664,7 @@ class MySceneGraph {
                 }
                 this.scene.animation = new CircularAnimation(this.scene,animationId,spanTime,centerPoints[0],centerPoints[1],
                     centerPoints[2],radius,startAng,rotAng);
-                this.animations.push([animationId,this.scene.animation]);
+                this.animations.push([animationId,"circular",this.scene.animation]);
             }
           
         }
@@ -1944,12 +1944,13 @@ class MySceneGraph {
                             }
                         }
                     }
+                    //Component Animations
                     if (grandNodeNames[k] == "animations") {
                         var grandGrandChildren = grandChildren[k].children;
                         for (var j = 0; j < grandGrandChildren.length; j++) {
                             for(var l = 0; l<this.animations.length;l++){
                                 if(this.animations[l][0]==this.reader.getString(grandGrandChildren[j], "id"))
-                                animations.push(this.animations[l][1]);
+                                animations.push(this.animations[l][2]);
                             }
                         }
                     }

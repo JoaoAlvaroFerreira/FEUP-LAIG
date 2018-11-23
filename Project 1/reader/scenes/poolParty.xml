@@ -94,10 +94,16 @@
     </transformations>
 
     <animations>
-        <linear id= "DefaultLinear" span="10">
+        <linear id= "TripleLinear" span="10">
             <controlpoint xx = "0" yy ="0" zz = "0"/>
             <controlpoint xx = "0" yy ="5" zz = "3"/>
             <controlpoint xx = "-2" yy ="10" zz = "9"/>
+        </linear>
+         <linear id= "DefaultLinear" span="10">
+            <controlpoint xx = "0" yy ="0" zz = "0"/>
+            <controlpoint xx = "-5" yy ="0" zz = "5"/>
+            <controlpoint xx = "0" yy ="0" zz = "0"/>
+         
         </linear>
         <circular id="DefaultCircular" span="5" center = "0 0 0" 
         radius="4" startang="0" rotang="90"/>

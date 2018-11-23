@@ -63,8 +63,8 @@ class XMLscene extends CGFscene {
             
         this.camera = this.freeCamera;
         this.vehicle = new MyVehicle(this);
-        this.circularAnimation = new CircularAnimation(this,1,5,0,0,0,5,0,90);
-        var points = [[0,0,0],[1,1,1],[2,2,2],[3,3,3]];
+        this.circularAnimation = new CircularAnimation(this,1,20,0,0,0,5,0,-720);
+        var points = [[0,0,0],[1,1,1]];
         this.linearAnimation = new LinearAnimation(this,2,5,points);
         this.initialTime = 0;
         this.initShaders();
@@ -264,14 +264,27 @@ class XMLscene extends CGFscene {
 		}
 
     updateAnimations(currTime){
-        this.circularAnimation.update(currTime/10000);
-    
+        this.circularAnimation.update((currTime-this.initialTime)/1000);
+       
       if(this.initialTime == 0){
         this.initialTime = currTime;
       }
+      if(this.graph.animations!=null){
+      for(var i = 0; i<this.graph.animations.length;i++){
+          if(this.graph.animations[i][1]!=null){
+              if(this.graph.animations[i][1]=="linear") {
+                  this.graph.animations[i][2].update((currTime- this.initialTime)/1000);
+            }
+              else if(this.graph.animations[i][1]=="circular")  {
+                   if(end==1) this.graph.animations.splice(i,1);
+              }
+                }
+            }
+        }
       this.linearAnimation.update((currTime- this.initialTime)/1000);
     }
-	
+
+
 
     updateShaders(currTime){
     var factor = (Math.sin((currTime * 3.0) % 3141 * 0.002)+1.0)*.5;
