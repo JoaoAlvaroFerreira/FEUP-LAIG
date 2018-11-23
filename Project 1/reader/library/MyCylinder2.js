@@ -17,7 +17,7 @@ class MyCylinder2 extends CGFobject
         this.surface = [];
         this.calc();
         this.nurbsSurface = new CGFnurbsSurface(this.slices, this.stacks, this.surface);
-		this.obj = new CGFnurbsObject(this.scene, this.slices, this.stacks, this.nurbsSurface ); 
+		this.obj = new CGFnurbsObject(this.scene, this.slices*2, this.stacks*2, this.nurbsSurface ); 
 	};
 
 	calc()

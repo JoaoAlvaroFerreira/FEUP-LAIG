@@ -408,8 +408,8 @@
                 <primitiveref id="DefaultVehicle" />
             </children>
             <animations>
-                <animationref id="PlaneMovement"/>
-                <animationref id="DefaultCircular"/>
+                <!-- <animationref id="PlaneMovement"/>
+                <animationref id="DefaultCircular"/> -->
             </animations>
         </component> 
 
