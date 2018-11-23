@@ -94,10 +94,11 @@
     </transformations>
 
     <animations>
-        <linear id= "TripleLinear" span="10">
+        <linear id= "PlaneMovement" span="30">
             <controlpoint xx = "0" yy ="0" zz = "0"/>
-            <controlpoint xx = "0" yy ="5" zz = "3"/>
-            <controlpoint xx = "-2" yy ="10" zz = "9"/>
+            <controlpoint xx = "10" yy ="8" zz = "12"/>
+            <controlpoint xx = "3" yy ="-3" zz = "-1"/>
+             <controlpoint xx = "12" yy ="-1" zz = "10"/>
         </linear>
          <linear id= "DefaultLinear" span="10">
             <controlpoint xx = "0" yy ="0" zz = "0"/>
@@ -105,8 +106,8 @@
             <controlpoint xx = "0" yy ="0" zz = "0"/>
          
         </linear>
-        <circular id="DefaultCircular" span="5" center = "0 0 0" 
-        radius="4" startang="0" rotang="90"/>
+        <circular id="DefaultCircular" span="30" center = "0 0 0" 
+        radius="4" startang="0" rotang="1080"/>
     </animations>
 
     <primitives>
@@ -394,20 +395,23 @@
         </component>
         <!-- Vehicle -->
         
-        <component id="TestVehicle">
+       <component id="TestVehicle">
             <transformation>
-               <translate x="0" y="-0.35" z="0.1" />
-                 <scale x="5" y = "5" z = "5"/>
-                <rotate axis="x" angle="90" />
+               <translate x="0" y="6" z="6" />
+               
             </transformation>
              <materials>
                 <material id="DefaultMaterial" />
             </materials>
-            <texture id="BallTexture" length_s="1" length_t="1" />
+            <texture id="IronTexture" length_s="1" length_t="1" />
             <children>
                 <primitiveref id="DefaultVehicle" />
             </children>
-        </component>
+            <animations>
+                <animationref id="PlaneMovement"/>
+                <animationref id="DefaultCircular"/>
+            </animations>
+        </component> 
 
         <!-- Plank -->
         <component id="Plank">
@@ -703,18 +707,18 @@
         </component>
 
 
-        <!-- <component id="NewComponent"> 
+        <component id="PlaneTesting"> 
             <transformation>
-                <transformationref id="DefaultZero" /> 
+               <translate x="0" y="2" z="0" />
             </transformation> 
             <materials> 
                 <material id="DefaultMaterial" /> 
             </materials> 
             <texture id="VidralTexture" length_s="1" length_t="1" /> 
 			<children> 
-                <componentref id="Cube" /> 
+                <primitiveref id="DefaultPlane" /> 
             </children> 
-        </component> -->
+        </component> 
 
 
     </components>

@@ -1434,6 +1434,17 @@ class MySceneGraph {
                 this.primitiveVector.push([primitive,primitiveId,triangleCoordinates]);
 
             }
+            else if (primitiveId == "plane") {
+
+              
+                var npartsU = this.reader.getFloat(grandChildren[0], 'npartsU');
+                var npartsV = this.reader.getFloat(grandChildren[0], 'npartsV');
+                                   
+
+                this.primitiveVector.push([primitive,primitiveId,npartsU,npartsV]);
+
+            }
+
 
             else if (primitiveId == "triangleInverted") {
 
@@ -1546,6 +1557,47 @@ class MySceneGraph {
                 this.primitiveVector.push([primitive,primitiveId,cylinderCoordinates]);
 
             }
+            else if (primitiveId == "cylinder2") {
+                var cylinderCoordinates = [];
+                    // base
+                    var base = this.reader.getFloat(grandChildren[0], 'base');
+                    if (!(base != null && !isNaN(base)))
+                        return "unable to parse x-coordinate  "
+                    else
+                        cylinderCoordinates.push(base);
+
+                    // top
+                    var top = this.reader.getFloat(grandChildren[0], 'top');
+                    if (!(top != null && !isNaN(top)))
+                        return "unable to parse y-coordinate of the primitive = " + primitiveId;
+                    else
+                        cylinderCoordinates.push(top);
+
+                    // height
+                    var height = this.reader.getFloat(grandChildren[0], 'height');
+                    if (!(height != null && !isNaN(height)))
+                        return "unable to parse x-coordinate of the primitive = " + primitiveId;
+                    else
+                        cylinderCoordinates.push(height);
+
+                    // slices
+                    var slices = this.reader.getFloat(grandChildren[0], 'slices');
+                    if (!(slices != null && !isNaN(slices)))
+                        return "unable to parse y-coordinate of the primitive = " + primitiveId;
+                    else
+                        cylinderCoordinates.push(slices);
+
+                    // stacks
+                    var stacks = this.reader.getFloat(grandChildren[0], 'stacks');
+                    if (!(stacks != null && !isNaN(stacks)))
+                        return "unable to parse y-coordinate of the primitive = " + primitiveId;
+                    else
+                        cylinderCoordinates.push(stacks);
+                
+
+                this.primitiveVector.push([primitive,primitiveId,cylinderCoordinates]);
+
+            }
             else if (primitiveId == "sphere") {
 
                 var sphereCoordinates = [];
@@ -1573,6 +1625,10 @@ class MySceneGraph {
                 
 
                 this.primitiveVector.push([primitive,primitiveId,sphereCoordinates]);
+            }
+            else if (primitiveId == "vehicle") {
+
+              this.primitiveVector.push([primitive,primitiveId]);
             }
 
             else if (primitiveId == "torus") {
@@ -1897,6 +1953,12 @@ class MySceneGraph {
                                     
                                     break;
 
+                                    case "plane":
+                                    this.scene.plane=new Plane(this.scene,this.primitiveVector[l][2],this.primitiveVector[l][3]);
+                                    primitiveRefs.push([0,this.scene.plane]);    
+                                   
+                                   break;
+
                                     case "triangle":
                                      this.scene.triangle=new MyTriangle(this.scene,this.primitiveVector[l][2][0],this.primitiveVector[l][2][1],this.primitiveVector[l][2][6],
                                         this.primitiveVector[l][2][2],this.primitiveVector[l][2][3],this.primitiveVector[l][2][7], this.primitiveVector[l][2][4],
@@ -1915,6 +1977,11 @@ class MySceneGraph {
                                      this.scene.cylinder=new Wheel(this.scene,this.primitiveVector[l][2][3],this.primitiveVector[l][2][4]);    
                                      primitiveRefs.push([0 ,this.scene.cylinder]);
                                     break;
+
+                                    case "cylinder2":
+                                    this.scene.cylinder2=new MyCylinder(this.scene,this.primitiveVector[l][2][3],this.primitiveVector[l][2][4]);    
+                                    primitiveRefs.push([0 ,this.scene.cylinder2]);
+                                   break;
                      
                                     case "sphere":
                                      this.scene.sphere=new MySphere(this.scene,this.primitiveVector[l][2][0],this.primitiveVector[l][2][1],this.primitiveVector[l][2][2]);
@@ -1927,7 +1994,6 @@ class MySceneGraph {
                                     break;     
                                     
                                     case "vehicle":
-                                    printf("ENTROU\n");
                                     this.scene.vehicle = new MyVehicle(this.scene);
                                     primitiveRefs.push([0, this.scene.vehicle]);
                                     break;

@@ -242,7 +242,7 @@ class XMLscene extends CGFscene {
        var appMatrixCircular = this.circularAnimation.applyMatrix();
        var appMatrixLinear = this.linearAnimation.applyMatrix();
        this.multMatrix(appMatrixCircular);
-        this.vehicle.display();
+       // this.vehicle.display();
         this.popMatrix();
       //  this.setActiveShader(this.defaultShader);
         this.popMatrix();
