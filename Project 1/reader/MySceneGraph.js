@@ -1979,7 +1979,8 @@ class MySceneGraph {
                                     break;
 
                                     case "cylinder2":
-                                    this.scene.cylinder2=new MyCylinder(this.scene,this.primitiveVector[l][2][3],this.primitiveVector[l][2][4]);    
+                                    this.scene.cylinder2=new MyCylinder2(this.scene,this.primitiveVector[l][2][3],this.primitiveVector[l][2][4],
+                                        this.primitiveVector[l][2][0],this.primitiveVector[l][2][1],this.primitiveVector[l][2][2]);    
                                     primitiveRefs.push([0 ,this.scene.cylinder2]);
                                    break;
                      

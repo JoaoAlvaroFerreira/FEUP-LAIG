@@ -720,6 +720,19 @@
             </children> 
         </component> 
 
+        <component id="Cylinder2Testing"> 
+            <transformation>
+               <translate x="0" y="3" z="0" />
+            </transformation> 
+            <materials> 
+                <material id="DefaultMaterial" /> 
+            </materials> 
+            <texture id="VidralTexture" length_s="1" length_t="1" /> 
+			<children> 
+                <primitiveref id="DefaultCylinder2" /> 
+            </children> 
+        </component> 
+
 
     </components>
 
