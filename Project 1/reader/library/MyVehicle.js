@@ -10,7 +10,6 @@ class MyVehicle extends CGFobject {
        
        
         this.cube = new MyUnitCube(scene);
-        //this.wheel = new Wheel(scene,20,20);
         this.cylinder = new MyCylinder2(scene,20,10,0.7,0.7,2);
         this.cylinder2 = new MyCylinder2(scene,20,10,0.7,0.5,1.5);
         this.cylinder3 = new MyCylinder2(scene,20,10,0.5,0,0.5);
