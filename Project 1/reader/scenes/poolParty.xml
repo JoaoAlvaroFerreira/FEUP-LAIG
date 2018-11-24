@@ -159,7 +159,7 @@
         </primitive>
 
         <primitive id="DefaultWater">
-            <terrain idtexture = "WaterTexture" idwavemap="WaveMapTexture" 
+            <water idtexture = "WaterTexture" idwavemap="WaveMapTexture" 
             parts="10" heightscale="1.5" texscale="2" />
         </primitive>
 
