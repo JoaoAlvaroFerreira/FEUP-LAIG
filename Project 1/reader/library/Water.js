@@ -1,8 +1,8 @@
-class Terrain extends Plane{
+class Water extends Plane{
     
-    constructor(scene, idTexture, idheightmap, divs, heightscale){
+    constructor(scene, idTexture, idwavemap, divs, heightscale,texscale){
 		super(scene, divs, divs);
-		this.scene.initShaders(idTexture, idheightmap, heightscale,0);
+		this.scene.initShaders(idTexture, idwavemap, heightscale, texscale);
 	};
 
     

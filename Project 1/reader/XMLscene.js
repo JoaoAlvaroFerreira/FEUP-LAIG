@@ -77,7 +77,7 @@ class XMLscene extends CGFscene {
         this.linearAnimation = new LinearAnimation(this,2,5,points);
     }
 
-    initShaders(idTexture, idheightmap, heightscale){
+    initShaders(idTexture, idheightmap, heightscale, texscale){
 
         this.terrainShader = new CGFshader(this.gl, "library/vertex.vert", "library/fragment.frag");
     
@@ -444,4 +444,3 @@ class XMLscene extends CGFscene {
 				return terrainMaterial;
             }
             */
-           

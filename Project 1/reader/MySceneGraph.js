@@ -1448,6 +1448,20 @@ class MySceneGraph {
                 this.primitiveVector.push([primitive,primitiveId,idtexture,heightmap,divs,heightscale]);
 
             }
+
+            else if (primitiveId == "water") {
+                
+              
+                var idtexture = this.reader.getString(grandChildren[0], 'idtexture');
+                var heightmap = this.reader.getString(grandChildren[0], 'idwavemap');
+                var divs = this.reader.getFloat(grandChildren[0], 'parts');
+                var heightscale = this.reader.getFloat(grandChildren[0], 'heightscale');
+                var texscale = this.reader.getFloat(grandChildren[0], 'texscale');
+                                                   
+
+                this.primitiveVector.push([primitive,primitiveId,idtexture,heightmap,divs,heightscale, texscale]);
+
+            }
             else if (primitiveId == "plane") {
 
               
@@ -1989,6 +2003,11 @@ class MySceneGraph {
                                    case "terrain":
                                     this.scene.terrain = new Terrain(this.scene,this.primitiveVector[l][2],this.primitiveVector[l][3],this.primitiveVector[l][4],this.primitiveVector[l][5]);
                                     primitiveRefs.push([0, this.scene.terrain]);
+                                    break;
+
+                                    case "water":
+                                    this.scene.water = new Water(this.scene,this.primitiveVector[l][2],this.primitiveVector[l][3],this.primitiveVector[l][4],this.primitiveVector[l][5], this.primitiveVector[l][6]);
+                                    primitiveRefs.push([0, this.scene.water]);
                                     break;
 
                                    case "patch":
