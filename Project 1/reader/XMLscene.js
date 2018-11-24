@@ -39,7 +39,7 @@ class XMLscene extends CGFscene {
         
         this.currentMaterial = 0;
 
-        
+        this.deltaTime = 0;
        
         this.cameraList = {
 		"Free Camera": 0,
@@ -261,26 +261,20 @@ class XMLscene extends CGFscene {
                 }
             }
         }
+        
     }
 
-    updateShaders(currTime){
-        /*var factor = (Math.sin((currTime * 3.0) % 3141 * 0.002)+1.0)*.5;
-        this.timeFactor=Math.abs(Math.sin(currTime/1000));
-        this.compTimeFactor=1-this.timeFactor;
-        this.terrainShader.setUniformsValues({timeFactor: this.timeFactor});
-        this.terrainShader.setUniformsValues({compTimeFactor: this.compTimeFactor})*/
-        
-        //this.testShaders[0].setUniformsValues({scaleFactor: this.scaleFactor});
-    };
-    
+    updateDeltaTime(currTime) {
+        this.deltaTime = (currTime - this.initialTime)/1000;
+    }
+      
 
 	update(currTime) {
         
      
       this.updateAnimations(currTime);
-      this.updateShaders(currTime);
-      
       this.checkKeys();
+      this.updateDeltaTime(currTime);
 
         if(this.keysPressed==true){
             this.currentMaterial++;

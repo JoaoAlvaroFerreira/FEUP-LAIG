@@ -2007,7 +2007,7 @@ class MySceneGraph {
 
                                     case "water":
                                     this.scene.water = new Water(this.scene,this.primitiveVector[l][2],this.primitiveVector[l][3],this.primitiveVector[l][4],this.primitiveVector[l][5], this.primitiveVector[l][6]);
-                                    primitiveRefs.push([0, this.scene.water]);
+                                    primitiveRefs.push([0, this.scene.water,"water"]);
                                     break;
 
                                    case "patch":
@@ -2196,6 +2196,13 @@ class MySceneGraph {
         for(var i = 0; i< component[6].length;i++){
             var newMatrix = component[6][i].applyMatrix();
             this.scene.multMatrix(newMatrix);
+        }
+
+        //Update shaders
+        for(var i = 0; i < component[4].length;i++){
+            if(component[4][i][2]!=null) {
+                component[4][i][1].updateShader();
+            }
         }
 
         if(component[2][0]=="none"){

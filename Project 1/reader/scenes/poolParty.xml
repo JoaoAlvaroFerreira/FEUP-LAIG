@@ -159,8 +159,8 @@
         </primitive>
 
         <primitive id="DefaultWater">
-            <water idtexture = "WaterTexture" idwavemap="WaveMapTexture" 
-            parts="10" heightscale="1.5" texscale="2" />
+            <water idtexture = "ocean" idwavemap="waterShader" 
+            parts="100" heightscale="2" texscale="2.0" />
         </primitive>
 
     </primitives >
@@ -709,7 +709,7 @@
         </component>
 
 
-        <component id="PlaneTesting"> 
+        <!-- <component id="PlaneTesting"> 
             <transformation>
                <translate x="0" y="3" z="0" />
             </transformation> 
@@ -746,7 +746,7 @@
 			<children> 
                 <primitiveref id="DefaultCylinder2" /> 
             </children> 
-        </component> 
+        </component> -->
 
          <component id="TerrainTesting"> 
             <transformation>
@@ -758,6 +758,19 @@
             <texture id="VidralTexture" length_s="1" length_t="1" /> 
 			<children> 
                 <primitiveref id="DefaultTerrain" /> 
+            </children> 
+        </component> 
+
+          <component id="WaterTesting"> 
+            <transformation>
+               <translate x="0" y="0" z="0" />
+            </transformation> 
+            <materials> 
+                <material id="DefaultMaterial" /> 
+            </materials> 
+            <texture id="VidralTexture" length_s="1" length_t="1" /> 
+			<children> 
+                <primitiveref id="DefaultWater" /> 
             </children> 
         </component> 
 
