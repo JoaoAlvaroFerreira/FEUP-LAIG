@@ -77,29 +77,7 @@ class XMLscene extends CGFscene {
         this.linearAnimation = new LinearAnimation(this,2,5,points);
     }
 
-    initShaders(idTexture, idheightmap, heightscale, texscale){
-
-        //this.terrainShader = new CGFshader(this.gl, "library/vertex.vert", "library/fragment.frag");
-    
-        this.appearance = null;
-        //this.selectedExampleShader=0;
-        this.wireframe=false;
-        this.scaleFactor=heightscale;
-        this.testTexture = new CGFtexture(this, "./scenes/images/"+ idTexture +".jpg");
-        this.testHeightMap = new CGFtexture(this, "./scenes/images/"+ idheightmap +".jpg");
-        
-        this.terrainShader.setUniformsValues({uSampler2: 1});
-        this.terrainShader.setUniformsValues({normScale: this.scaleFactor});
-        this.terrainShader.setUniformsValues({compTimeFactor: this.compTimeFactor});
-        this.terrainShader.setUniformsValues({scaleFactor: this.scaleFactor});
-        this.terrainShader.setUniformsValues({redFactor: this.redFactor});
-        this.terrainShader.setUniformsValues({greenFactor: this.blueFactor});
-        this.terrainShader.setUniformsValues({blueFactor: this.greenFactor});
-        
-    
-    };
-
-    
+  
 
 
     
@@ -267,8 +245,7 @@ class XMLscene extends CGFscene {
 		}
 
     updateAnimations(currTime){
-        this.circularAnimation.update((currTime-this.initialTime)/1000);
-       
+        
       if(this.initialTime == 0){
         this.initialTime = currTime;
       }
@@ -284,7 +261,6 @@ class XMLscene extends CGFscene {
                 }
             }
         }
-      this.linearAnimation.update((currTime- this.initialTime)/1000);
     }
 
     updateShaders(currTime){
@@ -337,110 +313,3 @@ class XMLscene extends CGFscene {
     
 	
 }
-/*
-// terrain
-				var img = new Image();
-				img.onload = function () {
-					var data = getHeightData(img);
-
-					// plane
-					plane = new Plane( 100, 100, 127, 127 );
-
-					for ( var i = 0, l = plane.vertices.length; i < l; i++ ) {
-						plane.vertices[i].position.z = data[i];
-					}
-
-					var planeMesh = addMesh( plane, 100,  0, FLOOR, 0, -1.57,0,0, getTerrainMaterial() );
-					waterMesh.visible = true;
-				};
-				img.src = "heightmap_128.jpg";
-
-				var water = new Plane( 100, 100, 1, 1 );
-				for(var i=0; i<water.uvs.length; i++) {
-					var uvs = water.uvs[i];
-					for ( j = 0, jl = uvs.length; j < jl; j++ ) {
-						uvs[j].u *= 10;
-						uvs[j].v *= 10;
-					}
-				}
-				waterMesh = addMesh( water, 63,  -1000, FLOOR+620, 1000, -1.57,0,0, getWaterMaterial() );
-				waterMesh.visible = false;
-
-				try {
-					webglRenderer = new THREE.WebGLRenderer( { scene: scene, clearColor: 0x34583e, clearAlpha: 0.5 } );
-					webglRenderer.setFaceCulling(0);
-					webglRenderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
-					container.appendChild( webglRenderer.domElement );
-					has_gl = 1;
-				}
-				catch (e) {
-					// need webgl
-					document.getElementById('info').innerHTML = "<P><BR><B>Note.</B> You need a modern browser that supports WebGL for this to run the way it is intended.<BR>For example. <a href='http://www.google.com/landing/chrome/beta/' target='_blank'>Google Chrome 9+</a> or <a href='http://www.mozilla.com/firefox/beta/' target='_blank'>Firefox 4+</a>.</P><CENTER><BR><img src='../general/WebGL_logo.png' border='0'></CENTER>";
-					document.getElementById('info').style.display = "block";
-					return;
-				}
-
-				stats = new Stats();
-				stats.domElement.style.position = 'absolute';
-				stats.domElement.style.top = '0px';
-				stats.domElement.style.zIndex = 100;
-				container.appendChild( stats.domElement );
-				
-			}
-
-			function getHeightData(img) {
-				var canvas = document.createElement( 'canvas' );
-				canvas.width = 128;
-				canvas.height = 128;
-				var context = canvas.getContext( '2d' );
-
-				var size = 128 * 128, data = new Float32Array( size );
-
-				context.drawImage(img,0,0);
-
-				for ( var i = 0; i < size; i ++ ) {
-					data[i] = 0
-				}
-
-				var imgd = context.getImageData(0, 0, 128, 128);
-				var pix = imgd.data;
-
-				var j=0;
-				for (var i = 0, n = pix.length; i < n; i += (4)) {
-					var all = pix[i]+pix[i+1]+pix[i+2];
-					data[j++] = all/30;
-				}
-
-				return data;
-			}
-
-			function getWireframeMaterial () {
-				return new THREE.MeshLambertMaterial( { color:0x231ad4, opacity: 0.65, shading: THREE.FlatShading } );
-			}
-
-			function getWaterMaterial () {
-				var waterMaterial = new THREE.MeshPhongMaterial( { map: new THREE.Texture(null, THREE.UVMapping, THREE.RepeatWrapping, THREE.RepeatWrapping), ambient: 0x666666, specular: 0xffffff, env_map: textureCube, combine: THREE.Mix, reflectivity: 0.15 , opacity: 0.8, shininess: 10, shading: THREE.SmoothShading } );
-
-				var img = new Image();
-				waterMaterial.map.image = img;
-				img.onload = function () {
-					waterMaterial.map.image.loaded = 1;
-				};
-				img.src = "water.jpg";
-
-				return waterMaterial;
-			}
-
-			function getTerrainMaterial () {
-				var terrainMaterial = new THREE.MeshPhongMaterial( { map: new THREE.Texture(null, THREE.UVMapping, THREE.RepeatWrapping, THREE.RepeatWrapping), ambient: 0xaaaaaa, specular: 0xffffff, shininess: 0, shading: THREE.SmoothShading } );
-
-				var img = new Image();
-				terrainMaterial.map.image = img;
-				img.onload = function () {
-					terrainMaterial.map.image.loaded = 1;
-				};
-				img.src = "terrain.jpg";
-
-				return terrainMaterial;
-            }
-            */

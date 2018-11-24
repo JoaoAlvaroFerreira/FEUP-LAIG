@@ -2,7 +2,7 @@ class Water extends Plane{
     
     constructor(scene, idTexture, idwavemap, divs, heightscale,texscale){
 		super(scene, divs, divs);
-		this.scene.initShaders(idTexture, idwavemap, heightscale, texscale);
+		
 	};
 
     
