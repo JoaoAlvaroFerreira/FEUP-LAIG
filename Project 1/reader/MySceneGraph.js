@@ -1434,6 +1434,20 @@ class MySceneGraph {
                 this.primitiveVector.push([primitive,primitiveId,triangleCoordinates]);
 
             }
+            
+            else if (primitiveId == "terrain") {
+                
+              
+                var idtexture = this.reader.getString(grandChildren[0], 'idtexture');
+                var heightmap = this.reader.getString(grandChildren[0], 'idheightmap');
+                var divs = this.reader.getFloat(grandChildren[0], 'parts');
+                var heightscale = this.reader.getFloat(grandChildren[0], 'heightscale');
+
+                                   
+
+                this.primitiveVector.push([primitive,primitiveId,idtexture,heightmap,divs,heightscale]);
+
+            }
             else if (primitiveId == "plane") {
 
               
@@ -1444,6 +1458,7 @@ class MySceneGraph {
                 this.primitiveVector.push([primitive,primitiveId,npartsU,npartsV]);
 
             }
+
 
             else if (primitiveId == "patch") {
 
@@ -1970,6 +1985,11 @@ class MySceneGraph {
                                     primitiveRefs.push([0,this.scene.plane]);    
                                    
                                    break;
+
+                                   case "terrain":
+                                    this.scene.terrain = new Terrain(this.scene,this.primitiveVector[l][2],this.primitiveVector[l][3],this.primitiveVector[l][4],this.primitiveVector[l][5]);
+                                    primitiveRefs.push([0, this.scene.terrain]);
+                                    break;
 
                                    case "patch":
                                    this.scene.patch=new Patch(this.scene,this.primitiveVector[l][2],this.primitiveVector[l][3],this.primitiveVector[l][4],this.primitiveVector[l][5]);

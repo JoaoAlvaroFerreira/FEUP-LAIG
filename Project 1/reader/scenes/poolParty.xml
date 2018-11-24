@@ -136,6 +136,7 @@
             <torus inner="0.3" outer="1" slices="16" loops="16" />
         </primitive >
 
+
         <primitive id="DefaultPlane">
             <plane npartsU = "10" npartsV = "10"/>
         </primitive>
@@ -153,8 +154,8 @@
         </primitive>
 
         <primitive id="DefaultTerrain">
-            <terrain idtexture = "RocksTexture" idheightmap="HeightMapTexture" 
-            parts="15" heightscale="2.5" />
+            <terrain idtexture = "terrainmap" idheightmap= "heightmap" 
+            parts="50" heightscale="2.5" />
         </primitive>
 
         <primitive id="DefaultWater">
@@ -744,6 +745,19 @@
             <texture id="VidralTexture" length_s="1" length_t="1" /> 
 			<children> 
                 <primitiveref id="DefaultCylinder2" /> 
+            </children> 
+        </component> 
+
+         <component id="TerrainTesting"> 
+            <transformation>
+               <translate x="5" y="2" z="5" />
+            </transformation> 
+            <materials> 
+                <material id="DefaultMaterial" /> 
+            </materials> 
+            <texture id="VidralTexture" length_s="1" length_t="1" /> 
+			<children> 
+                <primitiveref id="DefaultTerrain" /> 
             </children> 
         </component> 
 

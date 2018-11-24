@@ -26,6 +26,8 @@ class XMLscene extends CGFscene {
 
         this.cameras = [];
         this.initCameras();
+        this.initAnimations();
+        this.initShaders();
         this.setUpdatePeriod(1000 / 60);
 
         this.enableTextures(true);
@@ -62,36 +64,45 @@ class XMLscene extends CGFscene {
         this.cameras.push(this.freeCamera);
             
         this.camera = this.freeCamera;
-        this.vehicle = new MyVehicle(this);
-        this.circularAnimation = new CircularAnimation(this,1,20,0,0,0,5,0,-720);
+        this.plane = new Plane(this, 50, 50);
+        
+        this.initialTime = 0;
+        
+       
+    }
+
+    initAnimations(){
+        this.circularAnimation = new CircularAnimation(this,1,20,0,0,0,5,0,720);
         var points = [[0,0,0],[1,1,1]];
         this.linearAnimation = new LinearAnimation(this,2,5,points);
-        this.initialTime = 0;
-        this.initShaders();
-       
-       
     }
+
+    initShaders(idTexture, idheightmap, heightscale){
+
+        this.terrainShader = new CGFshader(this.gl, "library/vertex.vert", "library/fragment.frag");
+    
+        this.appearance = null;
+        //this.selectedExampleShader=0;
+        this.wireframe=false;
+        this.scaleFactor=heightscale;
+        this.testTexture = new CGFtexture(this, "scenes/images/"+ idTexture +".jpg");
+        this.testHeightMap = new CGFtexture(this, "scenes/images/"+ idheightmap +".jpg");
+        
+        this.terrainShader.setUniformsValues({uSampler2: 1});
+        this.terrainShader.setUniformsValues({normScale: this.scaleFactor});
+        this.terrainShader.setUniformsValues({compTimeFactor: this.compTimeFactor});
+        this.terrainShader.setUniformsValues({scaleFactor: this.scaleFactor});
+        this.terrainShader.setUniformsValues({redFactor: this.redFactor});
+        this.terrainShader.setUniformsValues({greenFactor: this.blueFactor});
+        this.terrainShader.setUniformsValues({blueFactor: this.greenFactor});
+        
+    
+    };
 
     
 
-    initShaders(){
 
-    this.testShaders = [new CGFshader(this.gl, "library/vertex.vert", "library/fragment.frag")];
-    this.texture = null;
-    this.appearance = null;
-    this.selectedExampleShader=0;
-    this.wireframe=false;
-    this.scaleFactor=50.0;
-
-    this.testShaders[0].setUniformsValues({uSampler2: 1});
-
-	this.testTexture = new CGFtexture(this, "scenes/images/floater.jpg");
-	
     
-    this.testShaders[0].setUniformsValues({normScale: this.scaleFactor});
-
-
-    }
     /**
      * Initializes the scene lights with the values read from the XML file.
      */
@@ -190,6 +201,7 @@ class XMLscene extends CGFscene {
         this.initLights();
         
         
+        
         // Adds lights group.
         this.interface.addLightsGroup(this.graph.lights);
 
@@ -235,16 +247,7 @@ class XMLscene extends CGFscene {
             this.axis.display();
         }
 
-        //this.setActiveShader(this.testShaders[this.selectedExampleShader]);
-       this.pushMatrix();
-      // this.testTexture.bind(1);
-       this.translate(15,10,15);
-       var appMatrixCircular = this.circularAnimation.applyMatrix();
-       var appMatrixLinear = this.linearAnimation.applyMatrix();
-       this.multMatrix(appMatrixCircular);
-       // this.vehicle.display();
-        this.popMatrix();
-      //  this.setActiveShader(this.defaultShader);
+       
         this.popMatrix();
         // ---- END Background, camera and axis setup
 
@@ -284,12 +287,13 @@ class XMLscene extends CGFscene {
       this.linearAnimation.update((currTime- this.initialTime)/1000);
     }
 
-
-
     updateShaders(currTime){
-    var factor = (Math.sin((currTime * 3.0) % 3141 * 0.002)+1.0)*.5;
-    this.testShaders[0].setUniformsValues({timeFactor: factor});
-    }
+        var factor = (Math.sin((currTime * 3.0) % 3141 * 0.002)+1.0)*.5;
+        this.terrainShader.setUniformsValues({timeFactor: factor});
+        //this.testShaders[0].setUniformsValues({scaleFactor: this.scaleFactor});
+    };
+    
+
 	update(currTime) {
 
    

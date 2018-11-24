@@ -1,23 +1,11 @@
 #ifdef GL_ES
 precision highp float;
 #endif
- 
-uniform float redFactor;
-uniform float greenFactor;
-uniform float blueFactor;
+varying vec4 coords;
+varying vec4 normal;
 uniform float timeFactor;
-uniform float compTimeFactor;
-
-varying vec2 vTextureCoord;
-uniform sampler2D uSampler;
-
-
+uniform vec4 selColor;
 void main() {
-
-	vec4 texture = texture2D(uSampler, vTextureCoord);
-	vec4 color = vec4(redFactor,greenFactor,blueFactor, 1.0);
-
-	vec4 finalColor=texture*compTimeFactor+color*timeFactor;
-
-	gl_FragColor=finalColor;
+gl_FragColor = normal;
+gl_FragColor.rgb=mix(gl_FragColor.rgb, selColor.rgb, timeFactor);
 }
