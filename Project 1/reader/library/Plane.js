@@ -3,31 +3,25 @@ class Plane extends CGFobject{
     constructor(scene, uDivs, vDivs){
 		super(scene);
 		this.u = uDivs;
-		this.v=vDivs;
-		this.surface = []
-		this.calc();
-		this.nurbsSurface = new CGFnurbsSurface(this.u, this.v, this.surface);
-		this.obj = new CGFnurbsObject(this.scene, 20, 20, this.nurbsSurface ); 
+		this.v = vDivs;
+		this.surface = [	// U = 0
+            [ // V = 0..1;
+                 [-0.5,  0, 0.5, 1 ],
+                 [-0.5, 0, -0.5, 1 ]
+                
+            ],
+            // U = 1
+            [ // V = 0..1
+                 [ 0.5, 0, 0.5, 1 ],
+                 [ 0.5, 0, -0.5, 1 ]							 
+            ]
+        ];
+
+		this.nurbsSurface = new CGFnurbsSurface(1, 1, this.surface);
+		this.obj = new CGFnurbsObject(this.scene, this.u, this.v, this.nurbsSurface ); 
 
 	};
 
-
-	calc()
-	{
-		this.spot = [];
-		
-
-		for(var i=0;i<=this.u;i++){
-			this.spot=[];
-			for(var k=this.v; k>=0;k--){
-				this.spot.push([-this.u/2+i,0,-this.v/2+k,1]);
-			}
-			this.surface.push(this.spot);
-		}
-
-	
-
-	};
 
 	display(){
 		this.obj.display();

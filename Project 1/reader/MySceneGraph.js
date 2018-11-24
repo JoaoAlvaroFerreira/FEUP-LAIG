@@ -1445,6 +1445,18 @@ class MySceneGraph {
 
             }
 
+            else if (primitiveId == "patch") {
+
+              
+                var npartsU = this.reader.getFloat(grandChildren[0], 'npartsU');
+                var npartsV = this.reader.getFloat(grandChildren[0], 'npartsV');
+                var nPointsU = this.reader.getFloat(grandChildren[0], 'npointsU');
+                var nPointsV = this.reader.getFloat(grandChildren[0], 'npointsV');                   
+
+                this.primitiveVector.push([primitive,primitiveId,npartsU,npartsV,nPointsU,nPointsV]);
+
+            }
+
 
             else if (primitiveId == "triangleInverted") {
 
@@ -1958,6 +1970,12 @@ class MySceneGraph {
                                     primitiveRefs.push([0,this.scene.plane]);    
                                    
                                    break;
+
+                                   case "patch":
+                                   this.scene.patch=new Patch(this.scene,this.primitiveVector[l][2],this.primitiveVector[l][3],this.primitiveVector[l][4],this.primitiveVector[l][5]);
+                                   primitiveRefs.push([0,this.scene.patch]);    
+                                  
+                                  break;
 
                                     case "triangle":
                                      this.scene.triangle=new MyTriangle(this.scene,this.primitiveVector[l][2][0],this.primitiveVector[l][2][1],this.primitiveVector[l][2][6],

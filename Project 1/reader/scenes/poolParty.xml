@@ -94,11 +94,12 @@
     </transformations>
 
     <animations>
-        <linear id= "PlaneMovement" span="30">
+        <linear id= "PlaneMovement" span="45">
             <controlpoint xx = "0" yy ="0" zz = "0"/>
             <controlpoint xx = "10" yy ="8" zz = "12"/>
-            <controlpoint xx = "3" yy ="-3" zz = "-1"/>
-             <controlpoint xx = "12" yy ="-1" zz = "10"/>
+            <controlpoint xx = "1" yy ="-3" zz = "-1"/>
+             <controlpoint xx = "20" yy ="-1" zz = "20"/>
+            <controlpoint xx = "14" yy ="-5.5" zz = "12"/>
         </linear>
          <linear id= "DefaultLinear" span="10">
             <controlpoint xx = "0" yy ="0" zz = "0"/>
@@ -106,8 +107,8 @@
             <controlpoint xx = "0" yy ="0" zz = "0"/>
          
         </linear>
-        <circular id="DefaultCircular" span="30" center = "0 0 0" 
-        radius="4" startang="0" rotang="1080"/>
+        <circular id="DefaultCircular" span="45" center = "0 0 0" 
+        radius="4" startang="0" rotang="1800"/>
     </animations>
 
     <primitives>
@@ -140,7 +141,7 @@
         </primitive>
 
         <primitive id="DefaultPatch">
-            <plane npartsU = "10" npartsV = "10" npointsU = "5" npointsV = "5" />
+            <patch npartsU = "10" npartsV = "10" npointsU = "5" npointsV = "5" />
         </primitive>
 
         <primitive id="DefaultVehicle">
@@ -408,8 +409,8 @@
                 <primitiveref id="DefaultVehicle" />
             </children>
             <animations>
-                <!-- <animationref id="PlaneMovement"/>
-                <animationref id="DefaultCircular"/> -->
+                <animationref id="PlaneMovement"/>
+                <animationref id="DefaultCircular"/> 
             </animations>
         </component> 
 
@@ -709,7 +710,7 @@
 
         <component id="PlaneTesting"> 
             <transformation>
-               <translate x="0" y="2" z="0" />
+               <translate x="0" y="3" z="0" />
             </transformation> 
             <materials> 
                 <material id="DefaultMaterial" /> 
@@ -717,6 +718,19 @@
             <texture id="VidralTexture" length_s="1" length_t="1" /> 
 			<children> 
                 <primitiveref id="DefaultPlane" /> 
+            </children> 
+        </component> 
+
+         <component id="PatchTesting"> 
+            <transformation>
+               <translate x="0" y="2" z="0" />
+            </transformation> 
+            <materials> 
+                <material id="DefaultMaterial" /> 
+            </materials> 
+            <texture id="VidralTexture" length_s="1" length_t="1" /> 
+			<children> 
+                <primitiveref id="DefaultPatch" /> 
             </children> 
         </component> 
 
