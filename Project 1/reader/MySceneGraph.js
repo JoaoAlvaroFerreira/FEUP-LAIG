@@ -2198,13 +2198,7 @@ class MySceneGraph {
             this.scene.multMatrix(newMatrix);
         }
 
-        //Update shaders
-        for(var i = 0; i < component[4].length;i++){
-            if(component[4][i][2]!=null) {
-                component[4][i][1].updateShader();
-            }
-        }
-
+      
         if(component[2][0]=="none"){
             texture=null;
         }
