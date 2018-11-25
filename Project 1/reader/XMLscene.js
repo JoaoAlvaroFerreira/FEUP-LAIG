@@ -272,6 +272,9 @@ class XMLscene extends CGFscene {
       this.updateAnimations(currTime);
       this.checkKeys();
       this.updateDeltaTime(currTime);
+      if(this.water != null) {
+        this.water.updateShader();
+    }
 
         if(this.keysPressed==true){
             this.currentMaterial++;
