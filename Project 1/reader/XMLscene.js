@@ -59,7 +59,7 @@ class XMLscene extends CGFscene {
 
       
 
-        this.freeCamera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+        this.freeCamera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(60, 40, 60), vec3.fromValues(0, 10, 20));
 
         this.cameras.push(this.freeCamera);
             
@@ -252,13 +252,10 @@ class XMLscene extends CGFscene {
       if(this.graph.animations!=null){
       for(var i = 0; i<this.graph.animations.length;i++){
           if(this.graph.animations[i][1]!=null){
-              if(this.graph.animations[i][1]=="linear") {
-                  this.graph.animations[i][2].update((currTime- this.initialTime)/1000);
+              if(this.graph.animations[i][1]=="linear" || this.graph.animations[i][1]=="circular") {
+                  this.graph.animations[i][2].update(this.deltaTime);
             }
-              else if(this.graph.animations[i][1]=="circular")  {
-                  this.graph.animations[i][2].update((currTime- this.initialTime)/1000);
-              }
-                }
+            }
             }
         }
         

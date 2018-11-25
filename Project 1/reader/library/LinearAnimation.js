@@ -16,16 +16,28 @@ class LinearAnimation extends Animation
         this.vectorSpans = [];
         this.progress = 0;
         this.speed = 0;
-        this.totalDistance = [];
         this.time = 0;
         this.timePerAnimation = this.span/(pointList.length-1);
-        
+        this.times = [];
+        this.distances = [];
         this.pointConversion();
+        this.totalDistance();
         this.calcSpeed();
 
 	};
 
- 
+    totalDistance(){
+        var totalDistances = 0;
+        for(var i = 0; i< this.vectors.length; i++){
+            this.distances.push(Math.sqrt(Math.abs(this.vectors[i][0])) + Math.sqrt(Math.abs(this.vectors[i][1])) + Math.sqrt(Math.abs(this.vectors[i][2])));
+            totalDistances += Math.sqrt(Math.abs(this.vectors[i][0])) + Math.sqrt(Math.abs(this.vectors[i][1])) + Math.sqrt(Math.abs(this.vectors[i][2]));
+        }
+        for(var i = 0; i< this.distances.length;i++){
+            this.times.push(this.distances[i]/totalDistances*this.span);
+        }
+        
+
+    };
 
     pointConversion(){
 
@@ -50,13 +62,24 @@ class LinearAnimation extends Animation
     
 
     applyMatrix(){
-       
- 
-            var aux = Math.floor(this.time/this.timePerAnimation);
-            if(aux<this.pointList.length-1){
-                var dx = this.vectorSpans[aux][0]*(this.time-aux*this.timePerAnimation)+this.pointList[aux][0];
-                var dy = this.vectorSpans[aux][1]*(this.time-aux*this.timePerAnimation)+this.pointList[aux][1];
-                var dz = this.vectorSpans[aux][2]*(this.time-aux*this.timePerAnimation)+this.pointList[aux][2];
+            var aux = 0;
+            var timesSum = 0;
+            var previousTimeSum = 0;
+            var validation = false;
+            for(var i = 0; i< this.times.length; i++){
+                previousTimeSum = timesSum;
+                timesSum+=this.times[i];
+                if(timesSum>=this.time){
+                    validation = true;
+                    aux=i;
+                    break;
+                }
+            }
+            
+            if(validation){
+                var dx = this.vectorSpans[aux][0]*(this.time-previousTimeSum)+this.pointList[aux][0];
+                var dy = this.vectorSpans[aux][1]*(this.time-previousTimeSum)+this.pointList[aux][1];
+                var dz = this.vectorSpans[aux][2]*(this.time-previousTimeSum)+this.pointList[aux][2];
                 var translation = [dx, dy, dz];
                 var dest = mat4.create();
                 mat4.translate(dest, dest, translation);
@@ -78,8 +101,8 @@ class LinearAnimation extends Animation
 
         
         for(var i = 1; i< this.pointList.length;i++){
-            this.vectorSpans.push([(this.pointList[i][0]-this.pointList[i-1][0])/this.timePerAnimation,
-            (this.pointList[i][1]-this.pointList[i-1][1])/this.timePerAnimation,(this.pointList[i][2]-this.pointList[i-1][2])/this.timePerAnimation]);
+            this.vectorSpans.push([(this.pointList[i][0]-this.pointList[i-1][0])/this.times[i-1],
+            (this.pointList[i][1]-this.pointList[i-1][1])/this.times[i-1],(this.pointList[i][2]-this.pointList[i-1][2])/this.times[i-1]]);
         }
     };
 	
