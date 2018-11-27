@@ -12,7 +12,7 @@ class Water extends Plane{
         this.waterShader.setUniformsValues({uSampler2: 1});
         this.waterShader.setUniformsValues({normScale: this.heightscale});
         this.waterShader.setUniformsValues({textureScale: this.texscale});
-        this.waterShader.setUniformsValues({timeFactor: this.scene.deltaTime/50});
+        this.waterShader.setUniformsValues({timeFactor: this.scene.deltaTime/100});
 
         this.water = new CGFappearance(this.scene);
    		this.water.setAmbient(0.3, 0.3, 0.3, 1);
@@ -39,7 +39,7 @@ class Water extends Plane{
     };
 
     updateShader(){
-       this.waterShader.setUniformsValues({timeFactor: this.scene.deltaTime/50});
+       this.waterShader.setUniformsValues({timeFactor: this.scene.deltaTime/100});
     };
     
     
