@@ -48,8 +48,16 @@ class XMLscene extends CGFscene {
         "Player 1": 3,
         "Player 2": 4
         };
+
+        this.environmentList={
+        "Field": 0,
+        "Pool":1,
+        "Space":2
+        }
         
         this.currentCamera = 0;
+        this.currentEnvironment = 0;
+        this.environmentInUse = 0;
 
         this.axis = new CGFaxis(this);
     }
@@ -199,6 +207,14 @@ class XMLscene extends CGFscene {
     display() {
         // ---- BEGIN Background, camera and axis setup
         this.camera = this.cameras[this.currentCamera];
+
+        if(this.currentEnvironment != this.environmentInUse)
+        {
+            this.environmentInUse = this.currentEnvironment;
+            this.graph.reader = new CGFXMLreader();
+            this.graph.reader.open('scenes/' + this.filenames[this.environmentInUse], this.graph);
+        }
+        
         
 
         // Clear image and depth buffer everytime we update the scene

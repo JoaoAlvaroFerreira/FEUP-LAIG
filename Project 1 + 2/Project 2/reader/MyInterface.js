@@ -39,9 +39,7 @@ class MyInterface extends CGFinterface {
 
 		lightsGroup.add(this.scene, 'Light1');
         lightsGroup.add(this.scene, 'Light2');
-
-
-        this.gui.add(this.scene,'Axis');
+        
         this.gui.add(this.scene, 'currentCamera', this.scene.cameraList );
 /*
         for (var key in lights) {
