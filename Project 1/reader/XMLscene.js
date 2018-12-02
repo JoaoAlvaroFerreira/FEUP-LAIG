@@ -27,7 +27,7 @@ class XMLscene extends CGFscene {
         this.cameras = [];
         this.initCameras();
         this.initAnimations();
-        //this.initShaders();
+   
         this.setUpdatePeriod(1000 / 60);
 
         this.enableTextures(true);
@@ -44,7 +44,9 @@ class XMLscene extends CGFscene {
         this.cameraList = {
 		"Free Camera": 0,
         "Perspective Camera": 1,
-        "Ortho Camera": 2
+        "Ortho Camera":2,
+        "Player 1": 3,
+        "Player 2": 4
         };
         
         this.currentCamera = 0;
@@ -65,6 +67,7 @@ class XMLscene extends CGFscene {
             
         this.camera = this.freeCamera;
         this.plane = new Plane(this, 50, 50);
+       
         
         this.initialTime = 0;
         
@@ -88,7 +91,8 @@ class XMLscene extends CGFscene {
         var i = 0;
         // Lights index.
         this.Light1=true; 
-		this.Light2=true;
+        this.Light2=true;
+        this.Axis = false;
         
         // Reads the lights from the scene graph.
         for (var key in this.graph.lights) {
@@ -147,6 +151,7 @@ class XMLscene extends CGFscene {
         
       
       if(this.graph.viewsInfo[i][this.graph.viewsInfo[i].length-1] == "perspective")  {
+        
       var cameraAux = new CGFcamera(this.graph.viewsInfo[i][3], this.graph.viewsInfo[i][1], this.graph.viewsInfo[i][2],  //near, far e angles
         vec3.fromValues(this.graph.viewsInfo[i][4][0], this.graph.viewsInfo[i][4][1], this.graph.viewsInfo[i][4][2]),  //fromValues
         vec3.fromValues(this.graph.viewsInfo[i][5][0], this.graph.viewsInfo[i][5][1], this.graph.viewsInfo[i][5][2])); //toValues
@@ -194,6 +199,7 @@ class XMLscene extends CGFscene {
     display() {
         // ---- BEGIN Background, camera and axis setup
         this.camera = this.cameras[this.currentCamera];
+        
 
         // Clear image and depth buffer everytime we update the scene
         this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
@@ -212,11 +218,11 @@ class XMLscene extends CGFscene {
 
         if (this.sceneInited) {
             // Draw axis
+            if(this.Axis)
             this.axis.display();
             
             this.graph.sceneComponentDisplay(this.currentMaterial);
         
-            
             
 
         }
@@ -268,7 +274,7 @@ class XMLscene extends CGFscene {
 
 	update(currTime) {
         
-     
+        
       this.updateAnimations(currTime);
       this.checkKeys();
       this.updateDeltaTime(currTime);
