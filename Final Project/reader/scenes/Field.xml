@@ -199,7 +199,7 @@
         <!-- Board Component -->
          <component id="Board">
             <transformation>
-                <translate x="0" y="18.25" z="0" />
+                <translate x="0" y="0" z="0" />
             </transformation>
             <materials>
                 <material id="DefaultMaterial" />
@@ -314,6 +314,7 @@
          <!-- Table Component -->
         <component id="Table">
             <transformation>
+                <translate x="0" y="-18.25" z="0" />
                 <translate x="-10" y="-1" z="-10" />
                 <scale x="10" y="5" z="5" />
             </transformation>
@@ -406,7 +407,7 @@
 
          <component id="WhitePiece">
             <transformation>
-                <translate x="4.5" y="18.25" z="4.5" />
+                <translate x="4.5" y="0" z="4.5" />
                 <scale x="0.4" y="0.5" z="0.4" />
                 <rotate axis="x" angle="-90" />
             </transformation>
@@ -423,7 +424,7 @@
 
             <component id="Sky">
             <transformation>
-                <transformationref id="DefaultZero" />
+                <translate x="0" y="-18.25" z="0" />
             </transformation>
             <materials>
                 <material id="BrighterMaterial" />
@@ -517,6 +518,7 @@
 
             <component id="Floor">
             <transformation>
+             <translate x="0" y="-18.25" z="0" />
                  <rotate axis="x" angle="-90" />
                  <translate x="0" y="0" z="-1" />
                 <scale x="500" y="500" z = "500"/>

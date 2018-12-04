@@ -109,7 +109,7 @@
             <scale x="1" y="1" z="1" />
         </transformation>
         <transformation id="Boat">
-            <translate x="12" y="0" z="12" />
+            <translate x="12" y="-.5" z="12" />
             <rotate axis="x" angle="0" />
             <scale x="1" y="1" z="1" />
         </transformation>
@@ -164,7 +164,7 @@
         </primitive>
 
         <primitive id="DefaultPatch">
-            <patch npartsU = "10" npartsV = "10" npointsU = "5" npointsV = "5" />
+            <patch npartsU = "12" npartsV = "12" npointsU = "5" npointsV = "5" />
         </primitive>
 
         <primitive id="DefaultVehicle">
@@ -191,11 +191,11 @@
     <components>
 
         
-         <!-- Board Component -->
+        
+        <!-- Board Component -->
          <component id="Board">
             <transformation>
-                <translate x="10" y=".1" z="20" />
-                <scale x=".5" y=".5" z=".5"/>
+                <translate x="0" y="0" z="0" />
             </transformation>
             <materials>
                 <material id="DefaultMaterial" />
@@ -307,11 +307,10 @@
         </component> 
         <!-- End Board -->
 
-
         <!-- Table Component -->
         <component id="Table">
             <transformation>
-                <translate x="14" y="0" z="0" />
+                <translate x="14" y="-0.5" z="0" />
                 <rotate axis="y" angle="-30" />
                 <scale x="1" y="0.5" z="0.8" />
             </transformation>
@@ -510,7 +509,7 @@
         <!-- Floater -->
         <component id="LeanFloater">
             <transformation>
-                <translate x="2.2" y="0.6" z="3.2" />
+                <translate x="2.2" y="0.1" z="3.2" />
                 <rotate axis="x" angle="90" />
                 <rotate axis="y" angle="20" />
             </transformation>
@@ -524,7 +523,7 @@
         </component>
         <component id="FlatFloater">
             <transformation>
-                <translate x="4" y="0.25" z="3" />
+                <translate x="4" y="-0.25" z="3" />
                 <rotate axis="x" angle="90" />
             </transformation>
             <materials>
@@ -535,30 +534,11 @@
                 <primitiveref id="DefaultTorus" />
             </children>
         </component>
-        <!-- Vehicle -->
-        
-       <component id="TestVehicle">
-            <transformation>
-               <translate x="0" y="10" z="6" />
-               
-            </transformation>
-             <materials>
-                <material id="DefaultMaterial" />
-            </materials>
-            <texture id="IronTexture" length_s="1" length_t="1" />
-            <children>
-                <primitiveref id="DefaultVehicle" />
-            </children>
-            <animations>
-                <animationref id="PlaneMovement"/>
-                <animationref id="DefaultCircular"/> 
-            </animations>
-        </component> 
-
+      
         <!-- Plank -->
         <component id="Plank">
             <transformation>
-                <translate x="10" y="0.3" z="8" />
+                <translate x="10" y="-0.2" z="8" />
                 <scale x="1.7" y="0.2" z="6" />
             </transformation>
             <materials>
@@ -571,7 +551,7 @@
         </component>
         <component id="PlankHolder">
             <transformation>
-                <translate x="10" y="0.15" z="5" />
+                <translate x="10" y="-0.35" z="5" />
                 <scale x="1.2" y="0.5" z="1.2" />
                 <rotate axis="x" angle="-90" />
             </transformation>
@@ -586,7 +566,7 @@
         <!-- Ball -->
         <component id="Ball">
             <transformation>
-                <translate x="8" y="1" z="2" />
+                <translate x="8" y="0.5" z="2" />
                 <scale x="2" y="2" z="2" />
             </transformation>
             <materials>
@@ -601,7 +581,7 @@
         
          <component id="WhitePiece">
             <transformation>
-                <translate x="4.5" y="18.25" z="4.5" />
+                <translate x="4.5" y="0" z="4.5" />
                 <scale x="0.4" y="0.5" z="0.4" />
                 <rotate axis="x" angle="-90" />
             </transformation>
@@ -633,7 +613,7 @@
         </component>
         <component id="PoolGround">
             <transformation>
-                <transformationref id="DefaultZero" />
+                <translate x="0" y="-.5" z="0" />
             </transformation>
             <materials>
                 <material id="inherit" />

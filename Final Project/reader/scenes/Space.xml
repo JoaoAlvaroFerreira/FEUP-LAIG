@@ -215,7 +215,7 @@
 
         <component id="TestVehicle">
             <transformation>
-               <translate x="0" y="12" z="0" />
+               <translate x="0" y="0" z="0" />
                
             </transformation>
              <materials>
@@ -298,7 +298,7 @@
         <!-- Board Component -->
          <component id="Board">
             <transformation>
-                <translate x="0" y="18.25" z="0" />
+                <translate x="0" y="0" z="0" />
             </transformation>
             <materials>
                 <material id="DefaultMaterial" />
@@ -415,7 +415,7 @@
 
          <component id="WhitePiece">
             <transformation>
-                <translate x="4.5" y="18.25" z="4.5" />
+                <translate x="4.5" y="0" z="4.5" />
                 <scale x="0.4" y="0.5" z="0.4" />
                 <rotate axis="x" angle="-90" />
             </transformation>
@@ -432,7 +432,7 @@
 
             <component id="Space">
             <transformation>
-                <transformationref id="DefaultZero" />
+                <translate x="0" y="0" z="0" />
             </transformation>
             <materials>
                 <material id="BrighterMaterial" />
@@ -449,7 +449,7 @@
 
              <component id="SkyUp">
             <transformation>
-                <translate x="0" y="100" z="0" />
+                <translate x="0" y="70" z="0" />
                 <rotate axis="x" angle="90" />
                 <scale x="500" y="500" z = "500"/>
             </transformation>
@@ -464,7 +464,7 @@
            
         <component id="SkyLeft">
             <transformation>
-                <translate x="-200" y="0" z="0" />
+                <translate x="-200" y="-70" z="0" />
                 <rotate axis="y" angle="90" />
                 <scale x="500" y="500" z = "500"/>
             </transformation>
@@ -479,7 +479,7 @@
 
         <component id="SkyRight">
             <transformation>
-                <translate x="200" y="0" z="0" />
+                <translate x="200" y="-70" z="0" />
                 <rotate axis="y" angle="-90" />
                 <scale x="500" y="500" z = "500"/>
             </transformation>
@@ -494,7 +494,7 @@
 
           <component id="SkyBack">
             <transformation>
-                <translate x="0" y="0" z="200" />
+                <translate x="0" y="-70" z="200" />
                 <rotate axis="y" angle="180" />
                 <scale x="500" y="500" z = "500"/>
             </transformation>
@@ -509,7 +509,7 @@
 
              <component id="SkyFront">
             <transformation>
-                <translate x="0" y="0" z="-200" />
+                <translate x="0" y="-70" z="-200" />
                 <scale x="500" y="500" z = "500"/>
             </transformation>
             <materials>
@@ -524,8 +524,8 @@
             <component id="Floor">
             <transformation>
                  <rotate axis="x" angle="-90" />
-                 <translate x="0" y="0" z="-1" />
-                <scale x="500" y="500" z = "500"/>
+                 <translate x="0" y="-0" z="-30" />
+                <scale x="500" y="500" z = "1"/>
             </transformation>
             <materials>
             <material id="IronMaterial"/>
