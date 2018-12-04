@@ -69,7 +69,7 @@ class XMLscene extends CGFscene {
 
       
 
-        this.freeCamera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(60, 40, 60), vec3.fromValues(0, 10, 20));
+        this.freeCamera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(40, 40, 40), vec3.fromValues(0, 0, 0));
 
         this.cameras.push(this.freeCamera);
             

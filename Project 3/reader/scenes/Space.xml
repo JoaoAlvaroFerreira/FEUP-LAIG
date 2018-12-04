@@ -12,14 +12,14 @@
             <to x="0" y="0" z="0" />
         </ortho>
         
-        <ortho id="Player 1" near="0.1" far="200" right="10.0" left="-10.0" top="4.0" bottom="-10.0">
-            <from x="40" y="50" z="0" />
-            <to x="-5" y="18" z="0" />
+        <ortho id="Player 1" near="0.1" far="200" right="12.0" left="-12.0" top="5.0" bottom="-5.0">
+            <from x="40" y="40" z="0" />
+            <to x="0" y="0" z="0" />
         </ortho>
 
-        <ortho id="Player 2" near="0.1" far="200" right="10.0" left="-10.0" top="4.0" bottom="-10.0">
-            <from x="-40" y="50" z="0" />
-            <to x="5" y="18" z="0" />
+         <ortho id="Player 2" near="0.1" far="200" right="12.0" left="-12.0" top="5.0" bottom="-5.0">
+            <from x="-40" y="40" z="0" />
+            <to x="0" y="0" z="0" />
         </ortho>
     </views>
 
@@ -234,7 +234,7 @@
          <component id="SolarSystem">
             <transformation>
                 <rotate axis ="y" angle="180"/>
-                <translate x="-30" y="15" z="10" />
+                <translate x="-35" y="15" z="10" />
                 <scale x="10" y="10" z="10"/>
             </transformation>
             <materials>
