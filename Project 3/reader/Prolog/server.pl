@@ -101,6 +101,15 @@ print_header_line(_).
 %%%%                                       Commands                                                  %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+:- include('tabuleiro.pl').
+:- include('menu.pl').
+:- include('regrasMove.pl').
+:- include('regrasCapture.pl').
+:- include('regrasCannon.pl').
+:- include('tabuleiroHelp.pl').
+:- include('ai.pl').
+:- dynamic jogador/1.
+:- include('cannon.pl').
 % Require your Prolog Files here
 
 parse_input(handshake, handshake).

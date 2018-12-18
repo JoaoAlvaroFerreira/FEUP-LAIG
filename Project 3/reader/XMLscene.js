@@ -141,6 +141,8 @@ class XMLscene extends CGFscene {
                 i++;
             }
         }
+
+      
     }
    
  
@@ -254,6 +256,8 @@ class XMLscene extends CGFscene {
        
         this.popMatrix();
         // ---- END Background, camera and axis setup
+
+        makeRequest("handshake");
 
         
     }

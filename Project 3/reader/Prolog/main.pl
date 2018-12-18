@@ -27,13 +27,7 @@ pressToContinue:-
     read_line(_).
 
 jogador(1).
-/*    player(N),
-    write(N),
-    retract(player(1)),
-    assert(player(2)),
-    player(N2),
-    write(N2)
-    .*/
+
 
 test:-
     tabuleiroInicial(Tab),
