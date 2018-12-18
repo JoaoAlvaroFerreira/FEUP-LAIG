@@ -174,10 +174,6 @@
             <vehicle/>
         </primitive>
 
-        <primitive id="DefaultCylinder2">
-           <cylinder2 base="0.5" top="0.5" height="2" slices="16" stacks="10" />
-        </primitive>
-
         <primitive id="DefaultTerrain">
             <terrain idtexture = "terrainmap" idheightmap= "heightmap" 
             parts="100" heightscale="10" />
@@ -190,6 +186,14 @@
 
         <primitive id="PerfectTriangle">
             <triangle x1="-0.5" y1="0" z1="0.5" x2="0.5" y2="0" z2="0.5" x3="0" y3="1" z3="0" />
+        </primitive >
+
+        <primitive id="DefaultCylinderP1">
+            <cylinder base="0.5" top="0.5" height="2" slices="16" stacks="10" texture = "DefaultRocks" />
+        </primitive >
+
+        <primitive id="DefaultCylinderP2">
+            <cylinder base="0.5" top="0.5" height="2" slices="16" stacks="10" texture = "DefaultRocks2" />
         </primitive >
 
     </primitives >
@@ -735,21 +739,42 @@
             </children>
         </component>
 
-        
+                <!-- End Board -->
+
+
+         <!-- Pieces -->
+
          <component id="WhitePiece">
             <transformation>
-                <translate x="4.5" y="0" z="4.5" />
+                <translate x="3.5" y="0" z="4.5" />
                 <scale x="0.4" y="0.5" z="0.4" />
                 <rotate axis="x" angle="-90" />
             </transformation>
             <materials>
-                <material id="DefaultMaterial" />
+                <material id="IronMaterial" />
             </materials>
             <texture id="RocksTexture" length_s="1" length_t="1" />
             <children>
-                <primitiveref id="DefaultCylinder" />
+                <primitiveref id="DefaultCylinderP1" />
             </children>
         </component> 
+
+         <component id="BlackPiece">
+            <transformation>
+                <translate x="-3.5" y="0" z="-4.5" />
+                <scale x="0.4" y="0.5" z="0.4" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="IronMaterial" />
+            </materials>
+            <texture id="RocksTexture2" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="DefaultCylinderP2" />
+            </children>
+        </component> 
+
+        <!-- END PIECES -->
         <!-- Pool -->
         <component id="Pool">
             <transformation>

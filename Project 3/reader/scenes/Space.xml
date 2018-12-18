@@ -129,12 +129,12 @@
     </transformations>
 
     <animations>
-        <linear id= "PlaneMovement" span="45">
-            <controlpoint xx = "0" yy ="0" zz = "0"/>
-            <controlpoint xx = "-15" yy ="1" zz = "-10"/>
-            <controlpoint xx = "-30" yy ="3" zz = "20"/>
-            <controlpoint xx = "-12" yy ="-3" zz = "28"/>
-            <controlpoint xx = "14" yy ="-9.5" zz = "12"/>
+        <linear id= "PlaneMovement" span="300">
+            <controlpoint xx = "0" yy ="-4" zz = "0"/>
+            <controlpoint xx = "-15" yy ="-1" zz = "-10"/>
+            <controlpoint xx = "-30" yy ="-1" zz = "20"/>
+            <controlpoint xx = "-12" yy ="-7" zz = "28"/>
+            <controlpoint xx = "14" yy ="-13.5" zz = "12"/>
         </linear>
          <linear id= "DefaultLinear" span="10">
             <controlpoint xx = "0" yy ="0" zz = "0"/>
@@ -142,13 +142,13 @@
             <controlpoint xx = "0" yy ="0" zz = "0"/>
          
         </linear>
-        <circular id="DefaultCircular" span="45" center = "0 0 0" 
+        <circular id="DefaultCircular" span="300" center = "0 0 0" 
         radius="4" startang="0" rotang="360"/>
 
-        <circular id="OrbitingEarth" span="120" center = "0 0 0" 
+        <circular id="OrbitingEarth" span="600" center = "0 0 0" 
         radius="10" startang="0" rotang="3600"/>
 
-        <circular id="OrbitingVenus" span="200" center = "0 0 0" 
+        <circular id="OrbitingVenus" span="760" center = "0 0 0" 
         radius="5" startang="180" rotang="3780"/>
     </animations>
 
