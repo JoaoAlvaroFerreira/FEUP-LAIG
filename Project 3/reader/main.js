@@ -22,6 +22,7 @@ serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'MyInterface.j
 './library/MySphere.js','./library/MyTorus.js', './library/Wheel.js', './library/MyTriangleInverted.js', 
 './library/MyVehicle.js','./library/Animation.js','./library/LinearAnimation.js','./library/CircularAnimation.js',
 './library/Patch.js','./library/MyCylinder2.js','./library/MyWings.js', './library/Plane.js', './library/Terrain.js','./library/Water.js',
+'./Prolog/script.js',
 
 main=function()
 {
@@ -45,6 +46,7 @@ main=function()
     var field=getUrlVars()['file'] || "Field.xml";
 
     myScene.filenames = [field,pool,space];
+    
     
 
 	// create and load graph, and associate it to scene. 
