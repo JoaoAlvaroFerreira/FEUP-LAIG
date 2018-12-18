@@ -13,6 +13,9 @@ class Cannon{
             [32,32,32,32,32,32,32,32,32,32]];
         this.player1capture = 0;
         this.player2capture = 0;
+        
+        whitePiece = new Wheel(this.scene, 16,10,"DefaultRocks");
+        blackPiece = new Wheel(this.scene, 16,10,"DefaultRocks2");
     }
 
     changeBoard(newBoard){

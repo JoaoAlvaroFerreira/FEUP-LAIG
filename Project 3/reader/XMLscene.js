@@ -203,7 +203,7 @@ class XMLscene extends CGFscene {
         this.interface.addLightsGroup(this.graph.lights);
 
         this.sceneInited = true;
-        
+          
     }
 
 
@@ -245,8 +245,6 @@ class XMLscene extends CGFscene {
             
             this.graph.sceneComponentDisplay(this.currentMaterial);
         
-            
-
         }
         else {
             // Draw axis

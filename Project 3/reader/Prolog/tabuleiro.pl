@@ -1,9 +1,9 @@
 /*
-0 - Empty Cell
-1 - White Soldier
-3 - White City
-2 - Black Soldier
-4 - Black City
+32 - Empty Cell
+49 - White Soldier
+51 - White City
+50 - Black Soldier
+52 - Black City
 10x10 Rows,
 */
 
