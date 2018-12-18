@@ -1593,9 +1593,9 @@ class MySceneGraph {
                         return "unable to parse y-coordinate of the primitive = " + primitiveId;
                     else
                         cylinderCoordinates.push(stacks);
-                
+                    var sideTexture = this.reader.getString(grandChildren[0], 'texture');
 
-                this.primitiveVector.push([primitive,primitiveId,cylinderCoordinates]);
+                this.primitiveVector.push([primitive,primitiveId,cylinderCoordinates,sideTexture]);
 
             }
             else if (primitiveId == "cylinder2") {
@@ -2020,18 +2020,18 @@ class MySceneGraph {
                                      this.scene.triangle=new MyTriangle(this.scene,this.primitiveVector[l][2][0],this.primitiveVector[l][2][1],this.primitiveVector[l][2][6],
                                         this.primitiveVector[l][2][2],this.primitiveVector[l][2][3],this.primitiveVector[l][2][7], this.primitiveVector[l][2][4],
                                          this.primitiveVector[l][2][5],this.primitiveVector[l][2][8],textureInfo[textureInfo.length-3],textureInfo[textureInfo.length-2]);    
-                                    primitiveRefs.push([1,this.scene.triangle]);
+                                    primitiveRefs.push([0,this.scene.triangle]);
                                     break;
 
                                     case "triangleInverted":
                                     this.scene.triangle=new MyTriangleInverted(this.scene,this.primitiveVector[l][2][0],this.primitiveVector[l][2][1],this.primitiveVector[l][2][6],
                                        this.primitiveVector[l][2][2],this.primitiveVector[l][2][3],this.primitiveVector[l][2][7], this.primitiveVector[l][2][4],
                                         this.primitiveVector[l][2][5],this.primitiveVector[l][2][8],textureInfo[textureInfo.length-3],textureInfo[textureInfo.length-2]);    
-                                   primitiveRefs.push([1,this.scene.triangle]);
+                                   primitiveRefs.push([0,this.scene.triangle]);
                                    break;
                      
                                     case "cylinder":
-                                     this.scene.cylinder=new Wheel(this.scene,this.primitiveVector[l][2][3],this.primitiveVector[l][2][4]);    
+                                     this.scene.cylinder=new Wheel(this.scene,this.primitiveVector[l][2][3],this.primitiveVector[l][2][4],this.primitiveVector[l][3]);    
                                      primitiveRefs.push([0 ,this.scene.cylinder]);
                                     break;
 

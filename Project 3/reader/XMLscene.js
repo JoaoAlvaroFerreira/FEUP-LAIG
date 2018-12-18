@@ -46,7 +46,11 @@ class XMLscene extends CGFscene {
         "Perspective Camera": 1,
         "Ortho Camera":2,
         "Player 1": 3,
-        "Player 2": 4
+        "Player 2": 4,
+        "P1": 5,
+        "P2": 6,
+        "Top1": 7,
+        "Top2": 8
         };
 
         this.environmentList={
@@ -99,7 +103,7 @@ class XMLscene extends CGFscene {
         var i = 0;
         // Lights index.
         this.Light1=true; 
-        this.Light2=true;
+        this.Light2=false;
         this.Axis = false;
         
         // Reads the lights from the scene graph.

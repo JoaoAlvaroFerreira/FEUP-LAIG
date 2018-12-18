@@ -50,7 +50,9 @@
         <texture id="BankTexture" file="images/bank.jpg" />
         <texture id="LeavesTexture" file="images/leaves.jpg" />
         <texture id="RocksTexture" file="images/rocks.jpg" />
-        <texture id="TrunkTexture" file="images/trunk-image.jpg" />
+        <texture id="DefaultRocksTexture" file="images/defaultRocks.jpg" />
+        <texture id="RocksTexture2" file="images/rocks2.jpg" />
+        <texture id="DefaultRocksTexture2" file="images/defaultRocks2.jpg" />
         <texture id="VidralTexture" file="images/vidral.jpg" />
         <texture id="PoolTexture" file="images/pool.jpg" />
         <texture id="FloorTexture" file="images/floor.jpg" />
@@ -192,9 +194,13 @@
             <vehicle/>
         </primitive>
 
-        <primitive id="DefaultCylinder2">
-           <cylinder2 base="0.5" top="0.5" height="2" slices="16" stacks="10" />
-        </primitive>
+          <primitive id="DefaultCylinderP1">
+            <cylinder base="0.5" top="0.5" height="2" slices="16" stacks="10" texture = "DefaultRocks" />
+        </primitive >
+
+        <primitive id="DefaultCylinderP2">
+            <cylinder base="0.5" top="0.5" height="2" slices="16" stacks="10" texture = "DefaultRocks2" />
+        </primitive >
 
         <primitive id="DefaultTerrain">
             <terrain idtexture = "terrainmap" idheightmap= "heightmap" 
@@ -206,12 +212,164 @@
             parts="100" heightscale="2" texscale="2.0" />
         </primitive>
 
-
+        <primitive id="PerfectTriangle">
+            <triangle x1="-0.5" y1="0" z1="0.5" x2="0.5" y2="0" z2="0.5" x3="0" y3="1" z3="0" />
+        </primitive >
 
     </primitives >
 
 
     <components>
+
+        <!-- Cities -->
+
+        <component id="City">
+            <transformation>
+                <translate x="-4.5" y="0" z="-4.5" />
+                <scale x="1.5" y="2" z="1.5"/>
+              </transformation>
+            <materials>
+                <material id="IronMaterial" />
+            </materials>
+            <texture id="DefaultRocksTexture2" length_s="1" length_t="1" />
+            <children>
+                <componentref id="House1" />
+                <componentref id="House2" />
+            </children>
+        </component> 
+
+        <component id="House1">
+           <transformation>
+                <translate x="-0.1" y="0" z="0" />
+                <scale x="0.6" y="0.5" z="0.6" />
+                <rotate axis="y" angle="-20" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <componentref id="HouseRoof" />
+                <componentref id="HouseBottom" />
+            </children>
+        </component> 
+
+        <component id="House2">
+           <transformation>
+                <translate x="0.2" y="0" z="0" />
+                <scale x="0.4" y="0.3" z="0.4" />
+                <rotate axis="y" angle="20" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <componentref id="HouseRoof" />
+                <componentref id="HouseBottom" />
+            </children>
+        </component> 
+
+        <component id="HouseRoof">
+            <transformation>
+                <translate x="0" y="0.4" z="0" />
+                <scale x="0.6" y="0.4" z="0.6" />
+              </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <componentref id="Pyramid" />
+            </children>
+        </component> 
+
+         <component id="HouseBottom">
+            <transformation>
+                <translate x="0" y="0.25" z="0" />
+                <scale x="0.4" y="0.5" z="0.4" />
+             </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <componentref id="Cube" />
+            </children>
+        </component> 
+
+        <!-- Pyramid -->
+
+        <component id="Pyramid">
+            <transformation>
+                <transformationref id = "DefaultZero"/>
+             </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <componentref id="side1" />
+                <componentref id="side2" />
+                <componentref id="side3" />
+                <componentref id="side4" />
+
+            </children>
+        </component> 
+
+         <component id="side1">
+            <transformationref id="DefaultZero"/>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="PerfectTriangle" />
+            </children>
+        </component> 
+
+        <component id="side2">
+            <transformation>
+                  <rotate axis="y" angle="90" />
+             </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="PerfectTriangle" />
+            </children>
+        </component> 
+
+        <component id="side3">
+            <transformation>
+                  <rotate axis="y" angle="180" />
+             </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="PerfectTriangle" />
+            </children>
+        </component> 
+
+        <component id="side4">
+            <transformation>
+                  <rotate axis="y" angle="-90" />
+             </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="PerfectTriangle" />
+            </children>
+        </component> 
+
+        <!-- END PYRAMID -->
+      
+        <!-- END CITIES -->
 
         <component id="TestVehicle">
             <transformation>
@@ -411,22 +569,39 @@
         <!-- End Board -->
 
 
-        <!-- Pieces -->
+         <!-- Pieces -->
 
          <component id="WhitePiece">
             <transformation>
-                <translate x="4.5" y="0" z="4.5" />
+                <translate x="3.5" y="0" z="4.5" />
                 <scale x="0.4" y="0.5" z="0.4" />
                 <rotate axis="x" angle="-90" />
             </transformation>
             <materials>
-                <material id="DefaultMaterial" />
+                <material id="IronMaterial" />
             </materials>
             <texture id="RocksTexture" length_s="1" length_t="1" />
             <children>
-                <primitiveref id="DefaultCylinder" />
+                <primitiveref id="DefaultCylinderP1" />
             </children>
         </component> 
+
+         <component id="BlackPiece">
+            <transformation>
+                <translate x="-3.5" y="0" z="-4.5" />
+                <scale x="0.4" y="0.5" z="0.4" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="IronMaterial" />
+            </materials>
+            <texture id="RocksTexture2" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="DefaultCylinderP2" />
+            </children>
+        </component> 
+
+        <!-- END PIECES -->
     
         <!--SPECIFIC SCENE STUFF -->
 
@@ -535,6 +710,110 @@
                 <primitiveref id="DefaultSquare" />
             </children>
             </component> 
+
+        <!-- Cube Component -->
+        <component id="Cube">
+            <transformation>
+                <transformationref id="DefaultZero" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <componentref id="FrontSquare" />
+                <componentref id="BackSquare" />
+                <componentref id="LeftSquare" />
+                <componentref id="RightSquare" />
+                <componentref id="TopSquare" />
+                <componentref id="BottomSquare" />
+
+            </children>
+        </component>
+
+        <component id="FrontSquare">
+            <transformation>
+                <translate x="0" y="0" z="0.5" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="DefaultSquare" />
+            </children>
+        </component>
+
+        <component id="BackSquare">
+            <transformation>
+                <translate x="0" y="0" z="-0.5" />
+                <rotate axis="y" angle="180" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="DefaultSquare" />
+            </children>
+        </component>
+
+        <component id="TopSquare">
+            <transformation>
+                <translate x="0" y="0.5" z="0" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="DefaultSquare" />
+            </children>
+        </component>
+
+        <component id="BottomSquare">
+            <transformation>
+                <translate x="0" y="-0.5" z="0" />
+                <rotate axis="x" angle="90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="DefaultSquare" />
+            </children>
+        </component>
+
+        <component id="RightSquare">
+            <transformation>
+                <translate x="0.5" y="0" z="0" />
+                <rotate axis="y" angle="90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="DefaultSquare" />
+            </children>
+        </component>
+
+        <component id="LeftSquare">
+            <transformation>
+                <translate x="-0.5" y="0" z="0" />
+                <rotate axis="y" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="DefaultSquare" />
+            </children>
+        </component>
+        <!-- END Cube component -->
   
        
 

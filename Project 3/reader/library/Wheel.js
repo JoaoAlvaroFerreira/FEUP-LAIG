@@ -1,17 +1,22 @@
 class Wheel extends CGFobject
 {
-	constructor(scene,slices,stacks) 
+	constructor(scene,slices,stacks,texture) 
 	{
 		super(scene);
 		this.slices = slices;
 		this.stacks = stacks;
-        this.cilindro= new MyCylinder(this.scene,this.slices,this.stacks);
-		this.cylinderTexture = new CGFtexture(this.scene,"./scenes/images/defaultRocks.jpg");
+		this.cilindro= new MyCylinder(this.scene,this.slices,this.stacks);
+		if(texture!=null){
+		this.cylinderTexture = new CGFtexture(this.scene,"./scenes/images/"+texture+".jpg");
+		}
+		else {
+			this.cylinderTexture = new CGFtexture(this.scene,"./scenes/images/defaultRocks.jpg");
+		}
 
         this.material = new CGFappearance(this.scene);
-   		this.material.setAmbient(0.5, 0.5, 0.5, 1);
+   		this.material.setAmbient(0.6, 0.6, 0.6, 1);
 		this.material.setDiffuse(0.2, 0.2, 0.2, 1);
-		this.material.setSpecular(0.0, 0.0, 0.0, 1);	
+		this.material.setSpecular(1.0, 1.0, 1.0, 1);	
         this.material.setShininess(1);
         this.material.setTexture(this.cylinderTexture);
 		this.initBuffers();
