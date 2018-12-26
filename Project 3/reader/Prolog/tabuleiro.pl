@@ -1,3 +1,15 @@
+<<<<<<< HEAD
+ /*
+ 0 - Empty Cell	 32 - Empty Cell
+ 1 - White Soldier	 49 - White Soldier
+ 3 - White City	 51 - White City
+ 2 - Black Soldier	 50 - Black Soldier
+ 4 - Black City	 52 - Black City
+ 10x10 Rows,	 10x10 Rows,
+ */	
+ 
+  
+=======
 /*
 32 - Empty Cell
 49 - White Soldier
@@ -7,6 +19,7 @@
 10x10 Rows,
 */
 
+>>>>>>> e5957d505d2680651871a3422bba9ccb391ba9b4
 
 tabuleiroInicial([[32,32,32,32,32,32,32,32,32,32],
                   [32,49,32,49,32,49,32,49,32,49],

@@ -21,8 +21,13 @@ serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'MyInterface.j
 './library/MyQuad.js', './library/MyTriangle.js', './library/MyUnitCube.js','./library/MyCylinder.js',
 './library/MySphere.js','./library/MyTorus.js', './library/Wheel.js', './library/MyTriangleInverted.js', 
 './library/MyVehicle.js','./library/Animation.js','./library/LinearAnimation.js','./library/CircularAnimation.js',
+<<<<<<< HEAD
+'./library/Patch.js','./library/MyCylinder2.js','./library/MyWings.js', './library/Plane.js', './library/Terrain.js','./library/Water.js','./library/MyPyramid.js','./library/MyCity.js',
+'./Prolog/script.js',
+=======
 './library/Patch.js','./library/MyCylinder2.js','./library/MyPyramid.js','./library/MyCity.js','./library/MyWings.js', './library/Plane.js', './library/Terrain.js','./library/Water.js',
 './Prolog/script.js', './Prolog/cannon.js',
+>>>>>>> e5957d505d2680651871a3422bba9ccb391ba9b4
 
 main=function()
 {

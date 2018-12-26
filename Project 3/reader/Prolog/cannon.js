@@ -15,7 +15,11 @@ class Cannon{
         this.player2capture = 0;
         
         whitePiece = new Wheel(this.scene, 16,10,"DefaultRocks");
+<<<<<<< HEAD
+         blackPiece = new Wheel(this.scene, 16,10,"DefaultRocks2");
+=======
         blackPiece = new Wheel(this.scene, 16,10,"DefaultRocks2");
+>>>>>>> e5957d505d2680651871a3422bba9ccb391ba9b4
     }
 
     changeBoard(newBoard){
