@@ -5,17 +5,26 @@
   */
  var DEGREE_TO_RAD = Math.PI / 180;
  class MyCity extends CGFobject {
-     constructor(scene) { //accelaration = 0.01, angle = 0) {
-         super(scene);
+     constructor(scene,playerTexture) { //accelaration = 0.01, angle = 0) {
+        super(scene);
  
   
-          this.cube = new MyUnitCube(scene);
-         this.roof = new MyPyramid(scene,1,1);
+        this.cube = new MyUnitCube(scene);
+        this.roof = new MyPyramid(scene,1,1);
  
+        this.texture = new CGFtexture(this.scene,"./scenes/images/" + playerTexture + ".jpg");
+
+        this.myMaterial = new CGFappearance(this.scene);
+   		this.myMaterial.setAmbient(0.5, 0.5, 0.5, 1);
+		this.myMaterial.setDiffuse(0.7, 0.7, 0.7, 1);
+		this.myMaterial.setSpecular(0.7, 0.7, 0.7, 1);	
+        this.myMaterial.setShininess(120);
+        this.myMaterial.setTexture(this.texture);
   
       };
  
       display() {
+         this.myMaterial.apply();
          this.scene.pushMatrix();
          this.scene.scale(1.5,2,1.5);  	
          //house1

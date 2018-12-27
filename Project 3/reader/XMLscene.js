@@ -45,12 +45,11 @@ class XMLscene extends CGFscene {
 		"Free Camera": 0,
         "Perspective Camera": 1,
         "Ortho Camera":2,
-        "Player 1": 3,
-        "Player 2": 4,
-        "P1": 5,
-        "P2": 6,
-        "Top1": 7,
-        "Top2": 8
+        "P1": 3,
+        "P2": 4,
+        "Top1": 5,
+        "Top2": 6,
+        "AnimationCamera": 7
         };
 
         this.environmentList={

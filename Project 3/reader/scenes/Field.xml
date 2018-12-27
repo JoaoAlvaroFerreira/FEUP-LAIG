@@ -12,16 +12,6 @@
             <to x="0" y="0" z="0" />
         </ortho>
         
-        <ortho id="Player 1" near="0.1" far="200" right="12.0" left="-12.0" top="5.0" bottom="-5.0">
-            <from x="40" y="40" z="0" />
-            <to x="0" y="0" z="0" />
-        </ortho>
-
-         <ortho id="Player 2" near="0.1" far="200" right="12.0" left="-12.0" top="5.0" bottom="-5.0">
-            <from x="-40" y="40" z="0" />
-            <to x="0" y="0" z="0" />
-        </ortho>
-
         <perspective id="P1" near="0.1" far="200" angle ="0.8">
             <from x="9" y="10" z="0" />
             <to x="1" y="0" z="0" />
@@ -40,6 +30,11 @@
          <perspective id="TopP2" near="0.1" far="200" angle ="0.8">
             <from x="-0.01" y="15" z="0" />
             <to x="0" y="0" z="0" />
+        </perspective>
+        
+        <perspective id="AnimationCamera" near="0.1" far="200" angle ="0.8">
+            <from x="-9" y="10" z="0" />
+            <to x="-1" y="0" z="0" />
         </perspective>
 
 
