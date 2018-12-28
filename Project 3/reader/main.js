@@ -22,7 +22,7 @@ serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'MyInterface.j
 './library/MySphere.js','./library/MyTorus.js', './library/Wheel.js', './library/MyTriangleInverted.js', 
 './library/MyVehicle.js','./library/Animation.js','./library/LinearAnimation.js','./library/CircularAnimation.js',
 './library/Patch.js','./library/MyCylinder2.js','./library/MyPyramid.js','./library/MyCity.js','./library/MyWings.js', './library/Plane.js', './library/Terrain.js','./library/Water.js',
-'./Prolog/script.js', './Prolog/cannon.js',
+'./Prolog/script.js', './Prolog/cannon.js','./library/CameraAnimation.js',
 
 main=function()
 {

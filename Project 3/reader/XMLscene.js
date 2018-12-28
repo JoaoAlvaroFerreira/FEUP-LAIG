@@ -202,7 +202,9 @@ class XMLscene extends CGFscene {
         this.interface.addLightsGroup(this.graph.lights);
 
         this.sceneInited = true;
-          
+        this.cameraTransition = false;
+        this.currentCamera = 3;
+        this.show=false;
     }
 
 
@@ -267,10 +269,70 @@ class XMLscene extends CGFscene {
 		{
 	
         this.keysPressed=true;           
+        }
+        
+        if (this.gui.isKeyPressed("KeyQ"))
+		{
+        if(this.show==false){
+        this.time=this.deltaTime;
+        this.player=this.currentCamera;
+        if(this.player==3){
+			this.position = [9,10,0];
+			this.target = [1,0,0];
+		}
+		if(this.player==4){
+			this.position = [-9,10,0];
+			this.target = [-1,0,0];
+        }
+    }
+        this.show=true;           
 		}
 	
 		}
 
+    updateCameras() {
+        this.time2 = this.deltaTime-this.time;
+        if(this.player==3){
+			if(this.position[0]-this.time2/9>-9)	{
+            this.position[0] = this.position[0]-this.time2/9;
+            if(this.position[0]-this.time2/9>=0)  this.position[2] = (-9+this.position[0])*1.8;
+            else this.position[2] = (-9-this.position[0])*1.8;
+            console.log(this.position[2]);
+            this.target[0] = this.position[0]/9;
+            this.cameras[3].setPosition(this.position);
+            this.cameras[3].setTarget(this.target);
+			}
+			else {
+                this.cameras[3].setPosition([-9,10,0]);
+                this.cameras[3].setTarget([-1,0,0]);
+                this.currentCamera=4;
+                this.cameraTransition=false;
+                this.show=false;
+                this.cameras[3].setPosition([9,10,0]);
+                this.cameras[3].setTarget([1,0,0]);
+            }
+		}
+
+		if(this.player==4){
+			if(this.position[0]+this.time2/9<9)	{
+            this.position[0] = this.position[0]+this.time2/9;
+            if(this.position[0]-this.time2/9<=0)  this.position[2] = (9+this.position[0])*1.8;
+            else this.position[2] = (9-this.position[0])*1.8;
+            this.target[0] = this.position[0]/9;
+            this.cameras[4].setPosition(this.position);
+            this.cameras[4].setTarget(this.target);
+			}
+            else {
+                this.cameras[4].setPosition([9,10,0]);
+                this.cameras[4].setTarget([1,0,0]);
+                this.currentCamera=3;
+                this.cameraTransition=false;
+                this.show=false;
+                this.cameras[4].setPosition([-9,10,0]);
+                this.cameras[4].setTarget([-1,0,0]);
+        }
+		}
+    }
     updateAnimations(currTime){
         
       if(this.initialTime == 0){
@@ -297,6 +359,7 @@ class XMLscene extends CGFscene {
         
         
       this.updateAnimations(currTime);
+      if(this.cameraTransition) this.updateCameras();
       this.checkKeys();
       this.updateDeltaTime(currTime);
       if(this.water != null) {
@@ -306,6 +369,10 @@ class XMLscene extends CGFscene {
         if(this.keysPressed==true){
             this.currentMaterial++;
             this.keysPressed=false;
+        }
+
+        if(this.show==true){
+            this.cameraTransition=true;
         }
 
         if(!this.Light1){
