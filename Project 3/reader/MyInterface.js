@@ -31,6 +31,11 @@ class MyInterface extends CGFinterface {
      */
     addLightsGroup(lights) {
 
+        var gameGroup = this.gui.addFolder("Game Menu");
+        gameGroup.add(this.scene, 'Player1', [ 'human', 'ai']);
+        gameGroup.add(this.scene, 'Player2', [ 'human', 'ai']);
+        gameGroup.add(this.scene, 'Difficulty', [ '1', '2', '3']);
+        gameGroup.add(this.scene,'StartGame');
         var lightsGroup = this.gui.addFolder("Lights");
 		lightsGroup.close();
 
@@ -44,6 +49,8 @@ class MyInterface extends CGFinterface {
         this.gui.add(this.scene,'Axis');
         this.gui.add(this.scene, 'currentCamera', this.scene.cameraList );
         this.gui.add(this.scene, 'currentEnvironment', this.scene.environmentList );
+
+        
 /*
         for (var key in lights) {
             if (lights.hasOwnProperty(key)) {

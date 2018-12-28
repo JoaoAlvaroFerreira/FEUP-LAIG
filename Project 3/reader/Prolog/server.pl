@@ -108,17 +108,22 @@ print_header_line(_).
 :- include('regrasCannon.pl').
 :- include('tabuleiroHelp.pl').
 :- include('ai.pl').
-:- dynamic jogador/1.
 :- include('cannon.pl').
+:- dynamic jogador/1.
 % Require your Prolog Files here
 
 parse_input(handshake, handshake).
 parse_input(test(C,N), Res) :- test(C,Res,N).
 parse_input(getTable, Tabuleiro) :- getTable(Tabuleiro).
+
+parse_input(startGame(Player1,Player2,Difficulty), ai):-startGame(Player1,Player2,Difficulty).
+
 parse_input(quit, goodbye).
 
 getTable(Tabuleiro):-
 	tabuleiroInicial(Tabuleiro).
+
+
 	
 test(_,[],N) :- N =< 0.
 test(A,[A|Bs],N) :- N1 is N-1, test(A,Bs,N1).

@@ -70,9 +70,8 @@ play_robot(Tabuleiro,NovoTabuleiro,Dificuldade):-
 	imprimirTabuleiro(Tabuleiro),
 	write('A pensar...'),nl,
 	choose_move(Tabuleiro,NovoTabuleiro,Dificuldade),
-	pressToContinue,
 	clearConsole,
-	imprimirTabuleiro(NovoTabuleiro), write('O robot acabou de jogar'),nl,pressToContinue,
+	imprimirTabuleiro(NovoTabuleiro), write('O robot acabou de jogar'),nl,
 	swap_player(Player,NovoPlayer),
 	retract(jogador(Player)),
 	assert(jogador(NovoPlayer)).
@@ -92,7 +91,6 @@ play_human(Tabuleiro,NovoTabuleiro):-
 	move([[Linha1,Coluna1],[Linha2,Coluna2]],Tabuleiro,NovoTabuleiro),
 	clearConsole,
 	imprimirTabuleiro(NovoTabuleiro),
-	pressToContinue,
 	swap_player(Player,NovoPlayer),
 	retract(jogador(Player)),
 	assert(jogador(NovoPlayer)).
@@ -124,7 +122,7 @@ play(Tabuleiro, PecasBrancas, PecasNegras,Dificuldade,_):-
 	((playTurn(Tabuleiro, NovoTabuleiro, PecasBrancas,PecasNegras,Dificuldade))->
 		true
 	;
-		write('Nao foram encontradas jogas.'),pressToContinue,Acabou = 0
+		write('Nao foram encontradas jogas.'),Acabou = 0
 	),
 	game_over(NovoTabuleiro,Winner),
 	((Winner =:= 0)->
@@ -133,7 +131,6 @@ play(Tabuleiro, PecasBrancas, PecasNegras,Dificuldade,_):-
 		clearConsole,
 		imprimirTabuleiro(NovoTabuleiro),
 		write('O jogador '), write(Winner), write(' ganhou o jogo'),nl,
-		pressToContinue,
 		Acabou = 0
 
 	),
@@ -174,8 +171,7 @@ placeCities(Tabuleiro,NovoTabuleiro,human,human):-
 	imprimirTabuleiro(NovoTabuleiro1),
 	placeBlackCity(NovoTabuleiro1,NovoTabuleiro),
 	clearConsole,
-	imprimirTabuleiro(NovoTabuleiro),
-	pressToContinue.
+	imprimirTabuleiro(NovoTabuleiro).
 
 
 placeCities(Tabuleiro,NovoTabuleiro,human,ai):-
@@ -184,28 +180,24 @@ placeCities(Tabuleiro,NovoTabuleiro,human,ai):-
 	clearConsole,
 	random(2,10,Posicao),
 	setPeca(10,Posicao,NovoTabuleiro1,NovoTabuleiro,52),
-	imprimirTabuleiro(NovoTabuleiro),
-	pressToContinue.
+	imprimirTabuleiro(NovoTabuleiro).
 
 placeCities(Tabuleiro,NovoTabuleiro,ai,human):-
 	random(2,10,Posicao),
 	setPeca(1,Posicao,Tabuleiro,NovoTabuleiro1,51),
 	imprimirTabuleiro(NovoTabuleiro1),
-	pressToContinue,
 	clearConsole,
 	imprimirTabuleiro(NovoTabuleiro1),
 	placeBlackCity(NovoTabuleiro1,NovoTabuleiro),
 	clearConsole,
-	imprimirTabuleiro(NovoTabuleiro),
-	pressToContinue.
+	imprimirTabuleiro(NovoTabuleiro).
 
 placeCities(Tabuleiro,NovoTabuleiro,ai,ai):-
 	random(2,10,Posicao),
 	setPeca(1,Posicao,Tabuleiro,NovoTabuleiro1,51),
 	random(2,10,Posicao2),
 	setPeca(10,Posicao2,NovoTabuleiro1,NovoTabuleiro,52),
-	imprimirTabuleiro(NovoTabuleiro),
-	pressToContinue.
+	imprimirTabuleiro(NovoTabuleiro).
 
 
 startGame(PecasBrancas,PecasNegras,Dificuldade):-
