@@ -3,21 +3,25 @@ class Cannon{
     constructor(scene){
        
         this.scene = scene;
-        this.board = [[32,51,32,32,32,32,32,32,32,32],
-            [32,49,32,49,32,49,32,49,32,49],
-            [32,49,32,49,32,49,32,49,32,49],
-            [32,49,32,49,32,49,32,49,32,49],
+        this.actualBoard = null;
+        this.board = [[32,32,32,32,32,32,32,32,32,32],
             [32,32,32,32,32,32,32,32,32,32],
             [32,32,32,32,32,32,32,32,32,32],
-            [50,32,50,32,50,32,50,32,50,32],
-            [50,32,50,32,50,32,50,32,50,32],
-            [50,32,50,32,50,32,50,32,50,32],
-            [32,32,32,32,32,32,52,32,32,32]];
+            [32,32,32,32,32,32,32,32,32,32],
+            [32,32,32,32,32,32,32,32,32,32],
+            [32,32,32,32,32,32,32,32,32,32],
+            [32,32,32,32,32,32,32,32,32,32],
+            [32,32,32,32,32,32,32,32,32,32],
+            [32,32,32,32,32,32,32,32,32,32],
+            [32,32,32,32,32,32,32,32,32,32]];
         this.player1capture = 0;
         this.player2capture = 0;
 
+        //são definidos no start game, para mudanças na UI não alterarem o jogo
+        this.player1 = null;
+        this.player2 = null;
+        this.difficulty = null;
 
-        
         this.whitePiece = new Wheel(this.scene, 16,10,"defaultRocks");
         this.blackPiece = new Wheel(this.scene, 16,10,"defaultRocks2");
         this.whiteCity = new MyCity(this.scene,"defaultRocks");
@@ -25,8 +29,9 @@ class Cannon{
     }
 
     changeBoard(newBoard){
-        this.board = newBoard;
-        this.displayBoard();
+        this.actualBoard = newBoard;
+        var arr = eval("["+newBoard+"]"); //não mexer
+        this.board = arr[0];
     }
 
     capturePlayer2Piece(){
@@ -38,7 +43,7 @@ class Cannon{
     }
 
     displayBoard(){
-        console.log(this.board);
+    
         for(var i = 0; i<this.board.length;i++){
             for(var k = 0;k<this.board[i].length;k++){
                 if(this.board[i][k]==49){
@@ -76,8 +81,15 @@ class Cannon{
     }
 
     startGameJS(Player1, Player2, Difficulty){
+      this.player1 = Player1;
+      this.player2 = Player2;
+      this.difficulty = Difficulty;
       makeRequest('startGame('+Player1+','+Player2+','+Difficulty+')',this);
       
+    }
+
+    play(){
+        makeRequest('playTurn('+this.actualBoard+','+this.player1+','+this.player2+','+this.difficulty+')',this);
     }
     
     

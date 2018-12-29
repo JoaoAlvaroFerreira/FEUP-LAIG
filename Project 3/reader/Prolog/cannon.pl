@@ -65,16 +65,11 @@ swap_player(1,NovoPlayer):-NovoPlayer is 2.
 swap_player(2,NovoPlayer):-NovoPlayer is 1.
 
 play_robot(Tabuleiro,NovoTabuleiro,Dificuldade):-
-	jogador(Player),
-	clearConsole,
-	imprimirTabuleiro(Tabuleiro),
-	write('A pensar...'),nl,
-	choose_move(Tabuleiro,NovoTabuleiro,Dificuldade),
-	clearConsole,
-	imprimirTabuleiro(NovoTabuleiro), write('O robot acabou de jogar'),nl,
-	swap_player(Player,NovoPlayer),
-	retract(jogador(Player)),
-	assert(jogador(NovoPlayer)).
+	%jogador(Player),
+	choose_move(Tabuleiro,NovoTabuleiro,Dificuldade).
+	%swap_player(Player,NovoPlayer),
+	%retract(jogador(Player)),
+	%assert(jogador(NovoPlayer)).
 
 play_human(Tabuleiro,NovoTabuleiro):-
 	jogador(Player),
@@ -166,17 +161,15 @@ placeBlackCity(Tabuleiro,NovoTabuleiro):-
 
 placeCities(Tabuleiro,NovoTabuleiro,human,human):-
 	imprimirTabuleiro(Tabuleiro),
-	placeWhiteCity(Tabuleiro,NovoTabuleiro1),
-	clearConsole,
+	%placeWhiteCity(Tabuleiro,NovoTabuleiro1),
 	imprimirTabuleiro(NovoTabuleiro1),
-	placeBlackCity(NovoTabuleiro1,NovoTabuleiro),
-	clearConsole,
+	%placeBlackCity(NovoTabuleiro1,NovoTabuleiro),
 	imprimirTabuleiro(NovoTabuleiro).
 
 
 placeCities(Tabuleiro,NovoTabuleiro,human,ai):-
 	imprimirTabuleiro(Tabuleiro),
-	placeWhiteCity(Tabuleiro,NovoTabuleiro1),
+	%placeWhiteCity(Tabuleiro,NovoTabuleiro1),
 	clearConsole,
 	random(2,10,Posicao),
 	setPeca(10,Posicao,NovoTabuleiro1,NovoTabuleiro,52),
@@ -186,21 +179,17 @@ placeCities(Tabuleiro,NovoTabuleiro,ai,human):-
 	random(2,10,Posicao),
 	setPeca(1,Posicao,Tabuleiro,NovoTabuleiro1,51),
 	imprimirTabuleiro(NovoTabuleiro1),
-	clearConsole,
 	imprimirTabuleiro(NovoTabuleiro1),
-	placeBlackCity(NovoTabuleiro1,NovoTabuleiro),
-	clearConsole,
+	%placeBlackCity(NovoTabuleiro1,NovoTabuleiro),
 	imprimirTabuleiro(NovoTabuleiro).
 
 placeCities(Tabuleiro,NovoTabuleiro,ai,ai):-
-	random(2,10,Posicao),
-	setPeca(1,Posicao,Tabuleiro,NovoTabuleiro1,51),
-	random(2,10,Posicao2),
-	setPeca(10,Posicao2,NovoTabuleiro1,NovoTabuleiro,52),
-	imprimirTabuleiro(NovoTabuleiro).
+	%random(2,10,Posicao1),
+	setPeca(1,3,Tabuleiro,NovoTabuleiro1,51),
+	%random(2,10,Posicao2),
+	setPeca(10,7,NovoTabuleiro1,NovoTabuleiro,52).
 
-
-startGame(PecasBrancas,PecasNegras,Dificuldade):-
+startGame(PecasBrancas,PecasNegras,Dificuldade, NovoTabuleiro):-
 	tabuleiroInicial(Tabuleiro),
-	placeCities(Tabuleiro,NovoTabuleiro,PecasBrancas,PecasNegras),
-	play(NovoTabuleiro,PecasBrancas,PecasNegras, Dificuldade,1).
+	placeCities(Tabuleiro,NovoTabuleiro,PecasBrancas,PecasNegras).
+	%play(NovoTabuleiro,PecasBrancas,PecasNegras, Dificuldade,1).

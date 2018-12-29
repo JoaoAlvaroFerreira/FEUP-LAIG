@@ -116,7 +116,10 @@ parse_input(handshake, handshake).
 parse_input(test(C,N), Res) :- test(C,Res,N).
 parse_input(getTable, Tabuleiro) :- getTable(Tabuleiro).
 
-parse_input(startGame(Player1,Player2,Difficulty), ai):-startGame(Player1,Player2,Difficulty).
+parse_input(startGame(Player1,Player2,Difficulty), NovoTabuleiro):- startGame(Player1,Player2,Difficulty, NovoTabuleiro).
+
+
+parse_input(playTurn(Tabuleiro, Player1,Player2,Difficulty), NovoTabuleiro):- play_robot(Tabuleiro,NovoTabuleiro,Difficulty).
 
 parse_input(quit, goodbye).
 

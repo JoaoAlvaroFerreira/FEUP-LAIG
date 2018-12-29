@@ -23,9 +23,12 @@ function getPrologRequest(requestString, onSuccess, onError, port)
 			//Handle the Reply
 			function handleReply(data){
 				
-				//if(data.target.response.isArray())
-				if(typeof gameLocal !== "undefined")
+				
+				if(typeof gameLocal !== "undefined"){ 
+					
 				gameLocal.changeBoard(data.target.response);
-
+			
+				}
+			
 				
 			}

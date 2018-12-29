@@ -437,7 +437,7 @@
 
         <!-- Pieces -->
 
-         <component id="WhitePiece">
+         <!--<component id="WhitePiece">
             <transformation>
                 <translate x="3.5" y="0" z="4.5" />
                 <scale x="0.4" y="0.5" z="0.4" />
@@ -465,13 +465,13 @@
             <children>
                 <primitiveref id="DefaultCylinderP2" />
             </children>
-        </component> 
+        </component>  -->
 
         <!-- END PIECES -->
 
-        <!-- Cities -->
+        <!-- Cities 
 
-        <component id="City">
+      <component id="City">
             <transformation>
                 <translate x="-4.5" y="0" z="-4.5" />
                 <scale x="1.5" y="2" z="1.5"/>
@@ -484,7 +484,7 @@
                 <componentref id="House1" />
                 <componentref id="House2" />
             </children>
-        </component> 
+        </component>  
 
         <component id="House1">
            <transformation>
@@ -546,7 +546,7 @@
             </children>
         </component> 
 
-        <!-- Pyramid -->
+       
 
         <component id="Pyramid">
             <transformation>
@@ -615,10 +615,9 @@
             </children>
         </component> 
 
-        <!-- END PYRAMID -->
-      
-        <!-- END CITIES -->
-    
+        
+        
+    -->
         <!--SPECIFIC SCENE STUFF -->
 
             <component id="Sky">

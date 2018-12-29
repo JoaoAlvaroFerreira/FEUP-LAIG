@@ -69,7 +69,16 @@ class XMLscene extends CGFscene {
         this.Player1 = 'ai';
         this.Player2 = 'ai';
         this.Difficulty = "1";
-        this.StartGame = function(){this.game.startGameJS(this.Player1, this.Player2, this.Difficulty)};
+        this.gamestarted = false;
+        this.StartGame = function(){
+            this.gamestarted = true;
+            this.game.startGameJS(this.Player1, this.Player2, this.Difficulty)
+        };
+        
+        this.PlayTurn = function(){
+            if(this.gamestarted)
+            this.game.play();
+        };
 
         this.axis = new CGFaxis(this);
     }
@@ -263,7 +272,7 @@ class XMLscene extends CGFscene {
         this.popMatrix();
         // ---- END Background, camera and axis setup
         this.game.displayBoard();
-       makeRequest("getTable");
+      //makeRequest("getTable", this.game);
 
         
     }
