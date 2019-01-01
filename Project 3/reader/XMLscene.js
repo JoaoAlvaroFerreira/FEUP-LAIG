@@ -220,7 +220,7 @@ class XMLscene extends CGFscene {
         this.interface.addLightsGroup(this.graph.lights);
 
         this.sceneInited = true;
-          
+        this.currentCamera = 3;
     }
 
 
@@ -313,7 +313,6 @@ class XMLscene extends CGFscene {
                 this.position[0] = this.position[0]-this.time2/9;
                 if(this.position[0]-this.time2/9>=0)  this.position[2] = (-9+this.position[0])*1.8;
                 else this.position[2] = (-9-this.position[0])*1.8;
-                console.log(this.position[2]);
                 this.target[0] = this.position[0]/9;
                 this.cameras[3].setPosition(this.position);
                 this.cameras[3].setTarget(this.target);

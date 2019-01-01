@@ -19,6 +19,7 @@ class Wheel extends CGFobject
 			
 		}
 		else {
+			this.top = new CGFappearance(this.scene);
 			this.cylinderTexture = new CGFtexture(this.scene,"./scenes/images/defaultRocks.jpg");
 		}
 

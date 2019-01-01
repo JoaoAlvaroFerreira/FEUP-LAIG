@@ -84,6 +84,9 @@ class Cannon{
       this.player1 = Player1;
       this.player2 = Player2;
       this.difficulty = Difficulty;
+      console.log(Player1);
+      console.log(Player2);
+      console.log(Difficulty);
       makeRequest('startGame('+Player1+','+Player2+','+Difficulty+')',this);
       
     }

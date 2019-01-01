@@ -1593,9 +1593,8 @@ class MySceneGraph {
                         return "unable to parse y-coordinate of the primitive = " + primitiveId;
                     else
                         cylinderCoordinates.push(stacks);
-                    var sideTexture = this.reader.getString(grandChildren[0], 'texture');
 
-                this.primitiveVector.push([primitive,primitiveId,cylinderCoordinates,sideTexture]);
+                this.primitiveVector.push([primitive,primitiveId,cylinderCoordinates]);
 
             }
             else if (primitiveId == "cylinder2") {

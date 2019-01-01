@@ -7,6 +7,7 @@ class MyInterface extends CGFinterface {
      */
     constructor() {
         super();
+        this.doneInterface=false;
     }
 
     /**
@@ -30,7 +31,7 @@ class MyInterface extends CGFinterface {
      * @param {array} lights
      */
     addLightsGroup(lights) {
-
+        if(this.doneInterface==false){
         var gameGroup = this.gui.addFolder("Game Menu");
         gameGroup.add(this.scene, 'Player1', [ 'human', 'ai']);
         gameGroup.add(this.scene, 'Player2', [ 'human', 'ai']);
@@ -38,7 +39,9 @@ class MyInterface extends CGFinterface {
         gameGroup.add(this.scene,'StartGame');
         gameGroup.add(this.scene,'PlayTurn');
         var lightsGroup = this.gui.addFolder("Lights");
-		lightsGroup.close();
+        lightsGroup.close();
+        
+        this.doneInterface = true;
 
 		// add two check boxes to the group. The identifiers must be members variables of the scene initialized in scene.init as boolean
 		// e.g. this.option1=true; this.option2=false;
@@ -60,6 +63,7 @@ class MyInterface extends CGFinterface {
             }
         } */
     }
+}
 
     
 	/**
