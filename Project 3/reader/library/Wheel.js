@@ -8,15 +8,20 @@ class Wheel extends CGFobject
 		this.cilindro= new MyCylinder(this.scene,this.slices,this.stacks);
 		if(texture!=null){
 		this.cylinderTexture = new CGFtexture(this.scene,"./scenes/images/"+texture+".jpg");
-			if(texture=="defaultRocks") this.topTexture = new CGFtexture(this.scene,"./scenes/images/rocks.jpg");
-			else  this.topTexture = new CGFtexture(this.scene,"./scenes/images/rocks2.jpg");
+			if(texture=="defaultRocks")  this.topTexture = new CGFtexture(this.scene,"./scenes/images/rocks.jpg");
+			else if(texture=="defaultRocks2")  this.topTexture = new CGFtexture(this.scene,"./scenes/images/rocks2.jpg");
+			else if(texture=="defaultGreen")  this.topTexture = new CGFtexture(this.scene,"./scenes/images/green.jpg");
+			else if(texture=="defaultRed")  this.topTexture = new CGFtexture(this.scene,"./scenes/images/red.jpg");
+			else if(texture=="defaultBlue")  this.topTexture = new CGFtexture(this.scene,"./scenes/images/blue.jpg");
+			else if(texture=="defaultYellow")  this.topTexture = new CGFtexture(this.scene,"./scenes/images/yellow.jpg");
 		this.top = new CGFappearance(this.scene);
 		this.top.setAmbient(0.6, 0.6, 0.6, 1);
 		this.top.setDiffuse(0.2, 0.2, 0.2, 1);
 		this.top.setSpecular(1.0, 1.0, 1.0, 1);	
 		this.top.setShininess(1);
 		this.top.setTexture(this.topTexture);
-			
+
+
 		}
 		else {
 			this.top = new CGFappearance(this.scene);

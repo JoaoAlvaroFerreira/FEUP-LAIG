@@ -191,5 +191,5 @@ placeCities(Tabuleiro,NovoTabuleiro,ai,ai):-
 
 startGame(PecasBrancas,PecasNegras,Dificuldade, NovoTabuleiro):-
 	tabuleiroInicial(Tabuleiro),
-	placeCities(Tabuleiro,NovoTabuleiro,PecasBrancas,PecasNegras).
-	%play(NovoTabuleiro,PecasBrancas,PecasNegras, Dificuldade,1).
+	placeCities(Tabuleiro,NovoTabuleiro,PecasBrancas,PecasNegras),
+	play(NovoTabuleiro,PecasBrancas,PecasNegras, Dificuldade,1).

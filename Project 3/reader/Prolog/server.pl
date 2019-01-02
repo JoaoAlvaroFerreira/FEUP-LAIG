@@ -109,7 +109,6 @@ print_header_line(_).
 :- include('tabuleiroHelp.pl').
 :- include('ai.pl').
 :- include('cannon.pl').
-:- dynamic jogador/1.
 % Require your Prolog Files here
 
 parse_input(handshake, handshake).

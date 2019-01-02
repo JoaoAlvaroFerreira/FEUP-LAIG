@@ -82,6 +82,8 @@ class XMLscene extends CGFscene {
 
         this.axis = new CGFaxis(this);
         this.setPickEnabled(true);
+        this.selection=null;
+        this.previousSelection=null;
     }
 
     /**
@@ -290,21 +292,21 @@ class XMLscene extends CGFscene {
     if (this.gui.isKeyPressed("KeyQ"))
    {
    if(this.show==false){
-   this.time=this.deltaTime;
-   this.player=this.currentCamera;
-   if(this.player==3){
-       this.position = [9,10,0];
-       this.target = [1,0,0];
-   }
-   if(this.player==4){
-       this.position = [-9,10,0];
-       this.target = [-1,0,0];
-   }
-}
-   this.show=true;                    
+        this.time=this.deltaTime;
+        this.player=this.currentCamera;
+            if(this.player==3){
+                this.position = [9,10,0];
+                 this.target = [1,0,0];
+            }
+            if(this.player==4){
+                this.position = [-9,10,0];
+                this.target = [-1,0,0];
+            }
+            }
+        this.show=true;                    
 		}
 	
-        }
+    }
         
         updateCameras() {
             this.time2 = this.deltaTime-this.time;
@@ -325,6 +327,8 @@ class XMLscene extends CGFscene {
                     this.show=false;
                     this.cameras[3].setPosition([9,10,0]);
                     this.cameras[3].setTarget([1,0,0]);
+                    this.selection=null;
+                    this.picking=true;
                 }
             }
             if(this.player==4){
@@ -344,6 +348,7 @@ class XMLscene extends CGFscene {
                     this.show=false;
                     this.cameras[4].setPosition([-9,10,0]);
                     this.cameras[4].setTarget([-1,0,0]);
+                    this.picking=true;
             }
             }
         }
@@ -373,7 +378,9 @@ logPicking(){
 				if (obj)
 				{
 					var customId = this.pickResults[i][1];				
-					console.log("Picked object: " + obj + ", with pick id " + customId);
+                    console.log("Picked object: " + obj + ", with pick id " + customId);
+                    this.previousSelection=this.selection;
+                    this.selection=customId;
 				}
 			}
 			this.pickResults.splice(0,this.pickResults.length);
@@ -405,6 +412,17 @@ logPicking(){
 
         if(this.show==true){
             this.cameraTransition=true;
+            this.time=this.deltaTime;
+            this.player=this.currentCamera;
+                if(this.player==3){
+                    this.position = [9,10,0];
+                     this.target = [1,0,0];
+                }
+                if(this.player==4){
+                    this.position = [-9,10,0];
+                    this.target = [-1,0,0];
+                }
+                this.show=false;
         }
 
         if(!this.Light1){

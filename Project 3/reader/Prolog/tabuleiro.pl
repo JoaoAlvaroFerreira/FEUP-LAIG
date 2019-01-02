@@ -5,6 +5,9 @@
 50 - Black Soldier
 52 - Black City
 10x10 Rows,
+88 - disparo dos canhoes
+36 - Capturas possiveis
+35 - Movimentos possiveis
 */
 
 
