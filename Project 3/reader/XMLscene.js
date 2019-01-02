@@ -81,6 +81,7 @@ class XMLscene extends CGFscene {
         };
 
         this.axis = new CGFaxis(this);
+        this.setPickEnabled(true);
     }
 
     /**
@@ -95,8 +96,7 @@ class XMLscene extends CGFscene {
         this.cameras.push(this.freeCamera);
             
         this.camera = this.freeCamera;
-        this.plane = new Plane(this, 50, 50);
-       
+   
         
         this.initialTime = 0;
         
@@ -230,7 +230,7 @@ class XMLscene extends CGFscene {
     display() {
         // ---- BEGIN Background, camera and axis setup
         this.camera = this.cameras[this.currentCamera];
-
+        
         if(this.currentEnvironment != this.environmentInUse)
         {
             this.environmentInUse = this.currentEnvironment;
@@ -362,8 +362,24 @@ class XMLscene extends CGFscene {
             }
             }
         }
-        
+      
     }
+
+logPicking(){
+	if (this.pickMode == false) {
+		if (this.pickResults != null && this.pickResults.length > 0) {
+			for (var i=0; i< this.pickResults.length; i++) {
+				var obj = this.pickResults[i][0];
+				if (obj)
+				{
+					var customId = this.pickResults[i][1];				
+					console.log("Picked object: " + obj + ", with pick id " + customId);
+				}
+			}
+			this.pickResults.splice(0,this.pickResults.length);
+		}		
+	}
+}
 
     updateDeltaTime(currTime) {
         this.deltaTime = (currTime - this.initialTime)/1000;
@@ -371,12 +387,11 @@ class XMLscene extends CGFscene {
       
 
 	update(currTime) {
-        
-        
-      this.updateAnimations(currTime);
+        this.updateAnimations(currTime);
 
       if(this.cameraTransition) this.updateCameras();
-
+      this.logPicking();
+      this.clearPickRegistration();  
       this.checkKeys();
       this.updateDeltaTime(currTime);
       if(this.water != null) {
