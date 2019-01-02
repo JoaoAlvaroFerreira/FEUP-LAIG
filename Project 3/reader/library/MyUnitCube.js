@@ -1,46 +1,58 @@
 /**
- * MyUnitCube
- * @param gl {WebGLRenderingContext}
+ * MyUnitCubeQuad
  * @constructor
  */
-
+var DEGREE_TO_RAD = Math.PI / 180;
 class MyUnitCube extends CGFobject
 {
-	constructor(scene)
+	constructor(scene) 
 	{
 		super(scene);
-		this.initBuffers();
+
+		this.quad = new MyQuad(this.scene,-0.5,-0.5,0.5,0.5,1,1);
 	};
 
-	initBuffers()
+	display() 
 	{
-		this.vertices = [
-				0.5, 0.5, -0.5,   //+ x + y -z 0
-				0.5, -0.5, -0.5,  //+ x - y -z 1
-				-0.5, -0.5, -0.5, //- x - y -z 2
-				-0.5, 0.5, -0.5,  //- x + y -z 3
-				0.5, 0.5, 0.5,     //+ x + y +z 4
-				0.5, -0.5, 0.5,   //+ x - y +z 5
-				-0.5, -0.5, 0.5,  //- x - y +z 6
-				-0.5, 0.5, 0.5   //- x + y +z 7
-				];
+		// front face
+		this.scene.pushMatrix();
+		this.scene.translate(0, 0, 0.5);
+		this.quad.display();
+		this.scene.popMatrix();
 
-		this.indices = [
-				0, 1, 3,
-				3, 1, 2,
-				0,4,5,
-				5,1,0,
-				5,6,1,
-				6,2,1,
-				6,7,2,
-				2,7,3,
-				7,0,3,
-				7,4,0,
-				4,7,5,
-				5,7,6
-			];
+		// back face
+		this.scene.pushMatrix();
+		this.scene.rotate(180 * DEGREE_TO_RAD, 1, 0, 0);
+		this.scene.translate(0, 0, 0.5);
+		this.quad.display();
+		this.scene.popMatrix();
 
-		this.primitiveType=this.scene.gl.TRIANGLES;
-		this.initGLBuffers();
+		// top face
+		this.scene.pushMatrix();
+		this.scene.rotate(-90 * DEGREE_TO_RAD, 1, 0, 0);
+		this.scene.translate(0, 0, 0.5);
+		this.quad.display();
+		this.scene.popMatrix();
+
+		// back face
+		this.scene.pushMatrix();
+		this.scene.rotate(90 * DEGREE_TO_RAD, 1, 0, 0);
+		this.scene.translate(0, 0, 0.5);
+		this.quad.display();
+		this.scene.popMatrix();
+
+		// right face
+		this.scene.pushMatrix();
+		this.scene.rotate(-90 * DEGREE_TO_RAD, 0, 1, 0);
+		this.scene.translate(0, 0, 0.5);
+		this.quad.display();
+		this.scene.popMatrix();
+
+		// left face
+		this.scene.pushMatrix();
+		this.scene.rotate(90 * DEGREE_TO_RAD, 0, 1, 0);
+		this.scene.translate(0, 0, 0.5);
+		this.quad.display();
+		this.scene.popMatrix();
 	};
 };

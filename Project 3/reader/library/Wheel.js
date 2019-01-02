@@ -8,8 +8,18 @@ class Wheel extends CGFobject
 		this.cilindro= new MyCylinder(this.scene,this.slices,this.stacks);
 		if(texture!=null){
 		this.cylinderTexture = new CGFtexture(this.scene,"./scenes/images/"+texture+".jpg");
+			if(texture=="defaultRocks") this.topTexture = new CGFtexture(this.scene,"./scenes/images/rocks.jpg");
+			else  this.topTexture = new CGFtexture(this.scene,"./scenes/images/rocks2.jpg");
+		this.top = new CGFappearance(this.scene);
+		this.top.setAmbient(0.6, 0.6, 0.6, 1);
+		this.top.setDiffuse(0.2, 0.2, 0.2, 1);
+		this.top.setSpecular(1.0, 1.0, 1.0, 1);	
+		this.top.setShininess(1);
+		this.top.setTexture(this.topTexture);
+			
 		}
 		else {
+			this.top = new CGFappearance(this.scene);
 			this.cylinderTexture = new CGFtexture(this.scene,"./scenes/images/defaultRocks.jpg");
 		}
 
@@ -24,21 +34,25 @@ class Wheel extends CGFobject
 
     display()
     {
+		this.scene.pushMatrix();
+		this.scene.scale(0.8,0.8,0.3);
 		var degToRad=0.01745329251;
-		this.scene.translate(0,0,-0.25);
+		this.scene.translate(0,0,0.05);
 		this.scene.pushMatrix();
 	
             super.display();
 		this.scene.popMatrix();
         this.scene.pushMatrix();
 			this.material.apply();
-            this.cilindro.display();
+			this.cilindro.display();
+			this.top.apply();
 		this.scene.popMatrix();
 		this.scene.pushMatrix();
 			this.scene.translate(0,0,1);
 			this.scene.rotate(180*degToRad,1,0,0);
 	
             super.display();
+		this.scene.popMatrix();
 		this.scene.popMatrix();
     }
 
