@@ -1,0 +1,37 @@
+getPeca(Nlinha, Ncoluna, Tabuleiro, Peca):-
+	getLinha(Nlinha, Tab,Linha)
+	getColuna(Ncoluna,Linha,Peca).
+
+getPeca(Nlinha, Ncoluna, Tabuleiro, Peca):-
+	nth1(Nlinha, Tab,Linha)
+	nth1(Ncoluna,Linha,Peca).
+
+setPeca(Nlinha, Ncoluna, Tabuleiro, Peca)
+	setPecaLinha(Nlinha,Ncolunas,Peca, TabIn, TabOut).
+
+setPecaLinha(1,Ncolunas,Peca,[Linha|MaisLinhas], [NovaLinha|MaisLinhas]):-
+	setPecaColuna(Ncolunas,Peca,Linha,Novalinha).
+
+setPecaLinha(N,Ncolunas,Peca,[Linhas|MaisLinhas],[Linha|NovaLinhas]):-
+	N>1,
+	Next is N-1,
+	setPecaLinha(Next,Ncolunas,Peca,MaisLinhas,NovasLinhas).
+
+setPecaColuna(1,Peca,[_|Resto],[Peca|Resto]).
+
+setPecaColuna(N,Peca,[Peca1|Resto],[Peca1|Mais]):-
+	N>1,
+	Next is N-1,
+	setPecaColuna(Next,Peca,Resto,Mais).
+
+:-dynamic cell/3.
+	getPeca(Linha,Coluna,Peca):-
+		cell(Linha,Coluna,Peca).
+	setPeca(Linha,Coluna,Peca):-
+		retract(cell(Linha,Coluna,_),
+		assert(cell(Linha,Coluna,Peca).
+
+format ("Texto ~d ~f ~p ~n",[ , , ,])
+
+format("Numero ~d int ~f float ~p termo ~n", [2, 3.15, t(t)])
+
