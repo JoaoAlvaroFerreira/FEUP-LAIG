@@ -177,7 +177,7 @@ class XMLscene extends CGFscene {
         this.interface.addLightsGroup(this.graph.lights);
 
         this.sceneInited = true;
-        
+        this.quad = new MyQuad(THIS,-1,-1,1,1,1,1);
     }
 
 
@@ -185,6 +185,7 @@ class XMLscene extends CGFscene {
      * Displays the scene.
      */
     display() {
+        this.quad.display();
         // ---- BEGIN Background, camera and axis setup
         this.camera = this.cameras[this.currentCamera];
 

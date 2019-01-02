@@ -1,3 +1,4 @@
+var DEGREE_TO_RAD = Math.PI / 180;
 class Cannon{
 
     constructor(scene){
@@ -48,17 +49,24 @@ class Cannon{
             for(var k = 0;k<this.board[i].length;k++){
                 if(this.board[i][k]==49){
                     this.scene.pushMatrix();
-                    this.scene.translate(i-4.5,.3,4.5-k);
-                    this.scene.rotate(90*DEGREE_TO_RAD,1,0,0);
+                    this.scene.translate(i-4.5,0,4.5-k);
+                    this.scene.rotate(-90*DEGREE_TO_RAD,1,0,0);
                     this.scene.scale(.5,0.5,1); 
+                    if(this.scene.currentCamera==4){
+                        this.scene.registerForPick(99-10*i+k, this.whitePiece); 
+                    }
                     this.whitePiece.display();
                     this.scene.popMatrix();
+                    
                 }
                 if(this.board[i][k]==50){
                     this.scene.pushMatrix();
                     this.scene.translate(i-4.5,.3,4.5-k);
                     this.scene.rotate(90*DEGREE_TO_RAD,1,0,0);
                     this.scene.scale(.5,0.5,1); 
+                    if(this.scene.currentCamera==3){
+                        this.scene.registerForPick(99-10*i+k, this.whitePiece); 
+                    }
                     this.blackPiece.display();
                     this.scene.popMatrix();
                 }
@@ -76,8 +84,11 @@ class Cannon{
                     this.blackCity.display();
                     this.scene.popMatrix();
                 }
+                this.scene.registerForPick(null, null);
             }
         }
+        this.scene.registerForPick(null, null); 
+        
     }
 
     startGameJS(Player1, Player2, Difficulty){
