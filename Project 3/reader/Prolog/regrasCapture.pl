@@ -1,5 +1,5 @@
 
-
+:- use_module(library(lists)).
 
 addMove(1,Peca,Linha,Coluna,Moves,NovoMoves):-
     ((Peca =:= 50 | Peca =:= 52) -> 

@@ -1,3 +1,5 @@
+:- use_module(library(lists)).
+:- use_module(library(random)).
 
 make_jogada_normal(2,DeX,DeY,ParaX,ParaY,Board,Nivel,Lista,Move,Pontuacao):-
     getPeca(ParaX,ParaY,Board,Peca),
@@ -79,8 +81,9 @@ imprimirLista([Este|Resto]):-
     write(Este),nl,
     imprimirLista(Resto).
 
-atualizar_board([],Board,Board).
-atualizar_board([[X1,Y1],[X2,Y2]|Resto],Board,NewBoard):-
+atualizar_board([],Board,Board,_).
+atualizar_board([[X1,Y1],[X2,Y2]|Resto],Board,NewBoard, 1):-
+    write(board1),
     Move = [[X1,Y1],[X2,Y2]],
     ImprimirY1 is Y1 + 64,
     ImprimirX1 is X1 ,
@@ -88,10 +91,27 @@ atualizar_board([[X1,Y1],[X2,Y2]|Resto],Board,NewBoard):-
     ImprimirY2 is Y2 + 64,
     ImprimirX2 is X2 ,
     write(' para a posicao '), format('[~c,~d]',[ImprimirY2,ImprimirX2]),nl,
-    move(Move,Board,NewBoard).
+    %move(Move,Board,NewBoard, Player),
+    setPeca(X2,Y2,Board, NewBoard1,49),
+    setPeca(X1,Y1,NewBoard1, NewBoard,32).
+    write(board2).
 
-choose_move(Board,NewBoard,Nivel):-
-    jogador(Player),
+atualizar_board([[X1,Y1],[X2,Y2]|Resto],Board,NewBoard, 2):-
+    write(board1),
+    Move = [[X1,Y1],[X2,Y2]],
+    ImprimirY1 is Y1 + 64,
+    ImprimirX1 is X1 ,
+    write('Movimento da peca '), format('[~c,~d]',[ImprimirY1,ImprimirX1]),
+    ImprimirY2 is Y2 + 64,
+    ImprimirX2 is X2 ,
+    write(' para a posicao '), format('[~c,~d]',[ImprimirY2,ImprimirX2]),nl,
+    %move(Move,Board,NewBoard, Player),
+    setPeca(X2,Y2,Board, NewBoard1,50),
+    setPeca(X1,Y1,NewBoard1, NewBoard,32).
+    write(board2).
+
+choose_move(Board,NewBoard,Nivel, Player):-
+write(choose),
     valid_pecas_linhas(Player,Board,1,[],Pecas),
     percorrer_pecas(Player,Pecas,Board,Nivel,[],Moves,0),
     ((empty_list(Moves))->fail;true),
@@ -99,7 +119,7 @@ choose_move(Board,NewBoard,Nivel):-
     reverse(SortedMoves,ReversedMoves),
     escolher_movimento(Escolha,ReversedMoves),
     reverse(Escolha,Movimento),
-    atualizar_board(Movimento,Board,NewBoard).
+    atualizar_board(Movimento,Board,NewBoard,Player).
 
 
 

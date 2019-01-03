@@ -116,9 +116,10 @@ parse_input(test(C,N), Res) :- test(C,Res,N).
 parse_input(getTable, Tabuleiro) :- getTable(Tabuleiro).
 
 parse_input(startGame(Player1,Player2,Difficulty), NovoTabuleiro):- startGame(Player1,Player2,Difficulty, NovoTabuleiro).
+parse_input(setCities(Player1,Player2,Choice1, Choice2), NovoTabuleiro):- setCities(Player1,Player2,Choice1,Choice2, NovoTabuleiro).
 
 
-parse_input(playTurn(Tabuleiro, Player1,Player2,Difficulty), NovoTabuleiro):- play_robot(Tabuleiro,NovoTabuleiro,Difficulty).
+parse_input(playTurn(Tabuleiro, Player1,Player2,Difficulty,Player), NovoTabuleiro):- choose_move(Tabuleiro,NovoTabuleiro,Difficulty,Player).
 
 parse_input(quit, goodbye).
 

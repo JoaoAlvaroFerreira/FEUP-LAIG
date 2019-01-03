@@ -1,3 +1,4 @@
+:- use_module(library(lists)).
 
 addMove(1,Peca1,Peca2,Peca3,PecaDisparo,Linha,Coluna,Moves,NovoMoves):-
     ((Peca1 =:= 49, Peca2 =:= 49 , Peca3 =:= 32 , (PecaDisparo =:= 50 | PecaDisparo =:= 52) ) ->

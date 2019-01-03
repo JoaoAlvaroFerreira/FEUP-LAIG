@@ -1,4 +1,5 @@
 var gameLocal;
+var lastRequest;
 
 function getPrologRequest(requestString, onSuccess, onError, port)
 			{
@@ -16,19 +17,23 @@ function getPrologRequest(requestString, onSuccess, onError, port)
 			function makeRequest(requestString, game)
 			{
 				gameLocal = game;
-				// Make Request
+				lastRequest = requestString;
 				getPrologRequest(requestString, handleReply);
 			}
 			
 			//Handle the Reply
 			function handleReply(data){
 				
-				
+				/* if(data.target.response = '400 (Bad Request)')
+				makeRequest(lastRequest, gameLocal); */
+				console.log(data.target.response);
 				if(typeof gameLocal !== "undefined"){ 
 					
 				gameLocal.changeBoard(data.target.response);
 			
 				}
+
+			
 			
 				
 			}

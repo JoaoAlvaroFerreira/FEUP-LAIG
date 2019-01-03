@@ -34,6 +34,7 @@ class XMLscene extends CGFscene {
         this.initAnimations();
    
         this.setUpdatePeriod(1000 / 60);
+    
 
         this.enableTextures(true);
 
@@ -72,7 +73,7 @@ class XMLscene extends CGFscene {
         this.gamestarted = false;
         this.StartGame = function(){
             this.gamestarted = true;
-            this.game.startGameJS(this.Player1, this.Player2, this.Difficulty)
+            this.game.startGameJS(this.Player1, this.Player2, this.Difficulty);
         };
         
         this.PlayTurn = function(){
@@ -381,6 +382,20 @@ logPicking(){
                     console.log("Picked object: " + obj + ", with pick id " + customId);
                     this.previousSelection=this.selection;
                     this.selection=customId;
+                    console.log(this.game.pickingCityFlag);
+
+                    if(this.game.pickingCityFlag == 1){
+                        this.game.player1pick = 10-this.selection%10;
+                        this.game.pickingCityFlag--;
+
+                        makeRequest('setCities('+this.game.player1+','+this.game.player2+','+this.game.player1pick+','+this.game.player2pick+')',this.game);
+                    }
+                    if(this.game.pickingCityFlag == 2){
+                        this.game.player2pick = 10-this.selection%10;
+                        this.game.pickingCityFlag--;
+                    }
+
+                    
 				}
 			}
 			this.pickResults.splice(0,this.pickResults.length);

@@ -8,6 +8,10 @@ class Cannon{
         this.pos=100;
         this.coordinates=[null,null];
         this.newCoordinates=[null,null];
+        this.pickingCityFlag = 0;
+        this.player1pick;
+        this.player2pick;
+        this.currentPlayer = 2;
 
         this.board = [[32,32,32,32,32,32,32,32,32,32],
             [32,32,32,32,32,32,32,32,32,32],
@@ -65,7 +69,7 @@ class Cannon{
 
     displayBoard(){
     
-        this.board = 
+       /*  this.board = 
            [[32,32,32,32,32,32,32,32,32,32],
             [32,49,32,32,32,32,32,32,32,32],
             [32,32,36,32,32,32,32,32,32,32],
@@ -75,7 +79,7 @@ class Cannon{
             [32,32,32,32,50,32,32,32,32,32],
             [32,32,32,32,32,32,50,32,32,32],
             [32,49,32,32,32,49,32,32,32,32],
-            [32,32,32,32,32,32,32,32,32,32]];
+            [32,32,32,32,32,32,32,32,32,32]]; */
 
         for(var i = 0; i<this.board.length;i++){
             for(var k = 0;k<this.board[i].length;k++){
@@ -225,11 +229,24 @@ class Cannon{
       console.log(Player2);
       console.log(Difficulty);
       makeRequest('startGame('+Player1+','+Player2+','+Difficulty+')',this);
+      this.pickingCityFlag = 0;
+      if(this.player1 == "human")
+      this.pickingCityFlag++;
+
+      if(this.player2 == "human")
+      this.pickingCityFlag++;
+
+      this.currentPlayer = 1;
       
     }
 
     play(){
-        makeRequest('playTurn('+this.actualBoard+','+this.player1+','+this.player2+','+this.difficulty+')',this);
+        if(this.currentPlayer == 1)
+        this.currentPlayer == 2;
+        else if(this.currentPlayer == 2)
+        this.currentPlayer == 1;
+        makeRequest('playTurn('+this.actualBoard+','+this.player1+','+this.player2+','+this.difficulty+','+this.currentPlayer+')',this);
+       
     }
     
     
