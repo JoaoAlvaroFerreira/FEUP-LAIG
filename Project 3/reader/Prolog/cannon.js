@@ -40,13 +40,17 @@ class Cannon{
         this.oneMove=false;
         this.twoMove=false;
         this.newPos=null;
-        this.animationPoints=[null,null];
+        this.animationPoints=[null,null,null];
         this.initialLiteralCoordinates=null;
         this.time=0;
         this.initialTime=0;
         this.vx=null;
         this.vz=null;
        this.scene.picking=true;
+       this.P1keyHeight=-1;
+       this.P2keyHeight=-1;
+       this.P1stackSeparator=0;
+       this.P2stackSeparator=0;
     }
 
     changeBoard(newBoard){
@@ -55,13 +59,6 @@ class Cannon{
         this.board = arr[0];
     }
 
-    capturePlayer2Piece(){
-        this.player1capture++;
-    }
-
-    capturePlayer1Piece(){
-        this.player2capture++;
-    }
 
     displayBoard(){
     
@@ -137,11 +134,34 @@ class Cannon{
                     this.scene.rotate(90*DEGREE_TO_RAD,1,0,0);
                     this.scene.scale(.5,0.5,1); 
                     this.scene.registerForPick(this.pos, this.capturePiece);
-                    if(this.pos==this.scene.selection){
+                    if(this.pos==this.scene.selection && this.oneMove==false && this.scene.previousSelection!=null){
                         this.newCoordinates[0]=String.fromCharCode(k+65);
-
                         this.newCoordinates[1]=i+1;
+                        this.oneMove=true;
+                        this.twoMove=true;
+                        if(this.scene.currentCamera==3)  this.P1keyHeight++;
+                        else this.P2keyHeight++;
+                        if(this.P1keyHeight==3) {
+                            this.P1stackSeparator++;
+                            this.P1keyHeight=0;
+                        }
+                        if(this.P2keyHeight==3) {
+                            this.P2stackSeparator++;
+                            this.P2keyHeight=0;
+                        }
+                        this.newPos=this.pos;
+                        this.animationPoints[1]=[i-4.5,.3,4.5-k];
+                        this.animationPoints[0]=this.initialLiteralCoordinates;
+                        if(this.scene.currentCamera==3) this.animationPoints[2]=[-2+this.P1stackSeparator,.3+.3*this.P1keyHeight,7];
+                        else  this.animationPoints[2]=[2-this.P2stackSeparator,.3+.3*this.P2keyHeight,-7];
+                        this.vx=(this.animationPoints[1][0]-this.animationPoints[0][0])/4;
+                        this.vz=(this.animationPoints[1][2]-this.animationPoints[0][2])/4;
+                        this.vx2=(this.animationPoints[2][0]-this.animationPoints[1][0])/4;
+                        this.vz2=(this.animationPoints[2][2]-this.animationPoints[1][2])/4;
+                        this.initialTime=this.scene.deltaTime;
+                       this.scene.picking=false;
                     }
+                    
                     this.capturePiece.display();
                     this.scene.popMatrix();
                     
@@ -152,9 +172,28 @@ class Cannon{
                     this.scene.rotate(90*DEGREE_TO_RAD,1,0,0);
                     this.scene.scale(.5,0.5,1); 
                     this.scene.registerForPick(this.pos, this.shootPiece);
-                    if(this.pos==this.scene.selection){
+                    if(this.pos==this.scene.selection && this.twoMove==false && this.scene.previousSelection!=null){
                         this.newCoordinates[0]=String.fromCharCode(k+65);
                         this.newCoordinates[1]=i+1;
+                        this.twoMove=true;
+                        if(this.scene.currentCamera==3)  this.P1keyHeight++;
+                        else this.P2keyHeight++;
+                        if(this.P1keyHeight==3) {
+                            this.P1stackSeparator++;
+                            this.P1keyHeight=0;
+                        }
+                        if(this.P2keyHeight==3) {
+                            this.P2stackSeparator++;
+                            this.P2keyHeight=0;
+                        }
+                        this.newPos=this.pos;
+                        this.animationPoints[1]=[i-4.5,.3,4.5-k];
+                        if(this.scene.currentCamera==3) this.animationPoints[2]=[-2+this.P1stackSeparator,.3+.3*this.P1keyHeight,7];
+                        else  this.animationPoints[2]=[2-this.P2stackSeparator,.3+.3*this.P2keyHeight,-7];
+                        this.vx2=(this.animationPoints[2][0]-this.animationPoints[1][0])/4;
+                        this.vz2=(this.animationPoints[2][2]-this.animationPoints[1][2])/4;
+                        this.initialTime=this.scene.deltaTime;
+                       this.scene.picking=false;
                     }
                     this.shootPiece.display();
                     this.scene.popMatrix();
@@ -169,9 +208,8 @@ class Cannon{
                     if(this.pos==this.scene.selection && this.oneMove==false && this.scene.previousSelection!=null){
                         this.newCoordinates[0]=String.fromCharCode(k+65);
                         this.newCoordinates[1]=i+1;
-                        //this.scene.setPickEnabled(false);
                         this.oneMove=true;
-                        this.newPos=this.scene.previousSelection;
+                        this.newPos=this.pos;
                         this.animationPoints[1]=[i-4.5,.3,4.5-k];
                         this.animationPoints[0]=this.initialLiteralCoordinates;
                         this.vx=(this.animationPoints[1][0]-this.animationPoints[0][0])/4;
@@ -193,6 +231,10 @@ class Cannon{
         if(this.oneMove){
             this.movePiece();
         }
+        if(this.twoMove){
+            this.removePiece();
+        }
+        this.displayCaptured();
         
     }
 
@@ -212,8 +254,65 @@ class Cannon{
             this.newPos=101;
             this.scene.previousSelection=null;
             this.scene.selection=null;
-            //this.scene.setPickEnabled(true);
             this.scene.show=true;
+        }
+    }
+
+    removePiece(){
+        this.time=this.scene.deltaTime-this.initialTime;
+        if(this.time<4){
+        this.scene.pushMatrix();
+        if(this.scene.currentCamera==4)  this.scene.translate(this.animationPoints[1][0]+this.time*this.vx2,.3+2*this.time-0.5*this.time*this.time+this.time/4*this.P2keyHeight*.3,this.animationPoints[1][2]+this.time*this.vz2);
+        else   this.scene.translate(this.animationPoints[1][0]+this.time*this.vx2,.3+2*this.time-0.5*this.time*this.time+this.time/4*this.P1keyHeight*.3,this.animationPoints[1][2]+this.time*this.vz2);
+        this.scene.rotate(90*DEGREE_TO_RAD,1,0,0);
+        this.scene.scale(.5,0.5,1); 
+        if(this.scene.currentCamera==4) this.blackPiece.display();
+        else this.whitePiece.display();
+        this.scene.popMatrix();
+        }
+        else {
+            this.twoMove=false;
+            this.newPos=101;
+            this.scene.previousSelection=null;
+            this.scene.selection=null;
+            this.scene.show=true;
+            if(this.scene.currentCamera==3) this.player1capture++;
+            else  this.player2capture++;
+        }
+    }
+
+    displayCaptured(){
+        var counter=0;
+        var counter2=0;
+        for(var i = 0; i< this.player1capture;i++){
+            if(counter==3){
+                counter2++;
+                counter=0;
+            }
+            this.scene.pushMatrix();
+            this.scene.translate(-2+counter2,.3+counter*.3,7);
+            this.scene.rotate(90*DEGREE_TO_RAD,1,0,0);
+            this.scene.scale(.5,0.5,1); 
+            this.whitePiece.display();
+            this.scene.popMatrix();
+            counter++;
+            
+        }
+        counter=0;
+        counter2=0;
+        for(var i = 0; i< this.player2capture;i++){
+            if(counter==3){
+                counter2++;
+                counter=0;
+            }
+            this.scene.pushMatrix();
+            this.scene.translate(2-counter2,.3+counter*.3,-7);
+            this.scene.rotate(90*DEGREE_TO_RAD,1,0,0);
+            this.scene.scale(.5,0.5,1); 
+            this.blackPiece.display();
+            this.scene.popMatrix();
+            counter++;
+            
         }
     }
 
