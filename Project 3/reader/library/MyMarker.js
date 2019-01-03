@@ -127,9 +127,17 @@ class MyMarker extends CGFobject
 		this.quad.display();
         this.scene.popMatrix();
         
-        this.defaultMaterial.setTexture(this.T0);
+        if(this.scene.currentCamera==3)  {
+            if(this.scene.P1Victory>9) this.scene.P1Victory=0;
+            this.defaultMaterial.setTexture(this.times[this.scene.P1Victory]);
+        }
+        else {
+            if(this.scene.P2Victory>9) this.scene.P2Victory=0;
+            this.defaultMaterial.setTexture(this.times[this.scene.P2Victory]);
+        }
         this.defaultMaterial.apply();
         //SCORE
+        
         this.scene.pushMatrix();
 		this.scene.rotate(90 * DEGREE_TO_RAD, 0, 1, 0);
         this.scene.translate(-1/3, 0.15, 0.5);

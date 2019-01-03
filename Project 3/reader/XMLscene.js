@@ -91,6 +91,8 @@ class XMLscene extends CGFscene {
         this.previousSelection=null;
         this.timer=false;
         this.timerTime=null;
+        this.P1Victory=0;
+        this.P2Victory=0;
     }
 
     /**
@@ -319,7 +321,16 @@ class XMLscene extends CGFscene {
             }
             }
         this.show=true;                    
-		}
+        }
+        
+        if (this.gui.isKeyPressed("KeyW"))
+		{	
+        this.P2Victory++; 
+        }
+        if (this.gui.isKeyPressed("KeyE"))
+		{	
+        this.P1Victory++; 
+        }
 	
     }
         
