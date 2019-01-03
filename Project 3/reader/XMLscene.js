@@ -23,6 +23,7 @@ class XMLscene extends CGFscene {
         super.init(application);
 
         this.game = new Cannon(this);
+        this.P1Marker = new MyMarker(this);
         this.sceneInited = false;
 
         this.cameraTransition = false;
@@ -70,9 +71,12 @@ class XMLscene extends CGFscene {
         this.Player1 = 'ai';
         this.Player2 = 'ai';
         this.Difficulty = "1";
+        this.Timer = '45';
         this.gamestarted = false;
         this.StartGame = function(){
             this.gamestarted = true;
+            this.timer=true;
+            this.timerTime=this.deltaTime;
             this.game.startGameJS(this.Player1, this.Player2, this.Difficulty);
         };
         
@@ -85,6 +89,8 @@ class XMLscene extends CGFscene {
         this.setPickEnabled(true);
         this.selection=null;
         this.previousSelection=null;
+        this.timer=false;
+        this.timerTime=null;
     }
 
     /**
@@ -163,10 +169,7 @@ class XMLscene extends CGFscene {
         }
 
       
-    }
-   
- 
-    
+    }   
   
 
 
@@ -233,7 +236,7 @@ class XMLscene extends CGFscene {
     display() {
         // ---- BEGIN Background, camera and axis setup
         this.camera = this.cameras[this.currentCamera];
-        
+
         if(this.currentEnvironment != this.environmentInUse)
         {
             this.environmentInUse = this.currentEnvironment;
@@ -275,6 +278,17 @@ class XMLscene extends CGFscene {
         this.popMatrix();
         // ---- END Background, camera and axis setup
         this.game.displayBoard();
+        this.pushMatrix();
+        this.translate(-7.75,.25,0);
+        this.scale(1.5,1.5,3);
+        this.P1Marker.display();
+        this.popMatrix();
+        this.pushMatrix();
+        this.translate(7.75,.25,0);
+        this.rotate(180*DEGREE_TO_RAD,0,1,0);
+        this.scale(1.5,1.5,3);
+        this.P1Marker.display();
+        this.popMatrix();
       //makeRequest("getTable", this.game);
 
         
@@ -330,6 +344,8 @@ class XMLscene extends CGFscene {
                     this.cameras[3].setTarget([1,0,0]);
                     this.selection=null;
                     this.picking=true;
+                    this.timer=true;
+                    this.timerTime=this.deltaTime;
                 }
             }
             if(this.player==4){
@@ -350,6 +366,8 @@ class XMLscene extends CGFscene {
                     this.cameras[4].setPosition([-9,10,0]);
                     this.cameras[4].setTarget([-1,0,0]);
                     this.picking=true;
+                    this.timer=true;
+                    this.timerTime=this.deltaTime;
             }
             }
         }

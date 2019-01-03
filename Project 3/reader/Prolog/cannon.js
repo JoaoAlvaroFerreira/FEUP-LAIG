@@ -66,7 +66,7 @@ class Cannon{
 
     displayBoard(){
     
-       /*  this.board = 
+         this.board = 
            [[32,32,32,32,32,32,32,32,32,32],
             [32,49,32,32,32,32,32,32,32,32],
             [32,32,36,32,32,32,32,32,32,32],
@@ -76,7 +76,7 @@ class Cannon{
             [32,32,32,32,50,32,32,32,32,32],
             [32,32,32,32,32,32,50,32,32,32],
             [32,49,32,32,32,49,32,32,32,32],
-            [32,32,32,32,32,32,32,32,32,32]]; */
+            [32,32,32,32,32,32,32,32,32,32]]; 
 
         for(var i = 0; i<this.board.length;i++){
             for(var k = 0;k<this.board[i].length;k++){
@@ -164,6 +164,7 @@ class Cannon{
                         this.vz2=(this.animationPoints[2][2]-this.animationPoints[1][2])/4;
                         this.initialTime=this.scene.deltaTime;
                        this.scene.picking=false;
+                       this.scene.timer=false;
                     }
                     
                     this.capturePiece.display();
@@ -198,6 +199,7 @@ class Cannon{
                         this.vz2=(this.animationPoints[2][2]-this.animationPoints[1][2])/4;
                         this.initialTime=this.scene.deltaTime;
                        this.scene.picking=false;
+                       this.scene.timer=false;
                     }
                     this.shootPiece.display();
                     this.scene.popMatrix();
@@ -220,6 +222,7 @@ class Cannon{
                         this.vz=(this.animationPoints[1][2]-this.animationPoints[0][2])/4;
                         this.initialTime=this.scene.deltaTime;
                        this.scene.picking=false;
+                       this.scene.timer=false;
                     }
                     this.newPiece.display();
                     this.scene.popMatrix();
