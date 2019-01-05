@@ -13,6 +13,19 @@ class Cannon{
         this.player2pick;
         this.currentPlayer = 2;
 
+        this.previousBoards = [];
+
+        this.currentboard = [[32,32,32,32,32,32,32,32,32,32],
+        [32,32,32,32,32,32,32,32,32,32],
+        [32,32,32,32,32,32,32,32,32,32],
+        [32,32,32,32,32,32,32,32,32,32],
+        [32,32,32,32,32,32,32,32,32,32],
+        [32,32,32,32,32,32,32,32,32,32],
+        [32,32,32,32,32,32,32,32,32,32],
+        [32,32,32,32,32,32,32,32,32,32],
+        [32,32,32,32,32,32,32,32,32,32],
+        [32,32,32,32,32,32,32,32,32,32]];
+
         this.board = [[32,32,32,32,32,32,32,32,32,32],
             [32,32,32,32,32,32,32,32,32,32],
             [32,32,32,32,32,32,32,32,32,32],
@@ -55,18 +68,65 @@ class Cannon{
        this.P2keyHeight=-1;
        this.P1stackSeparator=0;
        this.P2stackSeparator=0;
+       this.frame = 0;
+
     }
 
     changeBoard(newBoard){
+        this.previousBoards.push(this.board);
         this.actualBoard = newBoard;
         var arr = eval("["+newBoard+"]"); //não mexer
+        this.currentBoard = arr[0];
+        console.log("This is board");
+        console.log(this.currentBoard);
         this.board = arr[0];
+       
     }
 
+    parsePreMoveBoard(moveBoard){
+        //to do
+    }
+
+  boardDifference(){
+    
+        var board1 = this.board;
+        var board2 = this.previousBoards[this.previousBoards.length-1];
+        var firstPiece;
+        var secondPiece;
+        
+
+       
+        if(board1 != board2){
+            for(var i = 0; i < 10; i++){
+                for(var j = 0; j < 10; j++){
+                    
+                    if((board1[i][j] != 50 && board2[i][j] == 50) || (board1[i][j] != 49 && board2[i][j] == 49)){
+                        firstPiece = [i,j];
+                        
+                        }
+                    if(board1[i][j] != 32 && board2[i][j] == 32){
+                    secondPiece = [i,j];
+                    
+                    }
+
+                    
+
+                   
+                   
+                }
+            }
+        
+        }
+
+        console.log(firstPiece);
+        console.log(secondPiece);
+        console.log(board1);
+        console.log(board2);
+    } 
 
     displayBoard(){
     
-         /*this.board = 
+         /* this.board = 
            [[32,32,32,32,32,32,32,32,32,32],
             [32,49,32,32,32,32,32,32,32,32],
             [32,32,36,32,32,32,32,32,32,32],
@@ -76,7 +136,10 @@ class Cannon{
             [32,32,32,32,50,32,32,32,32,32],
             [32,32,32,32,32,32,50,32,32,32],
             [32,49,32,32,32,49,32,32,32,32],
-            [32,32,32,32,32,32,32,32,32,32]]; */
+            [32,32,32,32,32,32,32,32,32,32]];  */
+        
+  if(this.player1 != null)   
+this.boardDifference();
 
         for(var i = 0; i<this.board.length;i++){
             for(var k = 0;k<this.board[i].length;k++){
@@ -226,6 +289,7 @@ class Cannon{
                     }
                     this.newPiece.display();
                     this.scene.popMatrix();
+                  
                     
                 }
                 this.scene.registerForPick(null, null);
@@ -233,7 +297,7 @@ class Cannon{
         }
         this.scene.registerForPick(null, null); 
         if(this.coordinates!=null){
-           // makeRequest()
+          // this.play();
         }
         if(this.oneMove){
             this.movePiece();
@@ -242,6 +306,8 @@ class Cannon{
             this.removePiece();
         }
         this.displayCaptured();
+
+       
         
     }
 
@@ -327,9 +393,6 @@ class Cannon{
       this.player1 = Player1;
       this.player2 = Player2;
       this.difficulty = Difficulty;
-      console.log(Player1);
-      console.log(Player2);
-      console.log(Difficulty);
       makeRequest('startGame('+Player1+','+Player2+','+Difficulty+')',this);
       this.pickingCityFlag = 0;
       if(this.player1 == "human")
@@ -344,9 +407,9 @@ class Cannon{
 
     play(){
         if(this.currentPlayer == 1)
-        this.currentPlayer == 2;
+        this.currentPlayer = 2;
         else if(this.currentPlayer == 2)
-        this.currentPlayer == 1;
+        this.currentPlayer = 1;
         makeRequest('playTurn('+this.actualBoard+','+this.player1+','+this.player2+','+this.difficulty+','+this.currentPlayer+')',this);
        
     }

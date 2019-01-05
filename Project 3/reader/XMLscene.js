@@ -423,13 +423,15 @@ logPicking(){
                         this.game.player2pick = 10-this.selection%10;
                         this.game.pickingCityFlag--;
                     }
-
+                  
                     
 				}
 			}
-			this.pickResults.splice(0,this.pickResults.length);
+            this.pickResults.splice(0,this.pickResults.length);
+          
 		}		
-	}
+    }
+   
 }
 
     updateDeltaTime(currTime) {

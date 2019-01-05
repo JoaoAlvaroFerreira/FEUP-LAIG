@@ -26,7 +26,7 @@ function getPrologRequest(requestString, onSuccess, onError, port)
 				
 				/* if(data.target.response = '400 (Bad Request)')
 				makeRequest(lastRequest, gameLocal); */
-				console.log(data.target.response);
+				
 				if(typeof gameLocal !== "undefined"){ 
 					
 				gameLocal.changeBoard(data.target.response);

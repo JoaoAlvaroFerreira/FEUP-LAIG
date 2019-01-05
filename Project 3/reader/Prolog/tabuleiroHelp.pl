@@ -37,7 +37,7 @@ existe_movimento(X,Y,[[ThisX,ThisY]|Resto]):-
         existe_movimento(X,Y,Resto)
     ).
 
-
+ 
 
 get_all_moves_pecas(_,_,[],[]).
 get_all_moves_pecas(Player,Board,[[X,Y]|Resto],[Movimento|Continuacao]):-
@@ -52,20 +52,14 @@ valid_moves(Board,Player,ListOfMoves):-
 move([[],[]],Board,NewBoard, _).
 
 move([[DeX,DeY],[ParaX,ParaY]],Board,NewBoard, 1):-
-write(move),
     getPeca(DeX,DeY,Board,Peca),
-    write(move0),
-    Peca =:= 50,
-    write(move1),
+    Peca =:= 49,
     getMovesPecaPlayer(1,DeX,DeY,Board,MovesN),
-    write(move2),
     getCaptures(1,DeX,DeY,Board,MovesC),
-    write(move3),
     append(MovesN,MovesC,MovesNC),
-    write(move4),
     ((existe_movimento(ParaX,ParaY,MovesNC))->
         setPeca(DeX,DeY,Board,NewBoard1,32),
-        setPeca(ParaX,ParaY,NewBoard1,NewBoard,50)
+        setPeca(ParaX,ParaY,NewBoard1,NewBoard,49)
     ;
         getCanonDisparos(1,DeX,DeY,Board,MovesD),
         ((existe_movimento(ParaX,ParaY,MovesD))->
@@ -73,20 +67,17 @@ write(move),
         ;
             fail, !
         )
-        
-    )
-    ,write(movened).
+    ).
 
 move([[DeX,DeY],[ParaX,ParaY]],Board,NewBoard,2):-
-    write(move),
     getPeca(DeX,DeY,Board,Peca),
-    Peca =:= 49,
+    Peca =:= 50,
     getMovesPecaPlayer(2,DeX,DeY,Board,MovesN),
     getCaptures(2,DeX,DeY,Board,MovesC),
     append(MovesN,MovesC,MovesNC),
     ((existe_movimento(ParaX,ParaY,MovesNC))->
         setPeca(DeX,DeY,Board,NewBoard1,32),
-        setPeca(ParaX,ParaY,NewBoard1,NewBoard,49)
+        setPeca(ParaX,ParaY,NewBoard1,NewBoard,50)
     ;
         getCanonDisparos(2,DeX,DeY,Board,MovesD),
         ((existe_movimento(ParaX,ParaY,MovesD))->
@@ -95,7 +86,6 @@ move([[DeX,DeY],[ParaX,ParaY]],Board,NewBoard,2):-
             fail, !
         )
     ).
-
 
 
 

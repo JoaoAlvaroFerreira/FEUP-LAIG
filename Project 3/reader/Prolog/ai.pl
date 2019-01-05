@@ -91,7 +91,7 @@ atualizar_board([[X1,Y1],[X2,Y2]|Resto],Board,NewBoard, 1):-
     ImprimirY2 is Y2 + 64,
     ImprimirX2 is X2 ,
     write(' para a posicao '), format('[~c,~d]',[ImprimirY2,ImprimirX2]),nl,
-    %move(Move,Board,NewBoard, Player),
+    move(Move,Board,NewBoard, 1).
     setPeca(X2,Y2,Board, NewBoard1,49),
     setPeca(X1,Y1,NewBoard1, NewBoard,32).
     write(board2).
@@ -105,7 +105,7 @@ atualizar_board([[X1,Y1],[X2,Y2]|Resto],Board,NewBoard, 2):-
     ImprimirY2 is Y2 + 64,
     ImprimirX2 is X2 ,
     write(' para a posicao '), format('[~c,~d]',[ImprimirY2,ImprimirX2]),nl,
-    %move(Move,Board,NewBoard, Player),
+    move(Move,Board,NewBoard, 2).
     setPeca(X2,Y2,Board, NewBoard1,50),
     setPeca(X1,Y1,NewBoard1, NewBoard,32).
     write(board2).
