@@ -121,6 +121,13 @@ parse_input(setCities(Player1,Player2,Choice1, Choice2), NovoTabuleiro):- setCit
 
 parse_input(playTurn(Tabuleiro, Player1,Player2,Difficulty,Player), NovoTabuleiro):- choose_move(Tabuleiro,NovoTabuleiro,Difficulty,Player).
 
+parse_input(imprimirTabuleiroJogadas(Player,Linha,Coluna,Tabuleiro), NewTabuleiro):- imprimirTabuleiroJogadas(Player,Linha,Coluna,Tabuleiro, NewTabuleiro).
+
+parse_input(setPecaPeca(Nlinha,Ncoluna,Nlinha2,Ncoluna2,Tabuleiro,Peca), NewTabuleiro):- setPecaPeca(Nlinha,Ncoluna,Nlinha2,Ncoluna2,Tabuleiro,NewTabuleiro,Peca).
+
+
+parse_input(setPeca(Nlinha,Ncoluna,Tabuleiro,Peca), NewTabuleiro):- setPeca(Nlinha,Ncoluna,Tabuleiro,NewTabuleiro,Peca).
+
 parse_input(quit, goodbye).
 
 getTable(Tabuleiro):-

@@ -39,6 +39,7 @@ class MyInterface extends CGFinterface {
         gameGroup.add(this.scene, 'Timer', ['30','45','60','90']);
         gameGroup.add(this.scene,'StartGame');
         gameGroup.add(this.scene,'PlayTurn');
+        gameGroup.add(this.scene,'PreviousPlay');
         var lightsGroup = this.gui.addFolder("Lights");
         lightsGroup.close();
         

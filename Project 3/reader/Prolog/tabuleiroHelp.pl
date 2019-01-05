@@ -51,35 +51,18 @@ valid_moves(Board,Player,ListOfMoves):-
 
 move([[],[]],Board,NewBoard, _).
 
-move([[DeX,DeY],[ParaX,ParaY]],Board,NewBoard, 1):-
-    getPeca(DeX,DeY,Board,Peca),
-    Peca =:= 49,
-    getMovesPecaPlayer(1,DeX,DeY,Board,MovesN),
-    getCaptures(1,DeX,DeY,Board,MovesC),
-    append(MovesN,MovesC,MovesNC),
-    ((existe_movimento(ParaX,ParaY,MovesNC))->
-        setPeca(DeX,DeY,Board,NewBoard1,32),
-        setPeca(ParaX,ParaY,NewBoard1,NewBoard,49)
-    ;
-        getCanonDisparos(1,DeX,DeY,Board,MovesD),
-        ((existe_movimento(ParaX,ParaY,MovesD))->
-            setPeca(ParaX,ParaY,Board,NewBoard,32)
-        ;
-            fail, !
-        )
-    ).
-
-move([[DeX,DeY],[ParaX,ParaY]],Board,NewBoard,2):-
+move([[DeX,DeY],[ParaX,ParaY]],Board,NewBoard,Player):-
+    Player =:= 2,
     getPeca(DeX,DeY,Board,Peca),
     Peca =:= 50,
-    getMovesPecaPlayer(2,DeX,DeY,Board,MovesN),
-    getCaptures(2,DeX,DeY,Board,MovesC),
+    getMovesPecaPlayer(Player,DeX,DeY,Board,MovesN),
+    getCaptures(Player,DeX,DeY,Board,MovesC),
     append(MovesN,MovesC,MovesNC),
     ((existe_movimento(ParaX,ParaY,MovesNC))->
         setPeca(DeX,DeY,Board,NewBoard1,32),
         setPeca(ParaX,ParaY,NewBoard1,NewBoard,50)
     ;
-        getCanonDisparos(2,DeX,DeY,Board,MovesD),
+        getCanonDisparos(Player,DeX,DeY,Board,MovesD),
         ((existe_movimento(ParaX,ParaY,MovesD))->
             setPeca(ParaX,ParaY,Board,NewBoard,32)
         ;
@@ -87,8 +70,23 @@ move([[DeX,DeY],[ParaX,ParaY]],Board,NewBoard,2):-
         )
     ).
 
-
-
-
-
-
+move([[DeX,DeY],[ParaX,ParaY]],Board,NewBoard,Player):-
+    write('a'),
+    Player =:= 1,
+    getPeca(DeX,DeY,Board,Peca),
+    Peca =:= 49,
+    write('b'),
+    getMovesPecaPlayer(Player,DeX,DeY,Board,MovesN),
+    getCaptures(Player,DeX,DeY,Board,MovesC),
+    append(MovesN,MovesC,MovesNC),
+    ((existe_movimento(ParaX,ParaY,MovesNC))->
+        setPeca(DeX,DeY,Board,NewBoard1,32),
+        setPeca(ParaX,ParaY,NewBoard1,NewBoard,49)
+    ;
+        getCanonDisparos(Player,DeX,DeY,Board,MovesD),
+        ((existe_movimento(ParaX,ParaY,MovesD))->
+            setPeca(ParaX,ParaY,Board,NewBoard,32)
+        ;
+            fail, !
+        )
+    ).

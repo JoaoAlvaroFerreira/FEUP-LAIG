@@ -111,7 +111,6 @@ atualizar_board([[X1,Y1],[X2,Y2]|Resto],Board,NewBoard, 2):-
     write(board2).
 
 choose_move(Board,NewBoard,Nivel, Player):-
-write(choose),
     valid_pecas_linhas(Player,Board,1,[],Pecas),
     percorrer_pecas(Player,Pecas,Board,Nivel,[],Moves,0),
     ((empty_list(Moves))->fail;true),

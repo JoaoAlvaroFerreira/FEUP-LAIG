@@ -11,21 +11,12 @@ class Cannon{
         this.pickingCityFlag = 0;
         this.player1pick;
         this.player2pick;
-        this.currentPlayer = 2;
+        this.currentPlayer;
 
         this.previousBoards = [];
+        this.previousActualBoards = [];
 
-        this.currentboard = [[32,32,32,32,32,32,32,32,32,32],
-        [32,32,32,32,32,32,32,32,32,32],
-        [32,32,32,32,32,32,32,32,32,32],
-        [32,32,32,32,32,32,32,32,32,32],
-        [32,32,32,32,32,32,32,32,32,32],
-        [32,32,32,32,32,32,32,32,32,32],
-        [32,32,32,32,32,32,32,32,32,32],
-        [32,32,32,32,32,32,32,32,32,32],
-        [32,32,32,32,32,32,32,32,32,32],
-        [32,32,32,32,32,32,32,32,32,32]];
-
+        this.previewBoard = [];
         this.board = [[32,32,32,32,32,32,32,32,32,32],
             [32,32,32,32,32,32,32,32,32,32],
             [32,32,32,32,32,32,32,32,32,32],
@@ -36,6 +27,17 @@ class Cannon{
             [32,32,32,32,32,32,32,32,32,32],
             [32,32,32,32,32,32,32,32,32,32],
             [32,32,32,32,32,32,32,32,32,32]];
+
+        this.p2board =  [[32,32,32,32,32,32,32,32,32,32],
+            [32,49,32,49,32,49,32,49,32,49],
+            [32,49,32,49,32,49,32,49,32,49],
+            [32,49,32,49,32,49,32,49,32,49],
+            [32,32,32,32,32,32,32,32,32,32],
+            [32,32,32,32,32,32,32,32,32,32],
+            [50,32,50,32,50,32,50,32,50,32],
+            [50,32,50,32,50,32,50,32,50,32],
+            [50,32,50,32,50,32,50,32,50,32],
+            [36,36,36,36,36,36,36,36,36,36]];
         this.player1capture = 0;
         this.player2capture = 0;
 
@@ -43,6 +45,9 @@ class Cannon{
         this.player1 = null;
         this.player2 = null;
         this.difficulty = null;
+
+        this.gameStarted = false;
+        this.previewFlag = false;
 
         this.whitePiece = new Wheel(this.scene, 16,10,"defaultRocks");
         this.blackPiece = new Wheel(this.scene, 16,10,"defaultRocks2");
@@ -73,19 +78,26 @@ class Cannon{
     }
 
     changeBoard(newBoard){
+
+        if(this.previewFlag){
+        var arr = eval("["+newBoard+"]"); //não mexer
+        this.previewBoard = arr[0];
+     
+     
+        }
+        else{
         this.previousBoards.push(this.board);
+        this.previousActualBoards.push(this.actualBoard);
         this.actualBoard = newBoard;
         var arr = eval("["+newBoard+"]"); //não mexer
-        this.currentBoard = arr[0];
-        console.log("This is board");
-        console.log(this.currentBoard);
         this.board = arr[0];
+     
+       
+    }
        
     }
 
-    parsePreMoveBoard(moveBoard){
-        //to do
-    }
+   
 
   boardDifference(){
     
@@ -117,16 +129,15 @@ class Cannon{
             }
         
         }
-
-        console.log(firstPiece);
-        console.log(secondPiece);
-        console.log(board1);
-        console.log(board2);
+       
+    
+      
+        
     } 
 
     displayBoard(){
     
-         /* this.board = 
+         /*  this.board = 
            [[32,32,32,32,32,32,32,32,32,32],
             [32,49,32,32,32,32,32,32,32,32],
             [32,32,36,32,32,32,32,32,32,32],
@@ -136,10 +147,19 @@ class Cannon{
             [32,32,32,32,50,32,32,32,32,32],
             [32,32,32,32,32,32,50,32,32,32],
             [32,49,32,32,32,49,32,32,32,32],
-            [32,32,32,32,32,32,32,32,32,32]];  */
+            [32,32,32,32,32,32,32,32,32,32]];   */
+
+            
+  if(this.gameStarted)   
+  this.boardDifference();
+  
+            var aux;
+            if(this.previewFlag)
+            {
+                aux = this.board;
+                this.board = this.previewBoard;
+            }
         
-  if(this.player1 != null)   
-this.boardDifference();
 
         for(var i = 0; i<this.board.length;i++){
             for(var k = 0;k<this.board[i].length;k++){
@@ -201,7 +221,9 @@ this.boardDifference();
                     this.scene.rotate(90*DEGREE_TO_RAD,1,0,0);
                     this.scene.scale(.5,0.5,1); 
                     this.scene.registerForPick(this.pos, this.capturePiece);
+                    
                     if(this.pos==this.scene.selection && this.oneMove==false && this.scene.previousSelection!=null){
+                       
                         this.newCoordinates[0]=String.fromCharCode(k+65);
                         this.newCoordinates[1]=i+1;
                         this.oneMove=true;
@@ -275,6 +297,8 @@ this.boardDifference();
                     this.scene.scale(.5,0.5,1); 
                     this.scene.registerForPick(this.pos, this.newPiece);
                     if(this.pos==this.scene.selection && this.oneMove==false && this.scene.previousSelection!=null){
+
+                        
                         this.newCoordinates[0]=String.fromCharCode(k+65);
                         this.newCoordinates[1]=i+1;
                         this.oneMove=true;
@@ -307,7 +331,11 @@ this.boardDifference();
         }
         this.displayCaptured();
 
-       
+        if(this.previewFlag)
+        {
+           
+            this.board = aux;
+        }
         
     }
 
@@ -395,25 +423,101 @@ this.boardDifference();
       this.difficulty = Difficulty;
       makeRequest('startGame('+Player1+','+Player2+','+Difficulty+')',this);
       this.pickingCityFlag = 0;
-      if(this.player1 == "human")
-      this.pickingCityFlag++;
-
-      if(this.player2 == "human")
-      this.pickingCityFlag++;
-
+      if(this.player1 == "human" && this.player2 == "ai"){
+      this.pickingCityFlag = 1;
       this.currentPlayer = 1;
       
+      }
+
+      if(this.player1 == "ai" && this.player2 == "human"){
+        this.pickingCityFlag = 1;
+      
+        this.currentPlayer = 1;
+        }
+
+      if(this.player2 == "human" && this.player1=="human"){
+      this.pickingCityFlag = 2;
+      this.currentPlayer = 1;
+      }
+
+     
     }
 
-    play(){
+    changeTurn(){
         if(this.currentPlayer == 1)
         this.currentPlayer = 2;
         else if(this.currentPlayer == 2)
         this.currentPlayer = 1;
-        makeRequest('playTurn('+this.actualBoard+','+this.player1+','+this.player2+','+this.difficulty+','+this.currentPlayer+')',this);
+
        
     }
+
+    play(){ //FOR BOTS ONLY
+  
+        
+        makeRequest('playTurn('+this.actualBoard+','+this.player1+','+this.player2+','+this.difficulty+','+this.currentPlayer+')',this);
+        this.changeTurn();
+       
+    }
+
+    playHuman(firstPickVar, customID){
+        this.previewFlag = false;
+        var I = 10-Math.floor(customID/10);
+        var J = 10-customID%10;
+
+        var x = 10-Math.floor(firstPickVar/10);
+        var y = 10-firstPickVar%10;
+       
+        console.log(x,y);
+        console.log(I,J);
+      if(this.previewBoard[I][J] == 50 || this.previewBoard[I][J] == 49 || this.previewBoard[I][J] == 35){
+
+        
+        
+          //newBoard[x][y] = 32;
+          if(this.currentPlayer == 1)
+          makeRequest('setPecaPeca('+x+','+y+','+I+','+J+','+this.actualBoard+','+49+')',this);
+
+        if(this.currentPlayer == 2)
+        makeRequest('setPecaPeca('+x+','+y+','+I+','+J+','+this.actualBoard+','+50+')',this);
+          //newBoard[I][J] = 48 + this.currentPlayer;
+      }
+      else if (this.previewBoard[I][J] == 88){
+        makeRequest('setPeca('+I+','+J+','+this.actualBoard+','+32+')',this);
+       // newBoard[I][J] = 32;
+      }
+  
+
+    }
     
+    getPossibleMovesBoard(customID){
+        var I = 10-Math.floor(customID/10);
+        var J = 10-customID%10;
+        this.previewFlag = true;
+        makeRequest('imprimirTabuleiroJogadas('+this.currentPlayer+','+I+','+J+','+this.actualBoard+')',this);
+    }
+
+    checkValid(customID){
+        var I = 9-Math.floor(customID/10);
+        var J = 9-customID%10;
+        console.log(this.previewBoard[I][J]);
+        if(this.previewBoard[I][J] == 36 || this.previewBoard[I][J] == 35 || this.previewBoard[I][J] == 88)
+        return true;
+
+        return false;
+
+    }
+
+    moveBack(){
+        this.previewFlag = false;
+        this.board = this.previousBoards[this.previousBoards - 1];
+        this.previousBoards.pop();
+
+        this.actualboard = this.previousActualBoards[this.previousActualBoards - 1];
+        this.previousActualBoards.pop();
+
+    }
+
     
 
 }

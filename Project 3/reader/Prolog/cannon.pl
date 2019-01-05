@@ -63,24 +63,6 @@ validar_inicial(Linha,Coluna,Board):-
 	existe_movimento(Linha,Coluna,Pecas).
 
 
-play_human(Tabuleiro,NovoTabuleiro):-
-	jogador(Player),
-	clearConsole,
-	imprimirTabuleiro(Tabuleiro),
-	write('E a vez do jogador '), write(Player),nl,
-	write('Indique a posicao da peca'), nl,
-	lerUserCelula(Linha1,Coluna1),!,
-	validar_inicial(Linha1,Coluna1,Tabuleiro),
-	clearConsole,
-	imprimirTabuleiroJogadas(Linha1,Coluna1,Tabuleiro),
-	write('Indique para onde quer mover a peca ou a posicao da peca inimiga a capturar'), nl,
-	lerUserCelula(Linha2,Coluna2),!,
-	move([[Linha1,Coluna1],[Linha2,Coluna2]],Tabuleiro,NovoTabuleiro),
-	clearConsole,
-	imprimirTabuleiro(NovoTabuleiro),
-	swap_player(Player,NovoPlayer),
-	retract(jogador(Player)),
-	assert(jogador(NovoPlayer)).
 
 playTurn(Tabuleiro, NovoTabuleiro, human,human , _):-
 	play_human(Tabuleiro,NovoTabuleiro).
@@ -124,44 +106,19 @@ play(Tabuleiro, PecasBrancas, PecasNegras,Dificuldade,_):-
 	play(NovoTabuleiro,PecasBrancas,PecasNegras,Dificuldade,Acabou).
 
 
-placeWhiteCity(Tabuleiro,NovoTabuleiro):-
-	repeat,
-	write('\nPrimeiro jogador (Pecas Brancas): Selecione a posicao da sua cidade [2-9]\n'),
-	read_line(Lido),
-	name(Posicao,Lido),
-	integer(Posicao),
-	((Posicao > 1 , Posicao < 10 )-> 
-		setPeca(1,Posicao,Tabuleiro,NovoTabuleiro,51)
-	;
-		write('\nA posicao tem de ser um numero de 2 a 9\n'),
-		fail
-	).
-
-
-placeBlackCity(Tabuleiro,NovoTabuleiro):-
-	repeat,
-	write('\nSegundo jogador (Pecas Negras): Selecione a posicao da sua cidade [2-9]\n'),
-	read_line(Lido),
-	name(Posicao,Lido),
-	integer(Posicao),
-	(((Posicao>1),(Posicao<10))-> 
-		setPeca(10,Posicao,Tabuleiro,NovoTabuleiro,52)
-	;
-		write('\nA posicao tem de ser um numero de 2 a 9\n'),
-	fail).
 
 
  setCities(human,ai,Choice1,Choice2, NovoTabuleiro):-
  tabuleiroInicial(Tabuleiro),
- 	setPeca(1,Choice1,Tabuleiro,NovoTabuleiro,51),
+ 	setPeca(1,Choice1,Tabuleiro,NovoTabuleir1,51),
 	random(2,10,Posicao),
-	setPeca(10,Posicao,Tabuleiro,NovoTabuleiro1,51).
+	setPeca(10,Posicao,NovoTabuleir1,NovoTabuleiro,51).
 
  setCities(ai,human,Choice1,Choice2, NovoTabuleiro):-
  tabuleiroInicial(Tabuleiro),
  	random(2,10,Posicao),
 	setPeca(1,Posicao,Tabuleiro,NovoTabuleiro1,51),
- 	setPeca(10,Choice1,Tabuleiro,NovoTabuleiro,52).
+ 	setPeca(10,Choice1,NovoTabuleiro1,NovoTabuleiro,52).
 
  setCities(human,human,Choice1,Choice2, NovoTabuleiro):-
  tabuleiroInicial(Tabuleiro),
@@ -175,7 +132,7 @@ placeCities(Tabuleiro,NovoTabuleiro,ai,human):-
 	tabuleiroP2(NovoTabuleiro).
 
 placeCities(Tabuleiro,NovoTabuleiro,human,human):-
-	tabuleiroP1P2(NovoTabuleiro).
+	tabuleiroP1(NovoTabuleiro).
 
 
 placeCities(Tabuleiro,NovoTabuleiro,ai,ai):-

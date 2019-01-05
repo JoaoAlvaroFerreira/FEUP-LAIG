@@ -33,6 +33,7 @@ class XMLscene extends CGFscene {
         this.cameras = [];
         this.initCameras();
         this.initAnimations();
+     
    
         this.setUpdatePeriod(1000 / 60);
     
@@ -85,6 +86,13 @@ class XMLscene extends CGFscene {
             this.game.play();
         };
 
+        this.PreviousPlay = function(){
+            if(this.gamestarted)
+            {if(this.game.previousBoards.length > 1)
+            this.game.moveBack;
+            }
+        };
+
         this.axis = new CGFaxis(this);
         this.setPickEnabled(true);
         this.selection=null;
@@ -93,6 +101,10 @@ class XMLscene extends CGFscene {
         this.timerTime=null;
         this.P1Victory=0;
         this.P2Victory=0;
+
+        this.firstPick = false;
+        this.firstPickVar;
+        this.newTurn = false;
     }
 
     /**
@@ -411,19 +423,55 @@ logPicking(){
                     console.log("Picked object: " + obj + ", with pick id " + customId);
                     this.previousSelection=this.selection;
                     this.selection=customId;
-                    console.log(this.game.pickingCityFlag);
+                    
 
+                    if(this.game.gameStarted && this.firstPick && this.game.checkValid(customId)){
+                     
+                        this.game.playHuman(this.firstPickVar, customId);
+                        this.firstPick = false;
+                        this.game.changeTurn();
+                        this.newTurn = true;
+                    }
+
+                        
+                    if(this.game.gameStarted && !this.newTurn){
+                    this.game.getPossibleMovesBoard(customId);
+                    this.firstPick = true;
+                    this.firstPickVar = customId;
+                    }
+
+                  
                     if(this.game.pickingCityFlag == 1){
+                        
                         this.game.player1pick = 10-this.selection%10;
                         this.game.pickingCityFlag--;
+                        
 
                         makeRequest('setCities('+this.game.player1+','+this.game.player2+','+this.game.player1pick+','+this.game.player2pick+')',this.game);
+                        this.game.gameStarted = true;
+                      
+                        
                     }
-                    if(this.game.pickingCityFlag == 2){
+                    if(this.game.pickingCityFlag == 3){
+                        
                         this.game.player2pick = 10-this.selection%10;
-                        this.game.pickingCityFlag--;
+                      
+
+                        makeRequest('setCities('+this.game.player1+','+this.game.player2+','+this.game.player1pick+','+this.game.player2pick+')',this.game);
+                        this.game.gameStarted = true;
+                    
+                        
                     }
                   
+
+                    if(this.game.pickingCityFlag == 2){
+                        this.game.player1pick = 10-this.selection%10;
+                        this.game.pickingCityFlag++;
+                        this.game.board = this.game.p2board;
+                 
+                    }
+
+                   
                     
 				}
 			}

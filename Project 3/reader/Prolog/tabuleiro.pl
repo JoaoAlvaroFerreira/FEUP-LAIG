@@ -72,6 +72,12 @@ setPeca(Natual,Ncoluna,[LinhaAtual|Resto],[LinhaAtual|NovaLinha],Peca):-
     ProximoAtual is Natual - 1,
     setPeca(ProximoAtual,Ncoluna,Resto,NovaLinha,Peca).
 
+
+setPecaPeca(Nlinha,Ncoluna,Nlinha2,Ncoluna2,Tabuleiro,NewTabuleiro,Peca):-
+    setPeca(Nlinha,Ncoluna,Tabuleiro,NewTabuleiro1,32),
+    setPeca(Nlinha2,Ncoluna2,NewTabuleiro1,NewTabuleiro,Peca),
+    imprimirTabuleiro(NewTabuleiro).
+
 /*         GETS            */
 
 getIterativo(Natual,Nobjetivo,[LinhaAtual|_],LinhaAtual):-
@@ -90,6 +96,7 @@ getLinha(Nlinha,Tabuleiro,Linha):-
 getPeca(Nlinha,Ncoluna,Tabuleiro,Peca):-
     getLinha(Nlinha,Tabuleiro,Linha),
     getPecaColuna(Ncoluna,Linha,Peca).
+
 
 
 
@@ -126,15 +133,10 @@ movesToTabuleiro([[X,Y]|Resto],Tabuleiro,NewTabuleiro,Index):-
     setPeca(X,Y,Tabuleiro,NewTabuleiro1,Index),
     movesToTabuleiro(Resto,NewTabuleiro1,NewTabuleiro,Index).
 
-imprimirTabuleiroJogadas(Linha,Coluna,Tabuleiro):-
-    jogador(Player),
+imprimirTabuleiroJogadas(Player,Linha,Coluna,Tabuleiro, NewTabuleiro):-
     getMovesPecaPlayer(Player,Linha,Coluna,Tabuleiro,Moves),
     getCaptures(Player,Linha,Coluna,Tabuleiro,CapMoves),
     getCanonDisparos(Player,Linha,Coluna,Tabuleiro,CannonMoves),
     movesToTabuleiro(Moves,Tabuleiro,NewTabuleiro1,35),
     movesToTabuleiro(CapMoves,NewTabuleiro1,NewTabuleiro2,36),
-    movesToTabuleiro(CannonMoves,NewTabuleiro2,NewTabuleiro,88),
-    imprimirTabuleiro(NewTabuleiro),
-    write('X-Disparos de canhoes'),nl,
-    write('$-Capturas possiveis'),nl,
-    write('#-Movimentos possiveis'),nl.
+    movesToTabuleiro(CannonMoves,NewTabuleiro2,NewTabuleiro,88).
