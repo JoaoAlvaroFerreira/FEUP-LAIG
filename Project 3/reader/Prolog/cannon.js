@@ -84,6 +84,7 @@ class Cannon{
     changeBoard(newBoard){
 console.log("ChangeBoard");
 
+
         if(this.previewFlag){
         var arr = eval("["+newBoard+"]"); //não mexer
         this.previewBoard = arr[0];
@@ -92,13 +93,17 @@ console.log("ChangeBoard");
         }
         else{
             
-            console.log("ChangeBoard1");
+            
         this.previousBoards.push(this.board);
         this.previousActualBoards.push(this.actualBoard);
         this.actualBoard = newBoard;
         var arr = eval("["+newBoard+"]"); //não mexer
         this.board = arr[0];
+        if(this.gameStarted)
+        this.pickingCityFlag = 5000;
+
             if(this.gameStarted2){
+        
         this.changeTurn();
         console.log("BOARD:  Current player is"+this.currentPlayer);
 
@@ -559,8 +564,20 @@ console.log("ChangeBoard");
        
     }
 
+    checkBotTurn(){
+        console.log("CURRENT PLAYER"+this.currentPlayer);
+        console.log("Player 1"+this.player1);
+        console.log("Player 2"+this.player2);
+        if(this.currentPlayer == 1 && this.player1 == "ai")
+        return true;
+        else if(this.currentPlayer == 2 && this.player2 == "ai")
+        return true;
+
+        else return false;
+    }
     play(){ //FOR BOTS ONLY
         this.gameStarted2 = true;
+       
         makeRequest('playTurn('+this.actualBoard+','+this.player1+','+this.player2+','+this.difficulty+','+this.currentPlayer+')',this);
         
         
@@ -609,9 +626,10 @@ console.log("ChangeBoard");
   
       console.log("PecaPeca");
     
-      this.hold();
+      this.holdTime=this.scene.deltaTime;
+      this.holding=true;
       this.scene.picking = true;
-
+      this.hold();
 
     }
     

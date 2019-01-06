@@ -82,8 +82,12 @@ class XMLscene extends CGFscene {
         };
         
         this.PlayTurn = function(){
-            if(this.gamestarted)
-            this.game.play();
+            if(this.botAnim && this.keyPressedA && this.game.checkBotTurn()){
+                this.botPlay=true;  
+                this.keyPressedA=false;
+                
+      
+          }
         };
 
         this.PreviousPlay = function(){
@@ -323,7 +327,7 @@ class XMLscene extends CGFscene {
     }
     if (this.gui.isKeyPressed("KeyA"))
 		{
-	if(this.botAnim && this.keyPressedA){
+	if(this.botAnim && this.keyPressedA && this.game.checkBotTurn()){
           this.botPlay=true;  
           this.keyPressedA=false;
           
@@ -446,14 +450,14 @@ logPicking(){
 
                     console.log(this.firstPick);
                    
-                    if(this.game.gameStarted && this.firstPick){
+                    if(this.game.gameStarted && this.firstPick && this.game.checkValid(customId)){
                         this.newTurn = true;
                         console.log("entrou");
                         this.game.playHuman(this.firstPickVar, customId);
                        
                         this.firstPick = false;
                        //this.newTurn = false;
-                       
+
                         
                     }
 
@@ -491,6 +495,8 @@ logPicking(){
                   
 
                     if(this.game.pickingCityFlag == 2){
+
+                        
                         this.game.player1pick = 10-this.selection%10;
                         this.game.pickingCityFlag++;
                         this.game.board = this.game.p2board;
