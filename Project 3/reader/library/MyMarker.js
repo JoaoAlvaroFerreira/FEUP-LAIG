@@ -80,14 +80,17 @@ class MyMarker extends CGFobject
 		this.scene.popMatrix();
 
         // MARKER
-        if(this.scene.timer==true && this.scene.deltaTime-this.scene.timerTime>Number(this.scene.Timer)){
+
+        if(this.scene.timer==true && this.scene.deltaTime-this.scene.timerTime>Number(this.scene.Timer) && 
+        ((this.scene.Player2!='ai' && this.scene.currentCamera==3)||(this.scene.Player1!='ai' && this.scene.currentCamera==4))){
             this.scene.timer=false;
             this.scene.show=true;
         }
 
         if(this.scene.timer==true) {
             this.roundTime=Math.round(Number(this.scene.Timer)-(this.scene.deltaTime-this.scene.timerTime));
-            if(this.roundTime<10)  this.defaultMaterial.setTexture(this.times[this.roundTime]);
+            if(this.roundTime<0) this.defaultMaterial.setTexture(this.black);
+            else if(this.roundTime<10)  this.defaultMaterial.setTexture(this.times[this.roundTime]);
             else {
             this.number = this.roundTime.toString();
             

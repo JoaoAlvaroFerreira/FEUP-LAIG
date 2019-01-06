@@ -11,7 +11,7 @@ class Cannon{
         this.pickingCityFlag = 0;
         this.player1pick;
         this.player2pick;
-        this.currentPlayer;
+        this.currentPlayer=1;
 
         this.previousBoards = [];
         this.previousActualBoards = [];
@@ -74,6 +74,8 @@ class Cannon{
        this.P1stackSeparator=0;
        this.P2stackSeparator=0;
        this.frame = 0;
+      this.scene.botAnim=true;
+      this.holding=false;
 
     }
 
@@ -100,39 +102,101 @@ class Cannon{
    
 
   boardDifference(){
-    
         var board1 = this.board;
         var board2 = this.previousBoards[this.previousBoards.length-1];
         var firstPiece;
         var secondPiece;
-        
-
+        var captured1=0;
+        var captured2=0;
+        var difference=0;
+        if(this.scene.botAnim){
        
         if(board1 != board2){
             for(var i = 0; i < 10; i++){
                 for(var j = 0; j < 10; j++){
-                    
+                    if(board1[i][j]==50 || board1[i][j]==49) captured1++;
+                    if(board2[i][j]==50 || board2[i][j]==49) captured2++;
+
                     if((board1[i][j] != 50 && board2[i][j] == 50) || (board1[i][j] != 49 && board2[i][j] == 49)){
-                        firstPiece = [i,j];
-                        
+                        firstPiece = 99-10*i-j;
+                        this.initialLiteralCoordinates=[i-4.5,.3,4.5-j];
+                        difference++;
                         }
                     if(board1[i][j] != 32 && board2[i][j] == 32){
-                    secondPiece = [i,j];
-                    
+                    this.pos = 99-10*i-j;
+                    this.animationPoints[1]=[i-4.5,.3,4.5-j];
+                    difference++;
                     }
-
-                    
-
-                   
-                   
+                    if(board1[i][j] != 32 && board2[i][j] != board1[i][j]){
+                        this.Actualpos = 99-10*i-j;
+                    }
                 }
             }
+                    if(difference<5){
+                    if(firstPiece==null){
+                        this.twoMove=true;
+                        if(this.scene.currentCamera==3)  this.P1keyHeight++;
+                        else this.P2keyHeight++;
+                        if(this.P1keyHeight==3) {
+                            this.P1stackSeparator++;
+                            this.P1keyHeight=0;
+                        }
+                        if(this.P2keyHeight==3) {
+                            this.P2stackSeparator++;
+                            this.P2keyHeight=0;
+                        }
+                        this.newPos=this.pos;
+                        if(this.scene.currentCamera==3) this.animationPoints[2]=[-2+this.P1stackSeparator,.3+.3*this.P1keyHeight,7];
+                        else  this.animationPoints[2]=[2-this.P2stackSeparator,.3+.3*this.P2keyHeight,-7];
+                        this.vx2=(this.animationPoints[2][0]-this.animationPoints[1][0])/4;
+                        this.vz2=(this.animationPoints[2][2]-this.animationPoints[1][2])/4;
+                        this.initialTime=this.scene.deltaTime;
+                       this.scene.picking=false;
+                       this.scene.timer=false;
+                    }
+                    else if(captured1==captured2){
+                        this.oneMove=true;
+                        this.newPos=this.pos;
+                        this.animationPoints[0]=this.initialLiteralCoordinates;
+                        this.vx=(this.animationPoints[1][0]-this.animationPoints[0][0])/4;
+                        this.vz=(this.animationPoints[1][2]-this.animationPoints[0][2])/4;
+                        this.initialTime=this.scene.deltaTime;
+                       this.scene.picking=false;
+                       this.scene.timer=false;
+                    }
+                    else {
+                        this.oneMove=true;
+                        this.twoMove=true;
+                        this.newPos= this.Actualpos;
+                        if(this.scene.currentCamera==3)  this.P1keyHeight++;
+                        else this.P2keyHeight++;
+                        if(this.P1keyHeight==3) {
+                            this.P1stackSeparator++;
+                            this.P1keyHeight=0;
+                        }
+                        if(this.P2keyHeight==3) {
+                            this.P2stackSeparator++;
+                            this.P2keyHeight=0;
+                        }
+                        this.animationPoints[0]=this.initialLiteralCoordinates;
+                        if(this.scene.currentCamera==3) this.animationPoints[2]=[-2+this.P1stackSeparator,.3+.3*this.P1keyHeight,7];
+                        else  this.animationPoints[2]=[2-this.P2stackSeparator,.3+.3*this.P2keyHeight,-7];
+                        this.vx=(this.animationPoints[1][0]-this.animationPoints[0][0])/4;
+                        this.vz=(this.animationPoints[1][2]-this.animationPoints[0][2])/4;
+                        this.vx2=(this.animationPoints[2][0]-this.animationPoints[1][0])/4;
+                        this.vz2=(this.animationPoints[2][2]-this.animationPoints[1][2])/4;
+                        this.initialTime=this.scene.deltaTime;
+                       this.scene.picking=false;
+                       this.scene.timer=false;
+                    }     
+                    this.scene.botAnim=false;               
+                }
+                     
         
         }
        
-    
-      
-        
+    }
+            
     } 
 
     displayBoard(){
@@ -149,8 +213,8 @@ class Cannon{
             [32,49,32,32,32,49,32,32,32,32],
             [32,32,32,32,32,32,32,32,32,32]];   */
 
-            
-  if(this.gameStarted)   
+          
+  /*if(this.gameStarted)   
   this.boardDifference();
   
             var aux;
@@ -158,9 +222,8 @@ class Cannon{
             {
                 aux = this.board;
                 this.board = this.previewBoard;
-            }
+            }*/
         
-
         for(var i = 0; i<this.board.length;i++){
             for(var k = 0;k<this.board[i].length;k++){
                 this.pos = 99-10*i-k;
@@ -319,6 +382,17 @@ class Cannon{
                 this.scene.registerForPick(null, null);
             }
         }
+        if(this.scene.botPlay && this.scene.botAnim){
+            this.scene.botPlay=false;
+            this.play();
+            this.holdTime=this.scene.deltaTime;
+            this.holding=true;
+            this.hold();
+        }
+
+        if(this.holding){
+            this.hold();
+        }
         this.scene.registerForPick(null, null); 
         if(this.coordinates!=null){
           // this.play();
@@ -337,8 +411,15 @@ class Cannon{
             this.board = aux;
         }
         
+        
     }
 
+    hold(){
+        if(this.holdTime-this.scene.deltaTime<-0.5) {
+            this.boardDifference();
+            this.holding=false;
+        }
+    }
     movePiece(){
         this.time=this.scene.deltaTime-this.initialTime;
         if(this.time<4){
@@ -356,6 +437,7 @@ class Cannon{
             this.scene.previousSelection=null;
             this.scene.selection=null;
             this.scene.show=true;
+           
         }
     }
 
@@ -379,6 +461,7 @@ class Cannon{
             this.scene.show=true;
             if(this.scene.currentCamera==3) this.player1capture++;
             else  this.player2capture++;
+           
         }
     }
 
@@ -453,8 +536,7 @@ class Cannon{
     }
 
     play(){ //FOR BOTS ONLY
-  
-        
+          
         makeRequest('playTurn('+this.actualBoard+','+this.player1+','+this.player2+','+this.difficulty+','+this.currentPlayer+')',this);
         this.changeTurn();
        
@@ -495,6 +577,7 @@ class Cannon{
         var J = 10-customID%10;
         this.previewFlag = true;
         makeRequest('imprimirTabuleiroJogadas('+this.currentPlayer+','+I+','+J+','+this.actualBoard+')',this);
+        //this.board=this.actualBoard;
     }
 
     checkValid(customID){

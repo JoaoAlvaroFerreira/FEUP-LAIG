@@ -105,6 +105,10 @@ class XMLscene extends CGFscene {
         this.firstPick = false;
         this.firstPickVar;
         this.newTurn = false;
+        this.botPlay=false;
+        this.botAnim=true;
+        this.keyPressedA=true;
+
     }
 
     /**
@@ -240,7 +244,7 @@ class XMLscene extends CGFscene {
         this.interface.addLightsGroup(this.graph.lights);
 
         this.sceneInited = true;
-        this.currentCamera = 3;
+        this.currentCamera = 4;
     }
 
 
@@ -317,6 +321,14 @@ class XMLscene extends CGFscene {
 	
         this.keysPressed=true;  
     }
+    if (this.gui.isKeyPressed("KeyA"))
+		{
+	if(this.botAnim && this.keyPressedA){
+          this.botPlay=true;  
+          this.keyPressedA=false;
+
+    }
+    }
  
     if (this.gui.isKeyPressed("KeyQ"))
    {
@@ -366,9 +378,11 @@ class XMLscene extends CGFscene {
                     this.cameras[3].setPosition([9,10,0]);
                     this.cameras[3].setTarget([1,0,0]);
                     this.selection=null;
-                    this.picking=true;
+                    if(this.Player2!='ai') this.picking=true;
                     this.timer=true;
                     this.timerTime=this.deltaTime;
+                    this.botAnim=true;
+                    this.keyPressedA=true;
                 }
             }
             if(this.player==4){
@@ -388,9 +402,11 @@ class XMLscene extends CGFscene {
                     this.show=false;
                     this.cameras[4].setPosition([-9,10,0]);
                     this.cameras[4].setTarget([-1,0,0]);
-                    this.picking=true;
+                    if(this.Player1!='ai') this.picking=true;
                     this.timer=true;
                     this.timerTime=this.deltaTime;
+                    this.botAnim=true;
+                    this.keyPressedA=true;
             }
             }
         }
