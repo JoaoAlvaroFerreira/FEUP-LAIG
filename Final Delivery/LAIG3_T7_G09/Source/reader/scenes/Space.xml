@@ -1,0 +1,546 @@
+<yas>
+    <scene root="1" axis_length="10" />
+    <views default = "BasicView">
+
+        <perspective id = "FirstPerspective" near="0.1" far="2000" angle="-30">
+            <from x="30" y="15" z="35" />
+            <to x="0" y="0" z="0" />
+        </perspective>
+
+         <ortho id="FirstOrtho" near="0.1" far="200" right="25.0" left="-25.0" top="10.0" bottom="-25.0">
+            <from x="100" y="100" z="75" />
+            <to x="0" y="0" z="0" />
+        </ortho>
+        
+        <perspective id="P1" near="0.1" far="200" angle ="0.8">
+            <from x="9" y="10" z="0" />
+            <to x="1" y="0" z="0" />
+        </perspective>
+
+        <perspective id="P2" near="0.1" far="200" angle ="0.8">
+            <from x="-9" y="10" z="0" />
+            <to x="-1" y="0" z="0" />
+        </perspective>
+
+         <perspective id="TopP1" near="0.1" far="200" angle ="0.8">
+            <from x="0.01" y="15" z="0" />
+            <to x="0" y="0" z="0" />
+        </perspective>
+
+         <perspective id="TopP2" near="0.1" far="200" angle ="0.8">
+            <from x="-0.01" y="15" z="0" />
+            <to x="0" y="0" z="0" />
+        </perspective>
+
+
+    </views>
+
+    <ambient>
+        <ambient r="0" g="0" b="0" a="1" />
+        <background r="0.5" g="0.5" b="1" a="1" />
+    </ambient>
+
+
+    <lights>
+        <omni id="FirstOmni" enabled="1">
+            <location x="2" y="5" z="5" w="-1" />
+            <ambient r="0.8" g="0.8" b="0.8" a="1" />
+            <diffuse r="0.8" g="0.8" b="0.8" a="1" />
+            <specular r="0.4" g="0.4" b="0.4" a="1" />
+        </omni>
+        <spot id="FirstSpot" enabled="1" angle="1" exponent="2">
+            <location x="10" y="5" z="10" w="-1" />
+            <target x="0" y="0" z="0" />
+            <ambient r="0" g="0" b="0" a="1" />
+            <diffuse r="0.2" g="0.2" b="0.2" a="1" />
+            <specular r="0" g="1" b="1" a="1" />
+        </spot>
+    </lights>
+
+
+    <textures>
+        <texture id="BankTexture" file="images/bank.jpg" />
+        <texture id="LeavesTexture" file="images/leaves.jpg" />
+        <texture id="RocksTexture" file="images/rocks.jpg" />
+        <texture id="DefaultRocksTexture" file="images/defaultRocks.jpg" />
+        <texture id="RocksTexture2" file="images/rocks2.jpg" />
+        <texture id="DefaultRocksTexture2" file="images/defaultRocks2.jpg" />
+        <texture id="VidralTexture" file="images/vidral.jpg" />
+        <texture id="PoolTexture" file="images/pool.jpg" />
+        <texture id="FloorTexture" file="images/floor.jpg" />
+        <texture id="PlankTexture" file="images/plank.jpg" />
+        <texture id="IronTexture" file="images/iron.jpg" />
+        <texture id="BallTexture" file="images/ball.jpg" />
+        <texture id="WoodTexture" file="images/wood.jpg" />
+        <texture id="PoolBottomTexture" file="images/poolBottom.jpg" />
+        <texture id="WaterTexture" file="images/water.jpg" />
+        <texture id="WhiteTexture" file="images/white.jpg" />
+        <texture id="BoardTexture" file="images/board.jpg" />
+        <texture id="BoardSurround" file="images/boardSurround.jpg" />
+        <texture id="SkyCloud" file="images/cloudSky.jpg"/>
+        <texture id="SkyClear" file="images/clearSky.jpg"/>
+        <texture id="Grass" file="images/grass.jpg"/>
+        <texture id="Space" file="images/space.jpg"/>
+        <texture id="Earth" file="images/earth.jpg"/>
+        <texture id="Sun" file="images/sun.jpg"/>
+        <texture id="Moon" file="images/moon.jpg"/>
+        <texture id="Venus" file="images/venus.jpg"/>
+        <texture id="Space1" file="images/space1.jpg"/>
+        <texture id="Space2" file="images/space2.jpg"/>
+        <texture id="Space3" file="images/space3.jpg"/>
+        <texture id="Space4" file="images/space4.jpg"/>
+        <texture id="Space5" file="images/space5.jpg"/>
+        
+    </textures>
+
+    <materials>
+        <material id="DefaultMaterial" shininess = "1">
+            <emission r="0" g="0" b="0" a="1" />
+            <ambient r="0.5" g="0.5" b="0.5" a="1" />
+            <diffuse r="0.2" g="0.2" b="0.2" a="1" />
+            <specular r="0" g="0" b="0" a="1" />
+        </material>
+        <material id="IronMaterial" shininess = "1">
+            <emission r="0" g="0" b="0" a="1" />
+            <ambient r="0.6" g="0.6" b="0.6" a="1" />
+            <diffuse r="0.2" g="0.2" b="0.2" a="1" />
+            <specular r="1" g="1" b="1" a="1" />
+        </material>
+        <material id="BrighterMaterial" shininess = "1">
+            <emission r="0" g="0" b="0" a="1" />
+            <ambient r="0.5" g="0.5" b="0.5" a="1" />
+            <diffuse r="0.2" g="0.2" b="0.2" a="1" />
+            <specular r="0.5" g="0.5" b="0.5" a="1" />
+        </material>
+        <material id="DiffuseMaterial" shininess = "1">
+            <emission r="0" g="0" b="0" a="1" />
+            <ambient r="0.5" g="0.5" b="0.5" a="1" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1" />
+            <specular r="0" g="0" b="0" a="1" />
+        </material>
+
+        <material id="SkyMaterial" shininess = "1">
+            <emission r="0" g="0" b="0" a="1" />
+            <ambient r="0.2" g="0.2" b="0.2" a="1" />
+            <diffuse r="0.4" g="0.4" b="0.5" a="1" />
+            <specular r="0.4" g="0.4" b="0,4" a="1" />
+        </material>
+    </materials>
+
+    <transformations>
+        <transformation id="DefaultZero">
+            <translate x="0" y="0" z="0" />
+            <rotate axis="x" angle="0" />
+            <scale x="1" y="1" z="1" />
+        </transformation>
+        <transformation id="Boat">
+            <translate x="12" y="0" z="12" />
+            <rotate axis="x" angle="0" />
+            <scale x="1" y="1" z="1" />
+        </transformation>
+    </transformations>
+
+    <animations>
+        <linear id= "PlaneMovement" span="300">
+            <controlpoint xx = "0" yy ="-4" zz = "0"/>
+            <controlpoint xx = "-15" yy ="-1" zz = "-10"/>
+            <controlpoint xx = "-30" yy ="-1" zz = "20"/>
+            <controlpoint xx = "-12" yy ="-7" zz = "28"/>
+            <controlpoint xx = "14" yy ="-13.5" zz = "12"/>
+        </linear>
+         <linear id= "DefaultLinear" span="10">
+            <controlpoint xx = "0" yy ="0" zz = "0"/>
+            <controlpoint xx = "-5" yy ="0" zz = "5"/>
+            <controlpoint xx = "0" yy ="0" zz = "0"/>
+         
+        </linear>
+        <circular id="DefaultCircular" span="300" center = "0 0 0" 
+        radius="4" startang="0" rotang="360"/>
+
+        <circular id="OrbitingEarth" span="600" center = "0 0 0" 
+        radius="10" startang="0" rotang="3600"/>
+
+        <circular id="OrbitingVenus" span="760" center = "0 0 0" 
+        radius="5" startang="180" rotang="3780"/>
+    </animations>
+
+    <primitives>
+        <primitive id="DefaultSquare">
+            <rectangle x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+        </primitive >
+
+        <primitive id="12Square">
+            <rectangle x1="-6" y1="-6" x2="6" y2="6" />
+        </primitive >
+
+        <primitive id="DefaultTriangleRectangle">
+            <triangle x1="0" y1="0" z1="0" x2="1" y2="0" z2="0" x3="0" y3="1" z3="0" />
+        </primitive >
+
+        <primitive id="DefaultTriangleRectangleInverted">
+            <triangleInverted x1="0" y1="0" z1="0" x2="1" y2="0" z2="0" x3="0" y3="1" z3="0" />
+        </primitive >
+
+        <primitive id="DefaultCylinder">
+            <cylinder base="0.5" top="0.5" height="2" slices="16" stacks="10" />
+        </primitive >
+
+        <primitive id="DefaultSphere">
+            <sphere radius="0.5" slices="16" stacks="16" />
+        </primitive >
+
+        <primitive id="DefaultTorus">
+            <torus inner="0.3" outer="1" slices="16" loops="16" />
+        </primitive >
+
+
+        <primitive id="DefaultPlane">
+            <plane npartsU = "10" npartsV = "10"/>
+        </primitive>
+
+        <primitive id="DefaultPatch">
+            <patch npartsU = "12" npartsV = "12" npointsU = "5" npointsV = "5" />
+        </primitive>
+
+        <primitive id="DefaultVehicle">
+            <vehicle/>
+        </primitive>
+
+          <primitive id="DefaultCylinderP1">
+            <cylinder base="0.5" top="0.5" height="2" slices="16" stacks="10" texture = "DefaultRocks" />
+        </primitive >
+
+        <primitive id="DefaultCylinderP2">
+            <cylinder base="0.5" top="0.5" height="2" slices="16" stacks="10" texture = "DefaultRocks2" />
+        </primitive >
+
+        <primitive id="DefaultTerrain">
+            <terrain idtexture = "terrainmap" idheightmap= "heightmap" 
+            parts="100" heightscale="10" />
+        </primitive>
+
+        <primitive id="DefaultWater">
+            <water idtexture = "ocean" idwavemap="waterShader" 
+            parts="100" heightscale="2" texscale="2.0" />
+        </primitive>
+
+        <primitive id="PerfectTriangle">
+            <triangle x1="-0.5" y1="0" z1="0.5" x2="0.5" y2="0" z2="0.5" x3="0" y3="1" z3="0" />
+        </primitive >
+
+    </primitives >
+
+
+    <components>
+
+
+        <component id="TestVehicle">
+            <transformation>
+               <translate x="0" y="0" z="0" />
+               
+            </transformation>
+             <materials>
+                <material id="DefaultMaterial" />
+            </materials>
+            <texture id="IronTexture" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="DefaultVehicle" />
+            </children>
+            <animations>
+                <animationref id="PlaneMovement"/>
+                <animationref id="DefaultCircular"/> 
+            </animations>
+        </component> 
+
+         <component id="SolarSystem">
+            <transformation>
+                <rotate axis ="y" angle="180"/>
+                <translate x="-35" y="15" z="10" />
+                <scale x="10" y="10" z="10"/>
+            </transformation>
+            <materials>
+                <material id="DefaultMaterial" />
+            </materials>
+            <texture id="IronTexture" length_s="1" length_t="1" />
+            <children>
+                <componentref id="Sun" />    
+                <componentref id ="Earth" />       
+                <componentref id ="Venus" />         
+            </children>
+        </component>
+        
+        <component id="Earth">
+        <transformation>
+   
+            </transformation>
+             <materials>
+                <material id="SkyMaterial" />
+            </materials>
+            <texture id="Earth" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="DefaultSphere" />
+            </children>
+            <animations>
+                <animationref id="OrbitingEarth"/> 
+            </animations>
+        </component> 
+
+            <component id="Venus">
+        <transformation>
+        <scale x="0.8" y=".8" z=".8"/>
+            </transformation>
+             <materials>
+                <material id="SkyMaterial" />
+            </materials>
+            <texture id="Venus" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="DefaultSphere" />
+            </children>
+            <animations>
+                <animationref id="OrbitingVenus"/> 
+            </animations>
+        </component> 
+
+
+        <component id="Sun">
+        <transformation>
+                <scale x="2" y="2" z="2"/>
+            </transformation>
+             <materials>
+                <material id="SkyMaterial" />
+            </materials>
+            <texture id="Sun" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="DefaultSphere" />
+            </children>
+        </component> 
+
+
+        <!-- Board Component -->
+         <component id="Board">
+            <transformation>
+                <translate x="0" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="DefaultMaterial" />
+            </materials>
+            <texture id="IronTexture" length_s="1" length_t="1" />
+            <children>
+                <componentref id="BoardTop" />    
+                <componentref id = "ToplessCube" />            
+            </children>
+        </component>
+        <component id="BoardTop">
+            <transformation>
+                <transformationref id="DefaultZero" />
+            </transformation>
+            <materials>
+                <material id="DefaultMaterial" />
+            </materials>
+            <texture id="BoardTexture" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="DefaultPatch" />                
+            </children>
+        </component>
+        <component id="ToplessCube">
+             <transformation>
+                <translate x="0" y="-0.25" z="0" />
+                <scale x="12" y="0.5" z="12" />
+            </transformation>
+            <materials>
+                <material id="DefaultMaterial" />
+            </materials>
+            <texture id="BoardSurround" length_s="1" length_t="1" />
+            <children>
+                <componentref id="Front" />   
+                <componentref id="Back" />   
+                <componentref id="Left" />   
+                <componentref id="Right" />   
+                <componentref id="Bottom" />   
+            
+            </children>
+        </component>
+
+        <component id="Front">
+            <transformation>
+                <translate x="0" y="0" z="0.5" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="DefaultSquare" />
+            </children>
+        </component>
+
+        <component id="Back">
+            <transformation>
+                <translate x="0" y="0" z="-0.5" />
+                <rotate axis="y" angle="180" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="DefaultSquare" />
+            </children>
+        </component>
+
+        <component id="Bottom">
+            <transformation>
+                <translate x="0" y="-0.5" z="0" />
+                <rotate axis="x" angle="90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="DefaultSquare" />
+            </children>
+        </component>
+
+        <component id="Right">
+            <transformation>
+                <translate x="0.5" y="0" z="0" />
+                <rotate axis="y" angle="90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="DefaultSquare" />
+            </children>
+        </component>
+
+        <component id="Left">
+            <transformation>
+                <translate x="-0.5" y="0" z="0" />
+                <rotate axis="y" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="DefaultSquare" />
+            </children>
+        </component> 
+        <!-- End Board -->
+    
+        <!--SPECIFIC SCENE STUFF -->
+
+            <component id="Space">
+            <transformation>
+                <translate x="0" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="BrighterMaterial" />
+            </materials>
+            <texture id="Space" length_s="1" length_t="1" />
+            <children>
+                <componentref id="SkyUp" />   
+                <componentref id="SkyLeft"/> 
+                <componentref id="SkyRight" />   
+                <componentref id="SkyFront"/> 
+                <componentref id="SkyBack" />   
+            </children>
+            </component>
+
+             <component id="SkyUp">
+            <transformation>
+                <translate x="0" y="70" z="0" />
+                <rotate axis="x" angle="90" />
+                <scale x="500" y="500" z = "500"/>
+            </transformation>
+            <materials>
+            <material id="inherit"/>
+            </materials>
+            <texture id="Space1" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="DefaultSquare" />
+            </children>
+            </component> 
+           
+        <component id="SkyLeft">
+            <transformation>
+                <translate x="-200" y="-70" z="0" />
+                <rotate axis="y" angle="90" />
+                <scale x="500" y="500" z = "500"/>
+            </transformation>
+            <materials>
+            <material id="inherit"/>
+            </materials>
+            <texture id="Space2" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="DefaultSquare" />
+            </children>
+            </component> 
+
+        <component id="SkyRight">
+            <transformation>
+                <translate x="200" y="-70" z="0" />
+                <rotate axis="y" angle="-90" />
+                <scale x="500" y="500" z = "500"/>
+            </transformation>
+            <materials>
+            <material id="inherit"/>
+            </materials>
+            <texture id="Space2" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="DefaultSquare" />
+            </children>
+            </component> 
+
+          <component id="SkyBack">
+            <transformation>
+                <translate x="0" y="-70" z="200" />
+                <rotate axis="y" angle="180" />
+                <scale x="500" y="500" z = "500"/>
+            </transformation>
+            <materials>
+            <material id="inherit"/>
+            </materials>
+            <texture id="Space3" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="DefaultSquare" />
+            </children>
+            </component> 
+
+             <component id="SkyFront">
+            <transformation>
+                <translate x="0" y="-70" z="-200" />
+                <scale x="500" y="500" z = "500"/>
+            </transformation>
+            <materials>
+            <material id="inherit"/>
+            </materials>
+            <texture id="Space5" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="DefaultSquare" />
+            </children>
+            </component> 
+
+            <component id="Floor">
+            <transformation>
+                 <rotate axis="x" angle="-90" />
+                 <translate x="0" y="-0" z="-30" />
+                <scale x="500" y="500" z = "1"/>
+            </transformation>
+            <materials>
+            <material id="IronMaterial"/>
+            </materials>
+            <texture id="Space" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="DefaultSquare" />
+            </children>
+            </component> 
+
+            
+
+    </components>
+
+</yas>

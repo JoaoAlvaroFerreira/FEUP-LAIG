@@ -654,11 +654,14 @@ console.log("ChangeBoard");
 
     moveBack(){
         this.previewFlag = false;
-        this.board = this.previousBoards[this.previousBoards - 1];
+        this.board = this.previousBoards[this.previousBoards.length-1];
         this.previousBoards.pop();
 
         this.actualboard = this.previousActualBoards[this.previousActualBoards - 1];
         this.previousActualBoards.pop();
+
+        this.changeTurn();
+
 
     }
 

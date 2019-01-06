@@ -92,9 +92,8 @@ class XMLscene extends CGFscene {
 
         this.PreviousPlay = function(){
             if(this.gamestarted)
-            {if(this.game.previousBoards.length > 1)
-            this.game.moveBack;
-            }
+            this.game.moveBack();
+            
         };
 
         this.axis = new CGFaxis(this);
