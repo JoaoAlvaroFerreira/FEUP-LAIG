@@ -108,6 +108,7 @@ class XMLscene extends CGFscene {
         this.botPlay=false;
         this.botAnim=true;
         this.keyPressedA=true;
+        this.finishPlay=false;
 
     }
 
@@ -441,16 +442,16 @@ logPicking(){
                     this.selection=customId;
                     
 
-                    if(this.game.gameStarted && this.firstPick && this.game.checkValid(customId)){
-                     
+                    if(this.game.gameStarted && this.firstPick && this.game.checkValid(customId) && this.finishPlay){
+                        this.finishPlay=false;
                         this.game.playHuman(this.firstPickVar, customId);
                         this.firstPick = false;
                         this.game.changeTurn();
-                        this.newTurn = true;
+                        //this.newTurn = true;
                     }
 
                         
-                    if(this.game.gameStarted && !this.newTurn){
+                    if(this.game.gameStarted && this.newTurn==false){
                     this.game.getPossibleMovesBoard(customId);
                     this.firstPick = true;
                     this.firstPickVar = customId;

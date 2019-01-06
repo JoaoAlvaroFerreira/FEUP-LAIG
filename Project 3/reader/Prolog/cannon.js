@@ -214,20 +214,20 @@ class Cannon{
             [32,32,32,32,32,32,32,32,32,32]];   */
 
           
-  /*if(this.gameStarted)   
-  this.boardDifference();
+  if(this.gameStarted)   
   
             var aux;
             if(this.previewFlag)
             {
                 aux = this.board;
                 this.board = this.previewBoard;
-            }*/
+            }
         
         for(var i = 0; i<this.board.length;i++){
             for(var k = 0;k<this.board[i].length;k++){
                 this.pos = 99-10*i-k;
                 if(this.board[i][k]==49 && this.pos != this.newPos){
+                    //if(this.scene.selection==this.pos) this.getPossibleMovesBoard(this.pos);
                     this.scene.pushMatrix();
                     this.scene.translate(i-4.5,.3,4.5-k);
                     this.scene.rotate(90*DEGREE_TO_RAD,1,0,0);
@@ -247,6 +247,7 @@ class Cannon{
                     
                 }
                 if(this.board[i][k]==50 && this.pos != this.newPos){
+                    //if(this.scene.selection==this.pos) this.getPossibleMovesBoard(this.pos);
                     this.scene.pushMatrix();
                     this.scene.translate(i-4.5,.3,4.5-k);
                     this.scene.rotate(90*DEGREE_TO_RAD,1,0,0);
@@ -313,6 +314,7 @@ class Cannon{
                         this.initialTime=this.scene.deltaTime;
                        this.scene.picking=false;
                        this.scene.timer=false;
+                       this.scene.newTurn=true;
                     }
                     
                     this.capturePiece.display();
@@ -348,6 +350,7 @@ class Cannon{
                         this.initialTime=this.scene.deltaTime;
                        this.scene.picking=false;
                        this.scene.timer=false;
+                       this.scene.newTurn=true;
                     }
                     this.shootPiece.display();
                     this.scene.popMatrix();
@@ -373,6 +376,7 @@ class Cannon{
                         this.initialTime=this.scene.deltaTime;
                        this.scene.picking=false;
                        this.scene.timer=false;
+                       this.scene.newTurn=true;
                     }
                     this.newPiece.display();
                     this.scene.popMatrix();
