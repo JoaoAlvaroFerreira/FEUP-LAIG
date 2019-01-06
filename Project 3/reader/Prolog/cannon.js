@@ -47,6 +47,7 @@ class Cannon{
         this.difficulty = null;
 
         this.gameStarted = false;
+        this.gameStarted2 = false;
         this.previewFlag = false;
 
         this.whitePiece = new Wheel(this.scene, 16,10,"defaultRocks");
@@ -76,10 +77,12 @@ class Cannon{
        this.frame = 0;
       this.scene.botAnim=true;
       this.holding=false;
+    
 
     }
 
     changeBoard(newBoard){
+console.log("ChangeBoard");
 
         if(this.previewFlag){
         var arr = eval("["+newBoard+"]"); //não mexer
@@ -88,15 +91,22 @@ class Cannon{
      
         }
         else{
+            
+            console.log("ChangeBoard1");
         this.previousBoards.push(this.board);
         this.previousActualBoards.push(this.actualBoard);
         this.actualBoard = newBoard;
         var arr = eval("["+newBoard+"]"); //não mexer
         this.board = arr[0];
-     
+            if(this.gameStarted2){
+        this.changeTurn();
+        console.log("BOARD:  Current player is"+this.currentPlayer);
+
+            }
+
        
     }
-       
+       console.log(this.board);
     }
 
    
@@ -201,7 +211,7 @@ class Cannon{
 
     displayBoard(){
     
-         /*  this.board = 
+          /*  this.board = 
            [[32,32,32,32,32,32,32,32,32,32],
             [32,49,32,32,32,32,32,32,32,32],
             [32,32,36,32,32,32,32,32,32,32],
@@ -211,10 +221,11 @@ class Cannon{
             [32,32,32,32,50,32,32,32,32,32],
             [32,32,32,32,32,32,50,32,32,32],
             [32,49,32,32,32,49,32,32,32,32],
-            [32,32,32,32,32,32,32,32,32,32]];   */
-
+            [32,32,32,32,32,32,32,32,32,32]];   
+ */
           
-  if(this.gameStarted)   
+  /*if(this.gameStarted)   
+  this.boardDifference();  */
   
             var aux;
             if(this.previewFlag)
@@ -227,7 +238,6 @@ class Cannon{
             for(var k = 0;k<this.board[i].length;k++){
                 this.pos = 99-10*i-k;
                 if(this.board[i][k]==49 && this.pos != this.newPos){
-                    //if(this.scene.selection==this.pos) this.getPossibleMovesBoard(this.pos);
                     this.scene.pushMatrix();
                     this.scene.translate(i-4.5,.3,4.5-k);
                     this.scene.rotate(90*DEGREE_TO_RAD,1,0,0);
@@ -247,7 +257,6 @@ class Cannon{
                     
                 }
                 if(this.board[i][k]==50 && this.pos != this.newPos){
-                    //if(this.scene.selection==this.pos) this.getPossibleMovesBoard(this.pos);
                     this.scene.pushMatrix();
                     this.scene.translate(i-4.5,.3,4.5-k);
                     this.scene.rotate(90*DEGREE_TO_RAD,1,0,0);
@@ -314,7 +323,6 @@ class Cannon{
                         this.initialTime=this.scene.deltaTime;
                        this.scene.picking=false;
                        this.scene.timer=false;
-                       this.scene.newTurn=true;
                     }
                     
                     this.capturePiece.display();
@@ -350,7 +358,6 @@ class Cannon{
                         this.initialTime=this.scene.deltaTime;
                        this.scene.picking=false;
                        this.scene.timer=false;
-                       this.scene.newTurn=true;
                     }
                     this.shootPiece.display();
                     this.scene.popMatrix();
@@ -376,7 +383,6 @@ class Cannon{
                         this.initialTime=this.scene.deltaTime;
                        this.scene.picking=false;
                        this.scene.timer=false;
-                       this.scene.newTurn=true;
                     }
                     this.newPiece.display();
                     this.scene.popMatrix();
@@ -392,6 +398,9 @@ class Cannon{
             this.holdTime=this.scene.deltaTime;
             this.holding=true;
             this.hold();
+
+            console.log("Current player is"+this.currentPlayer);
+
         }
 
         if(this.holding){
@@ -414,8 +423,8 @@ class Cannon{
            
             this.board = aux;
         }
-        
-        
+      
+ 
     }
 
     hold(){
@@ -440,7 +449,7 @@ class Cannon{
             this.newPos=101;
             this.scene.previousSelection=null;
             this.scene.selection=null;
-            this.scene.show=true;
+   
            
         }
     }
@@ -462,7 +471,7 @@ class Cannon{
             this.newPos=101;
             this.scene.previousSelection=null;
             this.scene.selection=null;
-            this.scene.show=true;
+     
             if(this.scene.currentCamera==3) this.player1capture++;
             else  this.player2capture++;
            
@@ -514,18 +523,27 @@ class Cannon{
       this.pickingCityFlag = 1;
       this.currentPlayer = 1;
       
+      
       }
 
       if(this.player1 == "ai" && this.player2 == "human"){
         this.pickingCityFlag = 1;
       
         this.currentPlayer = 1;
+
         }
 
       if(this.player2 == "human" && this.player1=="human"){
       this.pickingCityFlag = 2;
+      if(this.currentPlayer == 2)
+      this.scene.show=true;
+
       this.currentPlayer = 1;
+
+      
       }
+      if(this.currentPlayer == 2)
+      this.scene.show=true;
 
      
     }
@@ -536,28 +554,39 @@ class Cannon{
         else if(this.currentPlayer == 2)
         this.currentPlayer = 1;
 
+        this.scene.show=true;
+        this.scene.newTurn = false;
        
     }
 
     play(){ //FOR BOTS ONLY
-          
+        this.gameStarted2 = true;
         makeRequest('playTurn('+this.actualBoard+','+this.player1+','+this.player2+','+this.difficulty+','+this.currentPlayer+')',this);
-        this.changeTurn();
+        
+        
        
     }
 
     playHuman(firstPickVar, customID){
+        this.gameStarted2 = true;
         this.previewFlag = false;
-        var I = 10-Math.floor(customID/10);
-        var J = 10-customID%10;
+        var I = 9-Math.floor(customID/10);
+        var J = 9-customID%10;
 
-        var x = 10-Math.floor(firstPickVar/10);
-        var y = 10-firstPickVar%10;
+        var x = 9-Math.floor(firstPickVar/10);
+        var y = 9-firstPickVar%10;
        
         console.log(x,y);
         console.log(I,J);
-      if(this.previewBoard[I][J] == 50 || this.previewBoard[I][J] == 49 || this.previewBoard[I][J] == 35){
 
+        console.log(this.previewBoard);
+        console.log(this.previewBoard[I][J]);
+      if(this.previewBoard[I][J] == 50 || this.previewBoard[I][J] == 49 || this.previewBoard[I][J] == 35 || this.previewBoard[I][J] == 36){
+
+        I++;
+        J++;
+        x++;
+        y++;
         
         
           //newBoard[x][y] = 32;
@@ -569,10 +598,20 @@ class Cannon{
           //newBoard[I][J] = 48 + this.currentPlayer;
       }
       else if (this.previewBoard[I][J] == 88){
+        I++;
+        J++;
+        x++;
+        y++;
+        
         makeRequest('setPeca('+I+','+J+','+this.actualBoard+','+32+')',this);
        // newBoard[I][J] = 32;
       }
   
+      console.log("PecaPeca");
+    
+      this.hold();
+      this.scene.picking = true;
+
 
     }
     

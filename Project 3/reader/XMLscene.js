@@ -108,7 +108,6 @@ class XMLscene extends CGFscene {
         this.botPlay=false;
         this.botAnim=true;
         this.keyPressedA=true;
-        this.finishPlay=false;
 
     }
 
@@ -327,6 +326,7 @@ class XMLscene extends CGFscene {
 	if(this.botAnim && this.keyPressedA){
           this.botPlay=true;  
           this.keyPressedA=false;
+          
 
     }
     }
@@ -441,17 +441,26 @@ logPicking(){
                     this.previousSelection=this.selection;
                     this.selection=customId;
                     
+                    console.log("antes");
+                    console.log("Current player is"+this.game.currentPlayer);
 
-                    if(this.game.gameStarted && this.firstPick && this.game.checkValid(customId) && this.finishPlay){
-                        this.finishPlay=false;
+                    console.log(this.firstPick);
+                   
+                    if(this.game.gameStarted && this.firstPick){
+                        this.newTurn = true;
+                        console.log("entrou");
                         this.game.playHuman(this.firstPickVar, customId);
+                       
                         this.firstPick = false;
-                        this.game.changeTurn();
-                        //this.newTurn = true;
+                       //this.newTurn = false;
+                       
+                        
                     }
 
-                        
-                    if(this.game.gameStarted && this.newTurn==false){
+                    console.log(this.newTurn);
+                    console.log(this.game.gameStarted);
+                    if(this.game.gameStarted && !this.newTurn){
+                    console.log("picking1");
                     this.game.getPossibleMovesBoard(customId);
                     this.firstPick = true;
                     this.firstPickVar = customId;
@@ -476,7 +485,7 @@ logPicking(){
 
                         makeRequest('setCities('+this.game.player1+','+this.game.player2+','+this.game.player1pick+','+this.game.player2pick+')',this.game);
                         this.game.gameStarted = true;
-                    
+                        
                         
                     }
                   

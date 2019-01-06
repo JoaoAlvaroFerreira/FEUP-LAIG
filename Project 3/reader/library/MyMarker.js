@@ -84,7 +84,7 @@ class MyMarker extends CGFobject
         if(this.scene.timer==true && this.scene.deltaTime-this.scene.timerTime>Number(this.scene.Timer) && 
         ((this.scene.Player2!='ai' && this.scene.currentCamera==3)||(this.scene.Player1!='ai' && this.scene.currentCamera==4))){
             this.scene.timer=false;
-            this.scene.show=true;
+            this.scene.game.changeTurn();
         }
 
         if(this.scene.timer==true) {
